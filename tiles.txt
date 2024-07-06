@@ -5,44 +5,6 @@
         e: grass,
         s: grass,
         w: grass,
-        # neighbours: {
-        #     n: [
-        #         grass, path_vert_south, path_spot, path_horiz, path_horiz_west, path_horiz_east,
-        #         path_turn_south_east, path_turn_south_west, path_three_cross_south,
-        #         path_corner_south_west, path_corner_south_east, path_south, rock_south, rock_south_west,
-        #         rock_south_east, stair_north, river_vert_south, river_spot, river_horiz,
-        #         river_horiz_west, river_horiz_east, river_turn_south_west, river_turn_south_east,
-        #         river_three_cross_south, river_south, river_corner_south_east, river_corner_south_west,
-        #         rock_north, stair_south, rock_corner_north_west, river_corner_north_east
-        #     ],
-        #     e: [
-        #         grass, path_vert_south, path_vert_north, path_vert, path_spot, path_horiz_west,
-        #         path_turn_north_west, path_turn_south_west, path_three_cross_west,
-        #         path_corner_south_west, path_corner_north_west, path_west, rock_north_west,
-        #         rock_south_west, rock_west, stair_east, river_vert_south, river_vert_north, river_vert,
-        #         river_spot, river_horiz_west, river_turn_north_west, river_turn_south_west,
-        #         river_three_cross_west, river_west, river_corner_south_west, river_corner_north_west,
-        #         rock_east, stair_west, rock_corner_north_west, river_corner_south_west
-        #     ],
-        #     s: [
-        #         grass, path_vert_north, path_spot, path_horiz_west, path_horiz, path_horiz_east,
-        #         path_turn_north_west, path_three_cross_north, path_turn_north_east,
-        #         path_corner_north_west, path_north, path_corner_north_east, rock_north_west,
-        #         rock_north_east, rock_north, stair_south, river_vert_north, river_spot,
-        #         river_horiz_west, river_horiz_east, river_horiz, river_turn_north_west,
-        #         river_turn_north_east, river_three_cross_north, river_north, river_corner_north_west,
-        #         river_corner_north_east, rock_west, stair_north, rock_corner_north_west,
-        #         river_corner_north_east
-        #     ],
-        #     w: [
-        #         grass, path_vert_north, path_vert, path_vert_south, path_turn_north_east,
-        #         path_turn_south_east, path_three_cross_east, path_spot, path_horiz_east,
-        #         path_corner_north_east, path_corner_south_east, path_east, rock_north_east, rock_east,
-        #         river_corner_south_east, rock_west, stair_west, stair_east, river_vert_north,
-        #         river_vert_south, river_vert, river_spot, river_horiz_east, river_turn_north_east,
-        #         river_turn_south_east, river_three_cross_east, river_east, river_corner_south_east,
-        #         river_corner_north_east, rock_corner_north_east, river_corner_south_east
-        #     ],
         transparent: false,
         animation: false,
     }
