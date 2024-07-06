@@ -130,7 +130,7 @@
     },
     "path_spot":
     {
-      "id": 81,
+      "id": 84,
       "n": "grass",
       "e": "grass",
       "s": "grass",
@@ -140,7 +140,7 @@
     },
     "path_horiz_west":
     {
-      "id": 82,
+      "id": 85,
       "n": "grass",
       "e": "path",
       "s": "grass",
@@ -150,7 +150,7 @@
     },
     "path_horiz":
     {
-      "id": 83,
+      "id": 86,
       "n": "grass",
       "e": "path",
       "s": "grass",
@@ -160,7 +160,7 @@
     },
     "path_horiz_east":
     {
-      "id": 84,
+      "id": 87,
       "n": "grass",
       "e": "grass",
       "s": "grass",
