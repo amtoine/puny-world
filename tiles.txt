@@ -2152,27 +2152,27 @@
     }
     bridge_horiz_west: {
         id: 875,
-        n: null,
+        n: partial_river_west,
         e: bridge,
-        s: null,
+        s: partial_river_west,
         w: null,
         transparent: true,
         animation: false,
     }
     bridge_horiz: {
         id: 876,
-        n: null,
+        n: water,
         e: bridge,
-        s: null,
+        s: water,
         w: bridge,
         transparent: true,
         animation: false,
     }
     bridge_horiz_east: {
         id: 877,
-        n: null,
+        n: partial_path_east,
         e: null,
-        s: null,
+        s: partial_river_east,
         w: bridge,
         transparent: true,
         animation: false,
@@ -2188,9 +2188,9 @@
     }
     bridge_east_west: {
         id: 821,
-        n: null,
+        n: river,
         e: null,
-        s: null,
+        s: river,
         w: null,
         transparent: true,
         animation: false,
