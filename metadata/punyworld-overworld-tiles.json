@@ -8,20 +8,89 @@
   },
   "tiles":
   {
-    "grass":
+    "grass_1":
     {
-      "id":
-      [
-        0,
-        1,
-        2,
-        27,
-        28,
-        29,
-        54,
-        55,
-        56
-      ],
+      "id": 0,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_2":
+    {
+      "id": 1,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_3":
+    {
+      "id": 2,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_4":
+    {
+      "id": 27,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_5":
+    {
+      "id": 28,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_6":
+    {
+      "id": 29,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_7":
+    {
+      "id": 54,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_8":
+    {
+      "id": 55,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "grass_9":
+    {
+      "id": 56,
       "n": "grass",
       "e": "grass",
       "s": "grass",
