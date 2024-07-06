@@ -2441,7 +2441,7 @@
     "bridge_horiz_east":
     {
       "id": 877,
-      "n": "partial_path_east",
+      "n": "partial_river_east",
       "e": null,
       "s": "partial_river_east",
       "w": "bridge",
