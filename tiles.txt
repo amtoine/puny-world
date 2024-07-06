@@ -1502,6 +1502,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     "???2": {
         id: 703,
@@ -1509,6 +1511,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_4: {
         id: 704,
@@ -1516,6 +1520,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_5: {
         id: 705,
@@ -1523,6 +1529,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_6: {
         id: 729,
@@ -1530,6 +1538,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     log_1: {
         id: 730,
@@ -1537,6 +1547,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_7: {
         id: 731,
@@ -1544,6 +1556,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_8: {
         id: 732,
@@ -1551,6 +1565,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     cactus_1: {
         id: 757,
@@ -1558,6 +1574,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     cactus_2: {
         id: 758,
@@ -1565,6 +1583,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_9: {
         id: 759,
@@ -1572,6 +1592,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_10: {
         id: 760,
@@ -1579,6 +1601,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_11: {
         id: 783,
@@ -1586,6 +1610,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     log_2: {
         id: 784,
@@ -1593,6 +1619,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     chest: {
         id: 785,
@@ -1600,6 +1628,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     chest_open: {
         id: 786,
@@ -1607,6 +1637,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_12: {
         id: 810,
@@ -1614,6 +1646,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     log_3: {
         id: 811,
@@ -1621,6 +1655,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     tree_13: {
         id: 837,
@@ -1628,6 +1664,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     log_4: {
         id: 838,
@@ -1635,6 +1673,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
 
     house_1: {
@@ -1643,6 +1683,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_2: {
         id: 707,
@@ -1650,6 +1692,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_3: {
         id: 708,
@@ -1657,6 +1701,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_4: {
         id: 709,
@@ -1664,6 +1710,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_5: {
         id: 710,
@@ -1671,6 +1719,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_6: {
         id: 711,
@@ -1678,6 +1728,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_7: {
         id: 733,
@@ -1685,6 +1737,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_8: {
         id: 734,
@@ -1692,6 +1746,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_9: {
         id: 735,
@@ -1699,6 +1755,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_10: {
         id: 736,
@@ -1706,6 +1764,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_11: {
         id: 737,
@@ -1713,6 +1773,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_12: {
         id: 738,
@@ -1720,6 +1782,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_13: {
         id: 760,
@@ -1727,6 +1791,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_14: {
         id: 761,
@@ -1734,6 +1800,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_15: {
         id: 762,
@@ -1741,6 +1809,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_16: {
         id: 763,
@@ -1748,6 +1818,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_17: {
         id: 764,
@@ -1755,6 +1827,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_18: {
         id: 765,
@@ -1762,6 +1836,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_19: {
         id: 790,
@@ -1769,6 +1845,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_20: {
         id: 791,
@@ -1776,6 +1854,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     house_21: {
         id: 792,
@@ -1783,6 +1863,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     well_1: {
         id: 814,
@@ -1790,6 +1872,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     well_2: {
         id: 815,
@@ -1797,6 +1881,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     well_3: {
         id: 816,
@@ -1804,6 +1890,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_1_north_west: {
         id: 712,
@@ -1811,6 +1899,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_1_north_east: {
         id: 713,
@@ -1818,6 +1908,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_1_south_west: {
         id: 739,
@@ -1825,6 +1917,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_1_south_east: {
         id: 740,
@@ -1832,6 +1926,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_2_north_west: {
         id: 714,
@@ -1839,6 +1935,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_2_north_east: {
         id: 715,
@@ -1846,6 +1944,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_2_south_west: {
         id: 741,
@@ -1853,6 +1953,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_2_south_east: {
         id: 742,
@@ -1860,6 +1962,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_3_north_west: {
         id: 766,
@@ -1867,6 +1971,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_3_north_east: {
         id: 767,
@@ -1874,6 +1980,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_3_south_west: {
         id: 793,
@@ -1881,6 +1989,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_3_south_east: {
         id: 794,
@@ -1888,6 +1998,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_4_north_west: {
         id: 768,
@@ -1895,6 +2007,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_4_north_east: {
         id: 769,
@@ -1902,6 +2016,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_4_south_west: {
         id: 795,
@@ -1909,6 +2025,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     castle_4_south_east: {
         id: 796,
@@ -1916,6 +2034,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
 
     # blue city = city + 189
@@ -1927,6 +2047,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_2: {
         id: 818,
@@ -1934,6 +2056,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_3: {
         id: 819,
@@ -1941,6 +2065,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_4: {
         id: 841,
@@ -1948,6 +2074,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_5: {
         id: 842,
@@ -1955,6 +2083,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_6: {
         id: 843,
@@ -1962,6 +2092,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_7: {
         id: 844,
@@ -1969,6 +2101,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_8: {
         id: 845,
@@ -1976,6 +2110,8 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
     sign_9: {
         id: 846,
@@ -1983,5 +2119,7 @@
         e: null,
         s: null,
         w: null,
+        transparent: true,
+        animation: false,
     }
 }
