@@ -2122,4 +2122,77 @@
         transparent: true,
         animation: false,
     }
+
+    bridge_vert_north: {
+        id: 820,
+        n: null,
+        e: null,
+        s: bridge,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    bridge_vert: {
+        id: 847,
+        n: bridge,
+        e: null,
+        s: bridge,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    bridge_vert_south: {
+        id: 874,
+        n: bridge,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    bridge_horiz_west: {
+        id: 875,
+        n: null,
+        e: bridge,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    bridge_horiz: {
+        id: 876,
+        n: null,
+        e: bridge,
+        s: null,
+        w: bridge,
+        transparent: true,
+        animation: false,
+    }
+    bridge_horiz_east: {
+        id: 877,
+        n: null,
+        e: null,
+        s: null,
+        w: bridge,
+        transparent: true,
+        animation: false,
+    }
+    bridge_north_south: {
+        id: 848,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    bridge_east_west: {
+        id: 821,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
 }
