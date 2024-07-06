@@ -81,3 +81,23 @@
 #### Human Soldier (red)
 ![](assets/puny-characters/Human-Soldier-Red.png)
 ---
+
+## extract metadata from original
+```nushell
+let puny = open metadata/punyworld-overworld-tiles.tsx | from xml | {
+    image: ($in.content.0.attributes | into int width height),
+    animations: (
+        $in.content | reject 0 71 | each { {
+            id: ($in.attributes.id | into int),
+            animation: (
+                $in.content.content.0.attributes
+                    | rename --column { tileid: "id" }
+                    | into int id duration
+            ),
+        }}
+    ),
+    wangset: $in.content.71.content,
+}
+```
+
+and `$puny.animations` has been added to the metadata file.
