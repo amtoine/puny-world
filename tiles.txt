@@ -1,0 +1,1987 @@
+{
+    grass: {
+        id: [0, 1, 2, 27, 28, 29, 54, 55, 56],
+        n: grass,
+        e: grass,
+        s: grass,
+        w: grass,
+        # neighbours: {
+        #     n: [
+        #         grass, path_vert_south, path_spot, path_horiz, path_horiz_west, path_horiz_east,
+        #         path_turn_south_east, path_turn_south_west, path_three_cross_south,
+        #         path_corner_south_west, path_corner_south_east, path_south, rock_south, rock_south_west,
+        #         rock_south_east, stair_north, river_vert_south, river_spot, river_horiz,
+        #         river_horiz_west, river_horiz_east, river_turn_south_west, river_turn_south_east,
+        #         river_three_cross_south, river_south, river_corner_south_east, river_corner_south_west,
+        #         rock_north, stair_south, rock_corner_north_west, river_corner_north_east
+        #     ],
+        #     e: [
+        #         grass, path_vert_south, path_vert_north, path_vert, path_spot, path_horiz_west,
+        #         path_turn_north_west, path_turn_south_west, path_three_cross_west,
+        #         path_corner_south_west, path_corner_north_west, path_west, rock_north_west,
+        #         rock_south_west, rock_west, stair_east, river_vert_south, river_vert_north, river_vert,
+        #         river_spot, river_horiz_west, river_turn_north_west, river_turn_south_west,
+        #         river_three_cross_west, river_west, river_corner_south_west, river_corner_north_west,
+        #         rock_east, stair_west, rock_corner_north_west, river_corner_south_west
+        #     ],
+        #     s: [
+        #         grass, path_vert_north, path_spot, path_horiz_west, path_horiz, path_horiz_east,
+        #         path_turn_north_west, path_three_cross_north, path_turn_north_east,
+        #         path_corner_north_west, path_north, path_corner_north_east, rock_north_west,
+        #         rock_north_east, rock_north, stair_south, river_vert_north, river_spot,
+        #         river_horiz_west, river_horiz_east, river_horiz, river_turn_north_west,
+        #         river_turn_north_east, river_three_cross_north, river_north, river_corner_north_west,
+        #         river_corner_north_east, rock_west, stair_north, rock_corner_north_west,
+        #         river_corner_north_east
+        #     ],
+        #     w: [
+        #         grass, path_vert_north, path_vert, path_vert_south, path_turn_north_east,
+        #         path_turn_south_east, path_three_cross_east, path_spot, path_horiz_east,
+        #         path_corner_north_east, path_corner_south_east, path_east, rock_north_east, rock_east,
+        #         river_corner_south_east, rock_west, stair_west, stair_east, river_vert_north,
+        #         river_vert_south, river_vert, river_spot, river_horiz_east, river_turn_north_east,
+        #         river_turn_south_east, river_three_cross_east, river_east, river_corner_south_east,
+        #         river_corner_north_east, rock_corner_north_east, river_corner_south_east
+        #     ],
+        transparent: false,
+        animation: false,
+    }
+
+    path_vert_north: {
+        id: 3,
+        n: grass,
+        e: grass,
+        s: path,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_vert: {
+        id: 30,
+        n: path,
+        e: grass,
+        s: path,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_vert_south: {
+        id: 57,
+        n: path,
+        e: grass,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+
+    path_spot: {
+        id: 81,
+        n: grass,
+        e: grass,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+
+    path_horiz_west: {
+        id: 82,
+        n: grass,
+        e: path,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_horiz: {
+        id: 83,
+        n: grass,
+        e: path,
+        s: grass,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_horiz_east: {
+        id: 84,
+        n: grass,
+        e: grass,
+        s: grass,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+
+    path_turn_north_west: {
+        id: 4,
+        n: grass,
+        e: path,
+        s: path,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_three_cross_north: {
+        id: 5,
+        n: grass,
+        e: path,
+        s: path,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_turn_north_east: {
+        id: 6,
+        n: grass,
+        e: grass,
+        s: path,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_three_cross_west: {
+        id: 31,
+        n: path,
+        e: path,
+        s: path,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_four_cross: {
+        id: 32,
+        n: path,
+        e: path,
+        s: path,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_three_cross_east: {
+        id: 33,
+        n: path,
+        e: grass,
+        s: path,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_turn_south_west: {
+        id: 58,
+        n: path,
+        e: path,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_three_cross_south: {
+        id: 59,
+        n: path,
+        e: path,
+        s: grass,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_turn_south_east: {
+        id: 60,
+        n: path,
+        e: grass,
+        s: grass,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+
+    path_start_north: {
+        id: 8,
+        n: path,
+        e: partial_path_north,
+        s: full_path,
+        w: partial_path_north,
+        transparent: false,
+        animation: false,
+    }
+    path_start_west: {
+        id: 34,
+        n: partial_path_west,
+        e: full_path,
+        s: partial_path_west,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_start_east: {
+        id: 36,
+        n: partial_path_east,
+        e: path,
+        s: partial_path_east,
+        w: full_path,
+        transparent: false,
+        animation: false,
+    }
+    path_start_south: {
+        id: 62,
+        n: full_path,
+        e: partial_path_south,
+        s: path,
+        w: partial_path_south,
+        transparent: false,
+        animation: false,
+    }
+
+    path_corner_north_west: {
+        id: 10,
+        n: grass,
+        e: partial_path_north,
+        s: partial_path_west,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_north: {
+        id: 11,
+        n: grass,
+        e: partial_path_north,
+        s: full_path,
+        w: partial_path_north,
+        transparent: false,
+        animation: false,
+    }
+    path_corner_north_east: {
+        id: 12,
+        n: grass,
+        e: grass,
+        s: partial_path_east,
+        w: partial_path_north,
+        transparent: false,
+        animation: false,
+    }
+    path_west: {
+        id: 37,
+        n: partial_path_west,
+        e: full_path,
+        s: partial_path_west,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path: {
+        id: 38,
+        n: full_path,
+        e: full_path,
+        s: full_path,
+        w: full_path,
+        transparent: false,
+        animation: false,
+    }
+    path_east: {
+        id: 39,
+        n: partial_path_east,
+        e: grass,
+        s: partial_path_east,
+        w: full_path,
+        transparent: false,
+        animation: false,
+    }
+    path_corner_south_west: {
+        id: 64,
+        n: partial_path_west,
+        e: partial_path_south,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    path_south: {
+        id: 65,
+        n: full_path,
+        e: partial_path_south,
+        s: grass,
+        w: partial_path_south,
+        transparent: false,
+        animation: false,
+    }
+    path_corner_south_east: {
+        id: 66,
+        n: partial_path_east,
+        e: grass,
+        s: grass,
+        w: partial_path_south,
+        transparent: false,
+        animation: false,
+    }
+
+    path_inv_corner_north_west: {
+        id: 13,
+        n: partial_path_west,
+        e: full_path,
+        s: full_path,
+        w: partial_path_north,
+        transparent: false,
+        animation: false,
+    }
+    path_inv_corner_north_east: {
+        id: 14,
+        n: partial_path_east,
+        e: partial_path_north,
+        s: full_path,
+        w: full_path,
+        transparent: false,
+        animation: false,
+    }
+    path_inv_corner_south_west: {
+        id: 40,
+        n: full_path,
+        e: full_path,
+        s: partial_path_west,
+        w: partial_path_south,
+        transparent: false,
+        animation: false,
+    }
+    path_inv_corner_south_east: {
+        id: 41,
+        n: full_path,
+        e: partial_path_south,
+        s: partial_path_east,
+        w: full_path,
+        transparent: false,
+        animation: false,
+    }
+
+    path_diag: {
+        id: 67,
+        n: partial_path_east,
+        e: partial_path_north,
+        s: partial_path_west,
+        w: partial_path_south,
+        transparent: false,
+        animation: false,
+    }
+    path_diag_anti: {
+        id: 68,
+        n: partial_path_west,
+        e: partial_path_south,
+        s: partial_path_east,
+        w: partial_path_north,
+        transparent: false,
+        animation: false,
+    }
+
+    # sand = path + 15
+
+    rock_north_west: {
+        id: 108,
+        n: grass,
+        e: rock_north,
+        s: rock_west,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    rock_north: {
+        id: 109,
+        n: grass,
+        e: rock_north,
+        s: grass,
+        w: rock_north,
+        transparent: false,
+        animation: false,
+    }
+    rock_north_east: {
+        id: 110,
+        n: grass,
+        e: grass,
+        s: rock_east,
+        w: rock_north,
+        transparent: false,
+        animation: false,
+    }
+    rock_west: {
+        id: 135,
+        n: rock_west,
+        e: grass,
+        s: rock_west,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    rock_east: {
+        id: 137,
+        n: rock_east,
+        e: grass,
+        s: rock_east,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    rock_south_west: {
+        id: 162,
+        n: rock_west,
+        e: rock_south,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    rock_south: {
+        id: 163,
+        n: grass,
+        e: rock_south,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+    rock_south_east: {
+        id: 164,
+        n: rock_east,
+        e: grass,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+
+    rock_corner_north_west: {
+        id: 111,
+        n: rock_west,
+        e: grass,
+        s: grass,
+        w: rock_north,
+        transparent: false,
+        animation: false,
+    }
+    rock_corner_north_east: {
+        id: 112,
+        n: rock_east,
+        e: rock_north,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    rock_corner_south_west: {
+        id: 138,
+        n: grass,
+        e: grass,
+        s: rock_west,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+    rock_corner_south_east: {
+        id: 139,
+        n: grass,
+        e: rock_south,
+        s: rock_east,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+
+    rock_diag: {
+        id: 165,
+        n: rock_east,
+        e: rock_north,
+        s: rock_west,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+    rock_diag_anti: {
+        id: 166,
+        n: rock_west,
+        e: rock_south,
+        s: rock_east,
+        w: rock_north,
+        transparent: false,
+        animation: false,
+    }
+
+    stair_south: {
+        id: 114,
+        n: grass,
+        e: rock_north,
+        s: grass,
+        w: rock_north,
+        transparent: false,
+        animation: false,
+    }
+    stair_east: {
+        id: 140,
+        n: rock_west,
+        e: grass,
+        s: rock_west,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    stair_west: {
+        id: 142,
+        n: rock_east,
+        e: grass,
+        s: rock_east,
+        w: grass,
+        transparent: false,
+        animation: false,
+    }
+    stair_north: {
+        id: 168,
+        n: grass,
+        e: rock_south,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+
+    path_slope_south: {
+        id: 117,
+        n: path,
+        e: rock_north,
+        s: path,
+        w: rock_north,
+        transparent: false,
+        animation: false,
+    }
+    path_slope_east: {
+        id: 143,
+        n: rock_west,
+        e: path,
+        s: rock_west,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_slope_west: {
+        id: 145,
+        n: rock_east,
+        e: path,
+        s: rock_east,
+        w: path,
+        transparent: false,
+        animation: false,
+    }
+    path_slope_north: {
+        id: 171,
+        n: path,
+        e: rock_south,
+        s: path,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+
+    # transparent_rock = rock + 11
+
+    rock_entrance_1: {
+        id: 127,
+        n: grass,
+        e: rock_south,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+    rock_entrance_2: {
+        id: 128,
+        n: grass,
+        e: rock_south,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+    rock_entrance_3: {
+        id: 154,
+        n: grass,
+        e: rock_south,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+    rock_entrance_4: {
+        id: 155,
+        n: grass,
+        e: rock_south,
+        s: grass,
+        w: rock_south,
+        transparent: false,
+        animation: false,
+    }
+
+    spell_green: { id: 129, transparent: true, animation: false }
+    spell_red: { id: 130, transparent: true, animation: false }
+    spell_blue: { id: 156, transparent: true, animation: false }
+    spell_white: { id: 157, transparent: true, animation: false }
+
+    forest_corner_in_north_west: {
+        id: 189,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_north: {
+        id: 190,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_in_north_east: {
+        id: 191,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_west: {
+        id: 216,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest: {
+        id: 217,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_east: {
+        id: 218,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_in_south_west: {
+        id: 243,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_south: {
+        id: 244,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_in_south_east: {
+        id: 245,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+
+    forest_corner_north_west: {
+        id: 192,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_north_east: {
+        id: 194,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_south_west: {
+        id: 246,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_south_east: {
+        id: 248,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+
+    forest_corner_inv_north_west: {
+        id: 195,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_inv_north_east: {
+        id: 196,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_inv_south_west: {
+        id: 222,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_corner_inv_south_east: {
+        id: 223,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+
+    tree_1: {
+        id: 197,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    tree_2: {
+        id: 224,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    tree_3: {
+        id: 251,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+
+    forest_diag_anti: {
+        id: 249,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+    forest_diag: {
+        id: 250,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+        transparent: true,
+        animation: false,
+    }
+
+    # other_forest = forest + 9
+
+    river_vert_north: {
+        id: 270,
+        n: grass,
+        e: grass,
+        s: river,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_vert: {
+        id: 297,
+        n: river,
+        e: grass,
+        s: river,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_vert_south: {
+        id: 324,
+        n: river,
+        e: grass,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+
+    river_spot: {
+        id: 351,
+        n: grass,
+        e: grass,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+
+    river_horiz_west: {
+        id: 352,
+        n: grass,
+        e: river,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_horiz: {
+        id: 353,
+        n: grass,
+        e: river,
+        s: grass,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_horiz_east: {
+        id: 354,
+        n: grass,
+        e: grass,
+        s: grass,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+
+    river_turn_north_west: {
+        id: 271,
+        n: grass,
+        e: river,
+        s: river,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_three_cross_north: {
+        id: 272,
+        n: grass,
+        e: river,
+        s: river,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_turn_north_east: {
+        id: 273,
+        n: grass,
+        e: grass,
+        s: river,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_three_cross_west: {
+        id: 298,
+        n: river,
+        e: river,
+        s: river,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_four_cross: {
+        id: 299,
+        n: river,
+        e: river,
+        s: river,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_three_cross_east: {
+        id: 300,
+        n: river,
+        e: grass,
+        s: river,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_turn_south_west: {
+        id: 325,
+        n: river,
+        e: river,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_three_cross_south: {
+        id: 326,
+        n: river,
+        e: river,
+        s: grass,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_turn_south_east: {
+        id: 327,
+        n: river,
+        e: grass,
+        s: grass,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+
+    river_start_north: {
+        id: 275,
+        n: river,
+        e: partial_river_north,
+        s: water,
+        w: partial_river_north,
+        transparent: false,
+        animation: true,
+    }
+    river_start_west: {
+        id: 301,
+        n: partial_river_west,
+        e: water,
+        s: partial_river_west,
+        w: river,
+        transparent: false,
+        animation: true,
+    }
+    river_start_east: {
+        id: 303,
+        n: partial_river_east,
+        e: river,
+        s: partial_river_east,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    river_start_south: {
+        id: 329,
+        n: water,
+        e: partial_river_south,
+        s: river,
+        w: partial_river_south,
+        transparent: false,
+        animation: true,
+    }
+
+    river_island: {
+        id: 302,
+        n: water,
+        e: water,
+        s: water,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+
+    river_corner_north_west: {
+        id: 277,
+        n: grass,
+        e: partial_river_north,
+        s: partial_river_west,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_north: {
+        id: 278,
+        n: grass,
+        e: partial_river_north,
+        s: water,
+        w: partial_river_north,
+        transparent: false,
+        animation: true,
+    }
+    river_corner_north_east: {
+        id: 279,
+        n: grass,
+        e: grass,
+        s: partial_river_east,
+        w: partial_river_north,
+        transparent: false,
+        animation: true,
+    }
+    river_west: {
+        id: 304,
+        n: partial_river_west,
+        e: water,
+        s: partial_river_west,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    water: {
+        id: 305,
+        n: water,
+        e: water,
+        s: water,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    river_east: {
+        id: 306,
+        n: partial_river_east,
+        e: grass,
+        s: partial_river_east,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    river_corner_south_west: {
+        id: 331,
+        n: partial_river_west,
+        e: partial_river_south,
+        s: grass,
+        w: grass,
+        transparent: false,
+        animation: true,
+    }
+    river_south: {
+        id: 332,
+        n: water,
+        e: partial_river_south,
+        s: grass,
+        w: partial_river_south,
+        transparent: false,
+        animation: true,
+    }
+    river_corner_south_east: {
+        id: 333,
+        n: partial_river_east,
+        e: grass,
+        s: grass,
+        w: partial_river_south,
+        transparent: false,
+        animation: true,
+    }
+
+    river_inv_corner_north_west: {
+        id: 280,
+        n: partial_river_west,
+        e: water,
+        s: water,
+        w: partial_river_north,
+        transparent: false,
+        animation: true,
+    }
+    river_inv_corner_north_east: {
+        id: 281,
+        n: partial_river_east,
+        e: partial_river_north,
+        s: water,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    river_inv_corner_south_west: {
+        id: 307,
+        n: water,
+        e: water,
+        s: partial_river_west,
+        w: partial_river_south,
+        transparent: false,
+        animation: true,
+    }
+    river_inv_corner_south_east: {
+        id: 308,
+        n: water,
+        e: partial_river_south,
+        s: partial_river_east,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+
+    beach_corner_north_west: {
+        id: 282,
+        n: sand,
+        e: partial_beach_water_north,
+        s: partial_beach_water_west,
+        w: sand,
+        transparent: false,
+        animation: true,
+    }
+    beach_north: {
+        id: 283,
+        n: sand,
+        e: partial_beach_water_north,
+        s: beach_water,
+        w: partial_beach_water_north,
+        transparent: false,
+        animation: true,
+    }
+    beach_corner_north_east: {
+        id: 284,
+        n: sand,
+        e: sand,
+        s: partial_beach_water_east,
+        w: partial_beach_water_north,
+        transparent: false,
+        animation: true,
+    }
+    beach_west: {
+        id: 309,
+        n: partial_beach_water_west,
+        e: beach_water,
+        s: partial_beach_water_west,
+        w: sand,
+        transparent: false,
+        animation: true,
+    }
+    beach_water: {
+        id: 310,
+        n: beach_water,
+        e: beach_water,
+        s: beach_water,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+    beach_east: {
+        id: 311,
+        n: partial_beach_water_east,
+        e: sand,
+        s: partial_beach_water_east,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+    beach_corner_south_west: {
+        id: 336,
+        n: partial_beach_water_west,
+        e: partial_beach_water_south,
+        s: sand,
+        w: sand,
+        transparent: false,
+        animation: true,
+    }
+    beach_south: {
+        id: 337,
+        n: beach_water,
+        e: partial_beach_water_south,
+        s: sand,
+        w: partial_beach_water_south,
+        transparent: false,
+        animation: true,
+    }
+    beach_corner_south_east: {
+        id: 338,
+        n: partial_beach_water_east,
+        e: sand,
+        s: sand,
+        w: partial_beach_water_south,
+        transparent: false,
+        animation: true,
+    }
+
+    beach_inv_corner_north_west: {
+        id: 285,
+        n: partial_beach_water_west,
+        e: beach_water,
+        s: beach_water,
+        w: partial_beach_water_north,
+        transparent: false,
+        animation: true,
+    }
+    beach_inv_corner_north_east: {
+        id: 286,
+        n: partial_beach_water_east,
+        e: partial_beach_water_north,
+        s: beach_water,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+    beach_inv_corner_south_west: {
+        id: 312,
+        n: beach_water,
+        e: beach_water,
+        s: partial_beach_water_west,
+        w: partial_beach_water_south,
+        transparent: false,
+        animation: true,
+    }
+    beach_inv_corner_south_east: {
+        id: 313,
+        n: beach_water,
+        e: partial_beach_water_south,
+        s: partial_beach_water_east,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+
+    sea_corner_north_west: {
+        id: 287,
+        n: beach_water,
+        e: partial_water_north,
+        s: partial_water_west,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+    sea_north: {
+        id: 288,
+        n: beach_water,
+        e: partial_water_north,
+        s: water,
+        w: partial_water_north,
+        transparent: false,
+        animation: true,
+    }
+    sea_corner_north_east: {
+        id: 289,
+        n: beach_water,
+        e: beach_water,
+        s: partial_water_east,
+        w: partial_water_north,
+        transparent: false,
+        animation: true,
+    }
+    sea_west: {
+        id: 314,
+        n: partial_water_west,
+        e: water,
+        s: partial_water_west,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+    sea_east: {
+        id: 316,
+        n: partial_water_east,
+        e: beach_water,
+        s: partial_water_east,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    sea_corner_south_west: {
+        id: 341,
+        n: partial_water_west,
+        e: partial_water_south,
+        s: beach_water,
+        w: beach_water,
+        transparent: false,
+        animation: true,
+    }
+    sea_south: {
+        id: 342,
+        n: water,
+        e: partial_water_south,
+        s: beach_water,
+        w: partial_water_south,
+        transparent: false,
+        animation: true,
+    }
+    sea_corner_south_east: {
+        id: 343,
+        n: partial_water_east,
+        e: beach_water,
+        s: beach_water,
+        w: partial_water_south,
+        transparent: false,
+        animation: true,
+    }
+
+    sea_inv_corner_north_west: {
+        id: 290,
+        n: partial_water_west,
+        e: water,
+        s: water,
+        w: partial_water_north,
+        transparent: false,
+        animation: true,
+    }
+    sea_inv_corner_north_east: {
+        id: 291,
+        n: partial_water_east,
+        e: partial_water_north,
+        s: water,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    sea_inv_corner_south_west: {
+        id: 317,
+        n: water,
+        e: water,
+        s: partial_water_west,
+        w: partial_water_south,
+        transparent: false,
+        animation: true,
+    }
+    sea_inv_corner_south_east: {
+        id: 318,
+        n: water,
+        e: partial_water_south,
+        s: partial_water_east,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+
+    ocean_corner_north_west: {
+        id: 292,
+        n: water,
+        e: partial_deep_water_north,
+        s: partial_deep_water_west,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    ocean_north: {
+        id: 293,
+        n: water,
+        e: partial_deep_water_north,
+        s: deep_water,
+        w: partial_deep_water_north,
+        transparent: false,
+        animation: true,
+    }
+    ocean_corner_north_east: {
+        id: 294,
+        n: water,
+        e: water,
+        s: partial_deep_water_east,
+        w: partial_deep_water_north,
+        transparent: false,
+        animation: true,
+    }
+    ocean_west: {
+        id: 319,
+        n: partial_deep_water_west,
+        e: deep_water,
+        s: partial_deep_water_west,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    ocean: {
+        id: 320,
+        n: deep_water,
+        e: deep_water,
+        s: deep_water,
+        w: deep_water,
+        transparent: false,
+        animation: true,
+    }
+    ocean_east: {
+        id: 321,
+        n: partial_deep_water_east,
+        e: water,
+        s: partial_deep_water_east,
+        w: deep_water,
+        transparent: false,
+        animation: true,
+    }
+    ocean_corner_south_west: {
+        id: 346,
+        n: partial_deep_water_west,
+        e: partial_deep_water_south,
+        s: water,
+        w: water,
+        transparent: false,
+        animation: true,
+    }
+    ocean_south: {
+        id: 347,
+        n: deep_water,
+        e: partial_deep_water_south,
+        s: water,
+        w: partial_deep_water_south,
+        transparent: false,
+        animation: true,
+    }
+    ocean_corner_south_east: {
+        id: 348,
+        n: partial_deep_water_east,
+        e: water,
+        s: water,
+        w: partial_deep_water_south,
+        transparent: false,
+        animation: true,
+    }
+
+    ocean_inv_corner_north_west: {
+        id: 295,
+        n: partial_deep_water_west,
+        e: deep_water,
+        s: deep_water,
+        w: partial_deep_water_north,
+        transparent: false,
+        animation: true,
+    }
+    ocean_inv_corner_north_east: {
+        id: 296,
+        n: partial_deep_water_east,
+        e: partial_deep_water_north,
+        s: deep_water,
+        w: deep_water,
+        transparent: false,
+        animation: true,
+    }
+    ocean_inv_corner_south_west: {
+        id: 322,
+        n: deep_water,
+        e: deep_water,
+        s: partial_deep_water_west,
+        w: partial_deep_water_south,
+        transparent: false,
+        animation: true,
+    }
+    ocean_inv_corner_south_east: {
+        id: 323,
+        n: deep_water,
+        e: partial_deep_water_south,
+        s: partial_deep_water_east,
+        w: deep_water,
+        transparent: false,
+        animation: true,
+    }
+
+    waterfall: {
+        id: 598,
+        n: river,
+        e: rock_south,
+        s: river,
+        w: rock_south,
+        transparent: false,
+        animation: true,
+    }
+
+    "???1": {
+        id: 702,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    "???2": {
+        id: 703,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_4: {
+        id: 704,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_5: {
+        id: 705,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_6: {
+        id: 729,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    log_1: {
+        id: 730,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_7: {
+        id: 731,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_8: {
+        id: 732,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    cactus_1: {
+        id: 757,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    cactus_2: {
+        id: 758,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_9: {
+        id: 759,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_10: {
+        id: 760,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_11: {
+        id: 783,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    log_2: {
+        id: 784,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    chest: {
+        id: 785,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    chest_open: {
+        id: 786,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_12: {
+        id: 810,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    log_3: {
+        id: 811,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    tree_13: {
+        id: 837,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    log_4: {
+        id: 838,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+
+    house_1: {
+        id: 706,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_2: {
+        id: 707,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_3: {
+        id: 708,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_4: {
+        id: 709,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_5: {
+        id: 710,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_6: {
+        id: 711,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_7: {
+        id: 733,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_8: {
+        id: 734,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_9: {
+        id: 735,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_10: {
+        id: 736,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_11: {
+        id: 737,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_12: {
+        id: 738,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_13: {
+        id: 760,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_14: {
+        id: 761,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_15: {
+        id: 762,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_16: {
+        id: 763,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_17: {
+        id: 764,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_18: {
+        id: 765,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_19: {
+        id: 790,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_20: {
+        id: 791,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    house_21: {
+        id: 792,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    well_1: {
+        id: 814,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    well_2: {
+        id: 815,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    well_3: {
+        id: 816,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_1_north_west: {
+        id: 712,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_1_north_east: {
+        id: 713,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_1_south_west: {
+        id: 739,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_1_south_east: {
+        id: 740,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_2_north_west: {
+        id: 714,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_2_north_east: {
+        id: 715,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_2_south_west: {
+        id: 741,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_2_south_east: {
+        id: 742,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_3_north_west: {
+        id: 766,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_3_north_east: {
+        id: 767,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_3_south_west: {
+        id: 793,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_3_south_east: {
+        id: 794,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_4_north_west: {
+        id: 768,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_4_north_east: {
+        id: 769,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_4_south_west: {
+        id: 795,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    castle_4_south_east: {
+        id: 796,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+
+    # blue city = city + 189
+    # red city = city + 199
+
+    sign_1: {
+        id: 817,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_2: {
+        id: 818,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_3: {
+        id: 819,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_4: {
+        id: 841,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_5: {
+        id: 842,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_6: {
+        id: 843,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_7: {
+        id: 844,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_8: {
+        id: 845,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+    sign_9: {
+        id: 846,
+        n: null,
+        e: null,
+        s: null,
+        w: null,
+    }
+}
