@@ -642,24 +642,40 @@
     "spell_green":
     {
       "id": 129,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
       "transparent": true,
       "animation": false
     },
     "spell_red":
     {
       "id": 130,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
       "transparent": true,
       "animation": false
     },
     "spell_blue":
     {
       "id": 156,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
       "transparent": true,
       "animation": false
     },
     "spell_white":
     {
       "id": 157,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
       "transparent": true,
       "animation": false
     },
