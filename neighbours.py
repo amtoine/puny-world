@@ -1,6 +1,6 @@
 import pygame
 from pathlib import Path
-from tileset import load_tileset
+from tileset import load_tileset, compute_neighbours
 
 
 if __name__ == "__main__":
@@ -18,13 +18,7 @@ if __name__ == "__main__":
     running = True
     while running:
         # compute its neighbours
-        tile = tiles[list(tiles.keys())[t]]
-        tile = {
-            'n': [k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
-            'e': [k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
-            's': [k for k, v in tiles.items() if v.north == tile.south and tile.south is not None],
-            'w': [k for k, v in tiles.items() if v.east == tile.west and tile.west is not None],
-        }
+        tile = compute_neighbours(tiles[list(tiles.keys())[t]], tiles)
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (
                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE

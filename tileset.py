@@ -1,6 +1,6 @@
 import pygame
 import json
-from typing import List
+from typing import List, Dict
 from dataclasses import dataclass
 from tqdm import tqdm
 from pathlib import Path
@@ -17,7 +17,7 @@ class Tile:
     animation: bool
 
 
-def load_tileset(tileset: Path) -> (List[dict], list):
+def load_tileset(tileset: Path) -> (List[Tile], list):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
@@ -51,3 +51,12 @@ def load_tileset(tileset: Path) -> (List[dict], list):
         )
 
     return tiles, metadata["animations"]
+
+
+def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Dict[str, List[str]]:
+    return {
+        'n': [k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
+        'e': [k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
+        's': [k for k, v in tiles.items() if v.north == tile.south and tile.south is not None],
+        'w': [k for k, v in tiles.items() if v.east == tile.west and tile.west is not None],
+    }
