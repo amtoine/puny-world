@@ -9,6 +9,7 @@ from pathlib import Path
 @ dataclass
 class Tile:
     image: pygame.surface.Surface
+    id: int
     north: str
     east: str
     west: str
@@ -42,6 +43,7 @@ def load_tileset(tileset: Path) -> (List[Tile], list):
         )
         tiles[k] = Tile(
             image=tile,
+            id=v["id"],
             north=v["n"],
             east=v["e"],
             west=v["w"],
