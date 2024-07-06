@@ -1,4 +1,6 @@
 ## overworld
+> metadata file [here][metadata file]
+
 ![tileset](assets/punyworld-overworld-tileset.png)
 
 ## characters
@@ -100,4 +102,6 @@ let puny = open metadata/punyworld-overworld-tiles.tsx | from xml | {
 }
 ```
 
-and `$puny.animations` has been added to the metadata file.
+and `$puny.animations` has been added to the [metadata file].
+
+[metadata file]: metadata/punyworld-overworld-tiles.nuon
