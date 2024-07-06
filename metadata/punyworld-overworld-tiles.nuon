@@ -339,7 +339,7 @@
             animation: false,
         }
 
-        # sand = path + 15
+        # TODO: sand = path + 15
 
         rock_north_west: {
             id: 108,
@@ -544,7 +544,7 @@
             animation: false,
         }
 
-        # transparent_rock = rock + 11
+        # TODO: transparent_rock = rock + 11
 
         rock_entrance_1: {
             id: 127,
@@ -791,7 +791,7 @@
             animation: false,
         }
 
-        # other_forest = forest + 9
+        # TODO: other_forest = forest + 9
 
         river_vert_north: {
             id: 270,
@@ -2007,8 +2007,8 @@
             animation: false,
         }
 
-        # blue city = city + 189
-        # red city = city + 199
+        # TODO: blue city = city + 189
+        # TODO: red city = city + 199
 
         sign_1: {
             id: 817,
