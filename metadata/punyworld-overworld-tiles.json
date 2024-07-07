@@ -4167,6 +4167,206 @@
       "w": "bridge_spike",
       "transparent": true,
       "animation": false
+    },
+    "castle_tower_window":
+    {
+      "id": 716,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_west_window":
+    {
+      "id": 717,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_north_window":
+    {
+      "id": 718,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_east_window":
+    {
+      "id": 719,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_wall_north_south_1":
+    {
+      "id": 743,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_west_window_top":
+    {
+      "id": 744,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_north_window_top":
+    {
+      "id": 745,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_east_window_top":
+    {
+      "id": 746,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_wall_north_south_2":
+    {
+      "id": 747,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_top":
+    {
+      "id": 770,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_west_top":
+    {
+      "id": 771,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_north_top":
+    {
+      "id": 772,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_east_top":
+    {
+      "id": 773,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower":
+    {
+      "id": 797,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_west":
+    {
+      "id": 798,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_wall_west_east":
+    {
+      "id": 799,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_turn_north_east":
+    {
+      "id": 800,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_door_light":
+    {
+      "id": 801,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_door":
+    {
+      "id": 802,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_tower_door_fence":
+    {
+      "id": 803,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
     }
   },
   "animations":
