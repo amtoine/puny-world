@@ -1,6 +1,6 @@
 import pygame
 from pathlib import Path
-from tileset import load_tileset, get_tile, get_animation_ids
+from tileset import load_tileset, get_tile, get_animation_steps
 
 RENDERING_GRID_WIDTH = 10
 RENDERING_TILE_SIZE = 92
@@ -39,7 +39,7 @@ if __name__ == "__main__":
         screen.fill(BLACK)
 
         for i, (k, v) in enumerate(animated.items()):
-            id = get_animation_ids(v.id, animations)[
+            id = get_animation_steps(v.id, animations)[
                 (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
             ]["id"]
             screen.blit(

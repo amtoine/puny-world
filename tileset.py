@@ -107,7 +107,7 @@ def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Neighbours:
     }
 
 
-def get_animation_ids(
+def get_animation_steps(
     id: int, animations: List[Animation]
 ) -> List[AnimationStep]:
     matches = [x for x in animations if x["id"] == id]
