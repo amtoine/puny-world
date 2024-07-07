@@ -2892,8 +2892,8 @@
     {
       "id": 712,
       "n": null,
-      "e": null,
-      "s": null,
+      "e": "castle_1_north",
+      "s": "castle_1_west",
       "w": null,
       "transparent": true,
       "animation": false
@@ -2903,16 +2903,16 @@
       "id": 713,
       "n": null,
       "e": null,
-      "s": null,
-      "w": null,
+      "s": "castle_1_east",
+      "w": "castle_1_north",
       "transparent": true,
       "animation": false
     },
     "castle_1_south_west":
     {
       "id": 739,
-      "n": null,
-      "e": null,
+      "n": "castle_1_west",
+      "e": "castle_1_south",
       "s": null,
       "w": null,
       "transparent": true,
@@ -2921,10 +2921,10 @@
     "castle_1_south_east":
     {
       "id": 740,
-      "n": null,
+      "n": "castle_1_east",
       "e": null,
       "s": null,
-      "w": null,
+      "w": "castle_1_south",
       "transparent": true,
       "animation": false
     },
@@ -2932,8 +2932,8 @@
     {
       "id": 714,
       "n": null,
-      "e": null,
-      "s": null,
+      "e": "castle_2_north",
+      "s": "castle_2_west",
       "w": null,
       "transparent": true,
       "animation": false
@@ -2943,16 +2943,16 @@
       "id": 715,
       "n": null,
       "e": null,
-      "s": null,
-      "w": null,
+      "s": "castle_2_east",
+      "w": "castle_2_north",
       "transparent": true,
       "animation": false
     },
     "castle_2_south_west":
     {
       "id": 741,
-      "n": null,
-      "e": null,
+      "n": "castle_2_west",
+      "e": "castle_2_south",
       "s": null,
       "w": null,
       "transparent": true,
@@ -2961,10 +2961,10 @@
     "castle_2_south_east":
     {
       "id": 742,
-      "n": null,
+      "n": "castle_2_east",
       "e": null,
       "s": null,
-      "w": null,
+      "w": "castle_2_south",
       "transparent": true,
       "animation": false
     },
@@ -2972,8 +2972,8 @@
     {
       "id": 766,
       "n": null,
-      "e": null,
-      "s": null,
+      "e": "castle_3_north",
+      "s": "castle_3_west",
       "w": null,
       "transparent": true,
       "animation": false
@@ -2983,16 +2983,16 @@
       "id": 767,
       "n": null,
       "e": null,
-      "s": null,
-      "w": null,
+      "s": "castle_3_east",
+      "w": "castle_3_north",
       "transparent": true,
       "animation": false
     },
     "castle_3_south_west":
     {
       "id": 793,
-      "n": null,
-      "e": null,
+      "n": "castle_3_west",
+      "e": "castle_3_south",
       "s": null,
       "w": null,
       "transparent": true,
@@ -3001,10 +3001,10 @@
     "castle_3_south_east":
     {
       "id": 794,
-      "n": null,
+      "n": "castle_3_east",
       "e": null,
       "s": null,
-      "w": null,
+      "w": "castle_3_south",
       "transparent": true,
       "animation": false
     },
@@ -3012,8 +3012,8 @@
     {
       "id": 768,
       "n": null,
-      "e": null,
-      "s": null,
+      "e": "castle_4_north",
+      "s": "castle_4_west",
       "w": null,
       "transparent": true,
       "animation": false
@@ -3023,16 +3023,16 @@
       "id": 769,
       "n": null,
       "e": null,
-      "s": null,
-      "w": null,
+      "s": "castle_4_east",
+      "w": "castle_4_north",
       "transparent": true,
       "animation": false
     },
     "castle_4_south_west":
     {
       "id": 795,
-      "n": null,
-      "e": null,
+      "n": "castle_4_west",
+      "e": "castle_4_south",
       "s": null,
       "w": null,
       "transparent": true,
@@ -3041,10 +3041,10 @@
     "castle_4_south_east":
     {
       "id": 796,
-      "n": null,
+      "n": "castle_4_east",
       "e": null,
       "s": null,
-      "w": null,
+      "w": "castle_4_south",
       "transparent": true,
       "animation": false
     },
