@@ -1498,6 +1498,226 @@
       "transparent": true,
       "animation": false
     },
+    "forest_corner_in_north_west_2":
+    {
+      "id": 198,
+      "n": null,
+      "e": "partial_forest_south_2",
+      "s": "partial_forest_east_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "forest_north_2":
+    {
+      "id": 199,
+      "n": null,
+      "e": "partial_forest_south_2",
+      "s": "forest_2",
+      "w": "partial_forest_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_in_north_east_2":
+    {
+      "id": 200,
+      "n": null,
+      "e": null,
+      "s": "partial_forest_west_2",
+      "w": "partial_forest_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_west_2":
+    {
+      "id": 225,
+      "n": "partial_forest_east_2",
+      "e": "forest_2",
+      "s": "partial_forest_east_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "forest_2":
+    {
+      "id": 226,
+      "n": "forest_2",
+      "e": "forest_2",
+      "s": "forest_2",
+      "w": "forest_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_east_2":
+    {
+      "id": 227,
+      "n": "partial_forest_west_2",
+      "e": null,
+      "s": "partial_forest_west_2",
+      "w": "forest_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_in_south_west_2":
+    {
+      "id": 252,
+      "n": "partial_forest_east_2",
+      "e": "partial_forest_north_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "forest_south_2":
+    {
+      "id": 253,
+      "n": "forest_2",
+      "e": "partial_forest_north_2",
+      "s": null,
+      "w": "partial_forest_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_in_south_east_2":
+    {
+      "id": 254,
+      "n": "partial_forest_west_2",
+      "e": null,
+      "s": null,
+      "w": "partial_forest_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_north_west_2":
+    {
+      "id": 201,
+      "n": null,
+      "e": "partial_forest_south_2",
+      "s": "partial_forest_east_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_north_east_2":
+    {
+      "id": 203,
+      "n": null,
+      "e": null,
+      "s": "partial_forest_west_2",
+      "w": "partial_forest_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_south_west_2":
+    {
+      "id": 255,
+      "n": "partial_forest_east_2",
+      "e": "partial_forest_north_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_south_east_2":
+    {
+      "id": 257,
+      "n": "partial_forest_west_2",
+      "e": null,
+      "s": null,
+      "w": "partial_forest_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_inv_north_west_2":
+    {
+      "id": 204,
+      "n": "partial_forest_east_2",
+      "e": "forest_2",
+      "s": "forest_2",
+      "w": "partial_forest_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_inv_north_east_2":
+    {
+      "id": 205,
+      "n": "partial_forest_west_2",
+      "e": "partial_forest_south_2",
+      "s": "forest_2",
+      "w": "forest_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_inv_south_west_2":
+    {
+      "id": 231,
+      "n": "forest_2",
+      "e": "forest_2",
+      "s": "partial_forest_east_2",
+      "w": "partial_forest_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_corner_inv_south_east_2":
+    {
+      "id": 232,
+      "n": "forest_2",
+      "e": "partial_forest_north_2",
+      "s": "partial_forest_west_2",
+      "w": "forest_2",
+      "transparent": true,
+      "animation": false
+    },
+    "tree_1_2":
+    {
+      "id": 206,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "tree_2_2":
+    {
+      "id": 233,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "tree_3_2":
+    {
+      "id": 260,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "forest_diag_anti_2":
+    {
+      "id": 258,
+      "n": "partial_forest_east_2",
+      "e": "partial_forest_north_2",
+      "s": "partial_forest_west_2",
+      "w": "partial_forest_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "forest_diag_2":
+    {
+      "id": 259,
+      "n": "partial_forest_west_2",
+      "e": "partial_forest_south_2",
+      "s": "partial_forest_east_2",
+      "w": "partial_forest_north_2",
+      "transparent": true,
+      "animation": false
+    },
     "river_vert_north":
     {
       "id": 270,
