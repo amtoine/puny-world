@@ -30,6 +30,18 @@ class Animation:
     animation: List[AnimationStep]
 
 
+def cut(
+    surface: pygame.surface.Surface, id: int, /, size: (int, int), cols: int
+) -> pygame.surface.Surface:
+    tile = pygame.Surface(size)
+    tile.blit(
+        surface,
+        (0, 0),
+        (id % cols * size[0], id // cols * size[1], *size)
+    )
+    return tile
+
+
 def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
@@ -43,19 +55,10 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
 
     tiles = {}
     for k, v in tqdm(metadata["tiles"].items(), desc="loading assets"):
-        tile = pygame.Surface((tilewidth, tileheight))
-        tile.blit(
-            image,
-            (0, 0),
-            (
-                v["id"] % nb_columns * tilewidth,
-                v["id"] // nb_columns * tileheight,
-                tilewidth,
-                tileheight,
-            )
-        )
         tiles[k] = Tile(
-            image=tile,
+            image=cut(
+                image, v["id"], size=(tilewidth, tileheight), cols=nb_columns
+            ),
             id=v["id"],
             north=v["n"],
             east=v["e"],
@@ -79,19 +82,10 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     for a in animations:
         name = [k for k, v in tiles.items() if v.id == a.id][0]
         for i, b in enumerate(a.animation[1:], start=1):
-            tile = pygame.Surface((tilewidth, tileheight))
-            tile.blit(
-                image,
-                (0, 0),
-                (
-                    b.id % nb_columns * tilewidth,
-                    b.id // nb_columns * tileheight,
-                    tilewidth,
-                    tileheight,
-                )
-            )
             tiles[f"{name}__animation_{i}"] = Tile(
-                image=tile,
+                image=cut(
+                    image, b.id, size=(tilewidth, tileheight), cols=nb_columns
+                ),
                 id=b.id,
                 north=None,
                 east=None,
