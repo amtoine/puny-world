@@ -448,6 +448,356 @@
       "transparent": false,
       "animation": false
     },
+    "sand_path_vert_north":
+    {
+      "id": 15,
+      "n": "grass",
+      "e": "grass",
+      "s": "sand_path",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_vert":
+    {
+      "id": 42,
+      "n": "sand_path",
+      "e": "grass",
+      "s": "sand_path",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_vert_south":
+    {
+      "id": 69,
+      "n": "sand_path",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_spot":
+    {
+      "id": 96,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_horiz_west":
+    {
+      "id": 97,
+      "n": "grass",
+      "e": "sand_path",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_horiz":
+    {
+      "id": 98,
+      "n": "grass",
+      "e": "sand_path",
+      "s": "grass",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_horiz_east":
+    {
+      "id": 99,
+      "n": "grass",
+      "e": "grass",
+      "s": "grass",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_turn_north_west":
+    {
+      "id": 16,
+      "n": "grass",
+      "e": "sand_path",
+      "s": "sand_path",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_three_cross_north":
+    {
+      "id": 17,
+      "n": "grass",
+      "e": "sand_path",
+      "s": "sand_path",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_turn_north_east":
+    {
+      "id": 18,
+      "n": "grass",
+      "e": "grass",
+      "s": "sand_path",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_three_cross_west":
+    {
+      "id": 43,
+      "n": "sand_path",
+      "e": "sand_path",
+      "s": "sand_path",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_four_cross":
+    {
+      "id": 44,
+      "n": "sand_path",
+      "e": "sand_path",
+      "s": "sand_path",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_three_cross_east":
+    {
+      "id": 45,
+      "n": "sand_path",
+      "e": "grass",
+      "s": "sand_path",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_turn_south_west":
+    {
+      "id": 70,
+      "n": "sand_path",
+      "e": "sand_path",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_three_cross_south":
+    {
+      "id": 71,
+      "n": "sand_path",
+      "e": "sand_path",
+      "s": "grass",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_turn_south_east":
+    {
+      "id": 72,
+      "n": "sand_path",
+      "e": "grass",
+      "s": "grass",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_start_north":
+    {
+      "id": 20,
+      "n": "sand_path",
+      "e": "partial_sand_path_north",
+      "s": "sand",
+      "w": "partial_sand_path_north",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_start_west":
+    {
+      "id": 46,
+      "n": "partial_sand_path_west",
+      "e": "sand",
+      "s": "partial_sand_path_west",
+      "w": "sand_path",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_start_east":
+    {
+      "id": 48,
+      "n": "partial_sand_path_east",
+      "e": "sand_path",
+      "s": "partial_sand_path_east",
+      "w": "sand",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_start_south":
+    {
+      "id": 74,
+      "n": "sand",
+      "e": "partial_sand_path_south",
+      "s": "sand_path",
+      "w": "partial_sand_path_south",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_corner_north_west":
+    {
+      "id": 22,
+      "n": "grass",
+      "e": "partial_sand_path_north",
+      "s": "partial_sand_path_west",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_north":
+    {
+      "id": 23,
+      "n": "grass",
+      "e": "partial_sand_path_north",
+      "s": "sand",
+      "w": "partial_sand_path_north",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_corner_north_east":
+    {
+      "id": 24,
+      "n": "grass",
+      "e": "grass",
+      "s": "partial_sand_path_east",
+      "w": "partial_sand_path_north",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_west":
+    {
+      "id": 49,
+      "n": "partial_sand_path_west",
+      "e": "sand",
+      "s": "partial_sand_path_west",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path":
+    {
+      "id": 50,
+      "n": "sand",
+      "e": "sand",
+      "s": "sand",
+      "w": "sand",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_east":
+    {
+      "id": 51,
+      "n": "partial_sand_path_east",
+      "e": "grass",
+      "s": "partial_sand_path_east",
+      "w": "sand",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_corner_south_west":
+    {
+      "id": 76,
+      "n": "partial_sand_path_west",
+      "e": "partial_sand_path_south",
+      "s": "grass",
+      "w": "grass",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_south":
+    {
+      "id": 77,
+      "n": "sand",
+      "e": "partial_sand_path_south",
+      "s": "grass",
+      "w": "partial_sand_path_south",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_corner_south_east":
+    {
+      "id": 78,
+      "n": "partial_sand_path_east",
+      "e": "grass",
+      "s": "grass",
+      "w": "partial_sand_path_south",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_inv_corner_north_west":
+    {
+      "id": 25,
+      "n": "partial_sand_path_west",
+      "e": "sand",
+      "s": "sand",
+      "w": "partial_sand_path_north",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_inv_corner_north_east":
+    {
+      "id": 26,
+      "n": "partial_sand_path_east",
+      "e": "partial_sand_path_north",
+      "s": "sand",
+      "w": "sand",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_inv_corner_south_west":
+    {
+      "id": 52,
+      "n": "sand",
+      "e": "sand",
+      "s": "partial_sand_path_west",
+      "w": "partial_sand_path_south",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_inv_corner_south_east":
+    {
+      "id": 53,
+      "n": "sand",
+      "e": "partial_sand_path_south",
+      "s": "partial_sand_path_east",
+      "w": "sand",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_diag":
+    {
+      "id": 79,
+      "n": "partial_sand_path_east",
+      "e": "partial_sand_path_north",
+      "s": "partial_sand_path_west",
+      "w": "partial_sand_path_south",
+      "transparent": false,
+      "animation": false
+    },
+    "sand_path_diag_anti":
+    {
+      "id": 80,
+      "n": "partial_sand_path_west",
+      "e": "partial_sand_path_south",
+      "s": "partial_sand_path_east",
+      "w": "partial_sand_path_north",
+      "transparent": false,
+      "animation": false
+    },
     "rock_north_west":
     {
       "id": 108,
