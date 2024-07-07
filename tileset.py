@@ -52,6 +52,32 @@ def load_tileset(tileset: Path) -> (List[Tile], list):
             animation=v["animation"],
         )
 
+    for a in metadata["animations"]:
+        id = a["id"]
+        name = [k for k, v in tiles.items() if v.id == id][0]
+        for i, b in enumerate(a["animation"][1:], start=1):
+            tile = pygame.Surface((tilesize, tilesize))
+            tile.blit(
+                image,
+                (0, 0),
+                (
+                    b["id"] % nb_columns * tilesize,
+                    b["id"] // nb_columns * tilesize,
+                    tilesize,
+                    tilesize,
+                )
+            )
+            tiles[f"{name}__animation_{i}"] = Tile(
+                image=tile,
+                id=b["id"],
+                north=None,
+                east=None,
+                west=None,
+                south=None,
+                transparent=None,
+                animation=False,
+            )
+
     return tiles, metadata["animations"]
 
 
