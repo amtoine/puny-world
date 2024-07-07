@@ -1198,7 +1198,7 @@
       "transparent": true,
       "animation": false
     },
-    "rock_entrance_1":
+    "rock_entrance_1_1":
     {
       "id": 127,
       "n": "grass",
@@ -1208,7 +1208,7 @@
       "transparent": false,
       "animation": false
     },
-    "rock_entrance_2":
+    "rock_entrance_2_1":
     {
       "id": 128,
       "n": "grass",
@@ -1218,24 +1218,24 @@
       "transparent": false,
       "animation": false
     },
-    "rock_entrance_3":
+    "rock_entrance_1_2":
     {
       "id": 154,
       "n": "grass",
-      "e": "rock_south",
-      "s": "grass",
-      "w": "rock_south",
-      "transparent": false,
+      "e": "rock_south_2",
+      "s": null,
+      "w": "rock_south_2",
+      "transparent": true,
       "animation": false
     },
-    "rock_entrance_4":
+    "rock_entrance_2_2":
     {
       "id": 155,
       "n": "grass",
-      "e": "rock_south",
-      "s": "grass",
-      "w": "rock_south",
-      "transparent": false,
+      "e": "rock_south_2",
+      "s": null,
+      "w": "rock_south_2",
+      "transparent": true,
       "animation": false
     },
     "spell_green":
