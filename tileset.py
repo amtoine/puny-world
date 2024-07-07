@@ -57,7 +57,7 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     )
 
     tiles = {}
-    for k, v in tqdm(metadata["tiles"].items(), desc="loading assets"):
+    for k, v in tqdm(metadata["tiles"].items(), desc="loading world assets"):
         tiles[k] = Tile(
             image=cut(
                 image, v["id"], size=(tilewidth, tileheight), cols=nb_columns
