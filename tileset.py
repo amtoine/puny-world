@@ -1,6 +1,6 @@
 import pygame
 import json
-from typing import List, TypedDict
+from typing import List, Dict
 from dataclasses import dataclass
 from tqdm import tqdm
 from pathlib import Path
@@ -18,17 +18,19 @@ class Tile:
     animation: bool
 
 
-class AnimationStep(TypedDict):
+@dataclass
+class AnimationStep:
     id: int
     duration: int
 
 
-class Animation(TypedDict):
+@dataclass
+class Animation:
     id: int
     animation: List[AnimationStep]
 
 
-def load_tileset(tileset: Path) -> (List[Tile], List[Animation]):
+def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
@@ -62,24 +64,34 @@ def load_tileset(tileset: Path) -> (List[Tile], List[Animation]):
             animation=v["animation"],
         )
 
-    for a in metadata["animations"]:
-        id = a["id"]
-        name = [k for k, v in tiles.items() if v.id == id][0]
-        for i, b in enumerate(a["animation"][1:], start=1):
+    animations = [
+        Animation(
+            id=a["id"],
+            animation=[
+                AnimationStep(id=b["id"], duration=b["duration"])
+                for b in a["animation"]
+            ]
+        )
+        for a in metadata["animations"]
+    ]
+
+    for a in animations:
+        name = [k for k, v in tiles.items() if v.id == a.id][0]
+        for i, b in enumerate(a.animation[1:], start=1):
             tile = pygame.Surface((tilesize, tilesize))
             tile.blit(
                 image,
                 (0, 0),
                 (
-                    b["id"] % nb_columns * tilesize,
-                    b["id"] // nb_columns * tilesize,
+                    b.id % nb_columns * tilesize,
+                    b.id // nb_columns * tilesize,
                     tilesize,
                     tilesize,
                 )
             )
             tiles[f"{name}__animation_{i}"] = Tile(
                 image=tile,
-                id=b["id"],
+                id=b.id,
                 north=None,
                 east=None,
                 west=None,
@@ -88,37 +100,38 @@ def load_tileset(tileset: Path) -> (List[Tile], List[Animation]):
                 animation=False,
             )
 
-    return tiles, metadata["animations"]
+    return tiles, animations
 
 
-class Neighbours(TypedDict):
+@dataclass
+class Neighbours:
     n: List[str]
     e: List[str]
     s: List[str]
     w: List[str]
 
 
-def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Neighbours:
-    return {
-        'n': [k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
-        'e': [k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
-        's': [k for k, v in tiles.items() if v.north == tile.south and tile.south is not None],
-        'w': [k for k, v in tiles.items() if v.east == tile.west and tile.west is not None],
-    }
+def compute_neighbours(tile: Tile, tiles: Dict[str, Tile]) -> Neighbours:
+    return Neighbours(
+        n=[k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
+        e=[k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
+        s=[k for k, v in tiles.items() if v.north == tile.south and tile.south is not None],
+        w=[k for k, v in tiles.items() if v.east == tile.west and tile.west is not None],
+    )
 
 
 def get_animation_steps(
     id: int, animations: List[Animation]
 ) -> List[AnimationStep]:
-    matches = [x for x in animations if x["id"] == id]
+    matches = [x for x in animations if x.id == id]
     if len(matches) != 1:
         raise Exception(
             f"there should be exactly one animation with ID {id}, found {len(matches)}"
         )
-    return matches[0]["animation"]
+    return matches[0].animation
 
 
-def get_tile(id: int, tiles: List[Tile]) -> Tile:
+def get_tile(id: int, tiles: Dict[str, Tile]) -> Tile:
     matches = [v for v in tiles.values() if v.id == id]
     if len(matches) != 1:
         raise Exception(
