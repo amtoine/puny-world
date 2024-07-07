@@ -1,6 +1,6 @@
 import pygame
 import json
-from typing import List, Dict
+from typing import List, TypedDict
 from dataclasses import dataclass
 from tqdm import tqdm
 from pathlib import Path
@@ -10,15 +10,25 @@ from pathlib import Path
 class Tile:
     image: pygame.surface.Surface
     id: int
-    north: str
-    east: str
-    west: str
-    south: str
+    north: str | None
+    east: str | None
+    west: str | None
+    south: str | None
     transparent: bool
     animation: bool
 
 
-def load_tileset(tileset: Path) -> (List[Tile], list):
+class AnimationStep(TypedDict):
+    id: int
+    duration: int
+
+
+class Animation(TypedDict):
+    id: int
+    animation: List[AnimationStep]
+
+
+def load_tileset(tileset: Path) -> (List[Tile], List[Animation]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
@@ -74,14 +84,21 @@ def load_tileset(tileset: Path) -> (List[Tile], list):
                 east=None,
                 west=None,
                 south=None,
-                transparent=None,
+                transparent=False,
                 animation=False,
             )
 
     return tiles, metadata["animations"]
 
 
-def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Dict[str, List[str]]:
+class Neighbours(TypedDict):
+    n: List[str]
+    e: List[str]
+    s: List[str]
+    w: List[str]
+
+
+def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Neighbours:
     return {
         'n': [k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
         'e': [k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
@@ -90,7 +107,9 @@ def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Dict[str, List[str]]:
     }
 
 
-def get_animation_ids(id: int, animations: list) -> Dict[str, int]:
+def get_animation_ids(
+    id: int, animations: List[Animation]
+) -> List[AnimationStep]:
     matches = [x for x in animations if x["id"] == id]
     if len(matches) != 1:
         raise Exception(
