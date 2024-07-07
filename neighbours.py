@@ -28,32 +28,32 @@ if __name__ == "__main__":
                 # update the "show indices"
                 if event.key == pygame.K_j:
                     if event.mod & pygame.KMOD_LSHIFT:
-                        if len(tile['s']) > 0:
-                            s = (s - 1) % len(tile['s'])
+                        if len(tile.s) > 0:
+                            s = (s - 1) % len(tile.s)
                     else:
-                        if len(tile['s']) > 0:
-                            s = (s + 1) % len(tile['s'])
+                        if len(tile.s) > 0:
+                            s = (s + 1) % len(tile.s)
                 elif event.key == pygame.K_k:
                     if event.mod & pygame.KMOD_LSHIFT:
-                        if len(tile['n']) > 0:
-                            n = (n - 1) % len(tile['n'])
+                        if len(tile.n) > 0:
+                            n = (n - 1) % len(tile.n)
                     else:
-                        if len(tile['n']) > 0:
-                            n = (n + 1) % len(tile['n'])
+                        if len(tile.n) > 0:
+                            n = (n + 1) % len(tile.n)
                 elif event.key == pygame.K_h:
                     if event.mod & pygame.KMOD_LSHIFT:
-                        if len(tile['w']) > 0:
-                            w = (w - 1) % len(tile['w'])
+                        if len(tile.w) > 0:
+                            w = (w - 1) % len(tile.w)
                     else:
-                        if len(tile['w']) > 0:
-                            w = (w + 1) % len(tile['w'])
+                        if len(tile.w) > 0:
+                            w = (w + 1) % len(tile.w)
                 elif event.key == pygame.K_l:
                     if event.mod & pygame.KMOD_LSHIFT:
-                        if len(tile['e']) > 0:
-                            e = (e - 1) % len(tile['e'])
+                        if len(tile.e) > 0:
+                            e = (e - 1) % len(tile.e)
                     else:
-                        if len(tile['e']) > 0:
-                            e = (e + 1) % len(tile['e'])
+                        if len(tile.e) > 0:
+                            e = (e + 1) % len(tile.e)
                 elif event.key == pygame.K_SPACE:
                     if event.mod & pygame.KMOD_LSHIFT:
                         t = (t - 1) % len(tiles.keys())
@@ -72,24 +72,24 @@ if __name__ == "__main__":
             pygame.transform.scale(tiles[list(tiles.keys())[t]].image, (128, 128)),
             (width / 2, height / 2),
         )
-        if len(tile['n']) > 0:
+        if len(tile.n) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile['n'][n]].image, (128, 128)),
+                pygame.transform.scale(tiles[tile.n[n]].image, (128, 128)),
                 (width / 2, height / 2 - 128),
             )
-        if len(tile['s']) > 0:
+        if len(tile.s) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile['s'][s]].image, (128, 128)),
+                pygame.transform.scale(tiles[tile.s[s]].image, (128, 128)),
                 (width / 2, height / 2 + 128),
             )
-        if len(tile['w']) > 0:
+        if len(tile.w) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile['w'][w]].image, (128, 128)),
+                pygame.transform.scale(tiles[tile.w[w]].image, (128, 128)),
                 (width / 2 - 128, height / 2),
             )
-        if len(tile['e']) > 0:
+        if len(tile.e) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile['e'][e]].image, (128, 128)),
+                pygame.transform.scale(tiles[tile.e[e]].image, (128, 128)),
                 (width / 2 + 128, height / 2),
             )
 

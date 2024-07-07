@@ -41,7 +41,7 @@ if __name__ == "__main__":
         for i, (k, v) in enumerate(animated.items()):
             id = get_animation_steps(v.id, animations)[
                 (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
-            ]["id"]
+            ].id
             screen.blit(
                 pygame.transform.scale(
                     get_tile(id, tiles).image,
