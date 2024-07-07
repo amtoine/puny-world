@@ -3048,6 +3048,806 @@
       "transparent": true,
       "animation": false
     },
+    "house_1_2":
+    {
+      "id": 895,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_2_2":
+    {
+      "id": 896,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_3_2":
+    {
+      "id": 897,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_4_2":
+    {
+      "id": 898,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_5_2":
+    {
+      "id": 899,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_6_2":
+    {
+      "id": 900,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_7_2":
+    {
+      "id": 922,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_8_2":
+    {
+      "id": 923,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_9_2":
+    {
+      "id": 924,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_10_2":
+    {
+      "id": 925,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_11_2":
+    {
+      "id": 926,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_12_2":
+    {
+      "id": 927,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_13_2":
+    {
+      "id": 949,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_14_2":
+    {
+      "id": 950,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_15_2":
+    {
+      "id": 951,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_16_2":
+    {
+      "id": 952,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_17_2":
+    {
+      "id": 953,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_18_2":
+    {
+      "id": 954,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_19_2":
+    {
+      "id": 979,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_20_2":
+    {
+      "id": 980,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_21_2":
+    {
+      "id": 981,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "well_1_2":
+    {
+      "id": 1003,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "well_2_2":
+    {
+      "id": 1004,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "well_3_2":
+    {
+      "id": 1005,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_north_west_2":
+    {
+      "id": 901,
+      "n": null,
+      "e": "castle_1_north_2",
+      "s": "castle_1_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_north_east_2":
+    {
+      "id": 902,
+      "n": null,
+      "e": null,
+      "s": "castle_1_east_2",
+      "w": "castle_1_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_south_west_2":
+    {
+      "id": 928,
+      "n": "castle_1_west_2",
+      "e": "castle_1_south_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_south_east_2":
+    {
+      "id": 929,
+      "n": "castle_1_east_2",
+      "e": null,
+      "s": null,
+      "w": "castle_1_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_north_west_2":
+    {
+      "id": 903,
+      "n": null,
+      "e": "castle_2_north_2",
+      "s": "castle_2_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_north_east_2":
+    {
+      "id": 904,
+      "n": null,
+      "e": null,
+      "s": "castle_2_east_2",
+      "w": "castle_2_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_south_west_2":
+    {
+      "id": 930,
+      "n": "castle_2_west_2",
+      "e": "castle_2_south_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_south_east_2":
+    {
+      "id": 931,
+      "n": "castle_2_east_2",
+      "e": null,
+      "s": null,
+      "w": "castle_2_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_north_west_2":
+    {
+      "id": 955,
+      "n": null,
+      "e": "castle_3_north_2",
+      "s": "castle_3_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_north_east_2":
+    {
+      "id": 956,
+      "n": null,
+      "e": null,
+      "s": "castle_3_east_2",
+      "w": "castle_3_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_south_west_2":
+    {
+      "id": 982,
+      "n": "castle_3_west_2",
+      "e": "castle_3_south_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_south_east_2":
+    {
+      "id": 983,
+      "n": "castle_3_east_2",
+      "e": null,
+      "s": null,
+      "w": "castle_3_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_north_west_2":
+    {
+      "id": 957,
+      "n": null,
+      "e": "castle_4_north_2",
+      "s": "castle_4_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_north_east_2":
+    {
+      "id": 958,
+      "n": null,
+      "e": null,
+      "s": "castle_4_east_2",
+      "w": "castle_4_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_south_west_2":
+    {
+      "id": 984,
+      "n": "castle_4_west_2",
+      "e": "castle_4_south_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_south_east_2":
+    {
+      "id": 985,
+      "n": "castle_4_east_2",
+      "e": null,
+      "s": null,
+      "w": "castle_4_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "house_1_3":
+    {
+      "id": 905,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_2_3":
+    {
+      "id": 906,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_3_3":
+    {
+      "id": 907,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_4_3":
+    {
+      "id": 908,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_5_3":
+    {
+      "id": 909,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_6_3":
+    {
+      "id": 910,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_7_3":
+    {
+      "id": 932,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_8_3":
+    {
+      "id": 933,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_9_3":
+    {
+      "id": 934,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_10_3":
+    {
+      "id": 935,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_11_3":
+    {
+      "id": 936,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_12_3":
+    {
+      "id": 937,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_13_3":
+    {
+      "id": 959,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_14_3":
+    {
+      "id": 960,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_15_3":
+    {
+      "id": 961,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_16_3":
+    {
+      "id": 962,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_17_3":
+    {
+      "id": 963,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_18_3":
+    {
+      "id": 964,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_19_3":
+    {
+      "id": 989,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_20_3":
+    {
+      "id": 990,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "house_21_3":
+    {
+      "id": 991,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "well_1_3":
+    {
+      "id": 1013,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "well_2_3":
+    {
+      "id": 1014,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "well_3_3":
+    {
+      "id": 1015,
+      "n": null,
+      "e": null,
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_north_west_3":
+    {
+      "id": 911,
+      "n": null,
+      "e": "castle_1_north_3",
+      "s": "castle_1_west_3",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_north_east_3":
+    {
+      "id": 912,
+      "n": null,
+      "e": null,
+      "s": "castle_1_east_3",
+      "w": "castle_1_north_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_south_west_3":
+    {
+      "id": 938,
+      "n": "castle_1_west_3",
+      "e": "castle_1_south_3",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_1_south_east_3":
+    {
+      "id": 939,
+      "n": "castle_1_east_3",
+      "e": null,
+      "s": null,
+      "w": "castle_1_south_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_north_west_3":
+    {
+      "id": 913,
+      "n": null,
+      "e": "castle_2_north_3",
+      "s": "castle_2_west_3",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_north_east_3":
+    {
+      "id": 914,
+      "n": null,
+      "e": null,
+      "s": "castle_2_east_3",
+      "w": "castle_2_north_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_south_west_3":
+    {
+      "id": 940,
+      "n": "castle_2_west_3",
+      "e": "castle_2_south_3",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_2_south_east_3":
+    {
+      "id": 941,
+      "n": "castle_2_east_3",
+      "e": null,
+      "s": null,
+      "w": "castle_2_south_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_north_west_3":
+    {
+      "id": 965,
+      "n": null,
+      "e": "castle_3_north_3",
+      "s": "castle_3_west_3",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_north_east_3":
+    {
+      "id": 966,
+      "n": null,
+      "e": null,
+      "s": "castle_3_east_3",
+      "w": "castle_3_north_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_south_west_3":
+    {
+      "id": 992,
+      "n": "castle_3_west_3",
+      "e": "castle_3_south_3",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_3_south_east_3":
+    {
+      "id": 993,
+      "n": "castle_3_east_3",
+      "e": null,
+      "s": null,
+      "w": "castle_3_south_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_north_west_3":
+    {
+      "id": 967,
+      "n": null,
+      "e": "castle_4_north_3",
+      "s": "castle_4_west_3",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_north_east_3":
+    {
+      "id": 968,
+      "n": null,
+      "e": null,
+      "s": "castle_4_east_3",
+      "w": "castle_4_north_3",
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_south_west_3":
+    {
+      "id": 994,
+      "n": "castle_4_west_3",
+      "e": "castle_4_south_3",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "castle_4_south_east_3":
+    {
+      "id": 995,
+      "n": "castle_4_east_3",
+      "e": null,
+      "s": null,
+      "w": "castle_4_south_3",
+      "transparent": true,
+      "animation": false
+    },
     "sign_1":
     {
       "id": 817,
