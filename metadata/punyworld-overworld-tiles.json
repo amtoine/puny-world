@@ -1976,7 +1976,7 @@
       "s": "water",
       "w": "water",
       "transparent": false,
-      "animation": true
+      "animation": false
     },
     "river_east":
     {
@@ -2106,7 +2106,7 @@
       "s": "beach_water",
       "w": "beach_water",
       "transparent": false,
-      "animation": true
+      "animation": false
     },
     "beach_east":
     {
@@ -2356,7 +2356,7 @@
       "s": "deep_water",
       "w": "deep_water",
       "transparent": false,
-      "animation": true
+      "animation": false
     },
     "ocean_east":
     {
