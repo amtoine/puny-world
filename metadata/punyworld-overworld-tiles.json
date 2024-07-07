@@ -1018,6 +1018,186 @@
       "transparent": false,
       "animation": false
     },
+    "rock_north_west_2":
+    {
+      "id": 119,
+      "n": null,
+      "e": "rock_north_2",
+      "s": "rock_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "rock_north_2":
+    {
+      "id": 120,
+      "n": null,
+      "e": "rock_north_2",
+      "s": null,
+      "w": "rock_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_north_east_2":
+    {
+      "id": 121,
+      "n": null,
+      "e": null,
+      "s": "rock_east_2",
+      "w": "rock_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_west_2":
+    {
+      "id": 146,
+      "n": "rock_west_2",
+      "e": null,
+      "s": "rock_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "rock_east_2":
+    {
+      "id": 148,
+      "n": "rock_east_2",
+      "e": null,
+      "s": "rock_east_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "rock_south_west_2":
+    {
+      "id": 173,
+      "n": "rock_west_2",
+      "e": "rock_south_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "rock_south_2":
+    {
+      "id": 174,
+      "n": null,
+      "e": "rock_south_2",
+      "s": null,
+      "w": "rock_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_south_east_2":
+    {
+      "id": 175,
+      "n": "rock_east_2",
+      "e": null,
+      "s": null,
+      "w": "rock_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_corner_north_west_2":
+    {
+      "id": 122,
+      "n": "rock_west_2",
+      "e": null,
+      "s": null,
+      "w": "rock_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_corner_north_east_2":
+    {
+      "id": 123,
+      "n": "rock_east_2",
+      "e": "rock_north_2",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "rock_corner_south_west_2":
+    {
+      "id": 149,
+      "n": null,
+      "e": null,
+      "s": "rock_west_2",
+      "w": "rock_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_corner_south_east_2":
+    {
+      "id": 150,
+      "n": null,
+      "e": "rock_south_2",
+      "s": "rock_east_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "rock_diag_2":
+    {
+      "id": 176,
+      "n": "rock_east_2",
+      "e": "rock_north_2",
+      "s": "rock_west_2",
+      "w": "rock_south_2",
+      "transparent": true,
+      "animation": false
+    },
+    "rock_diag_anti_2":
+    {
+      "id": 177,
+      "n": "rock_west_2",
+      "e": "rock_south_2",
+      "s": "rock_east_2",
+      "w": "rock_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "stair_south_2":
+    {
+      "id": 125,
+      "n": null,
+      "e": "rock_north_2",
+      "s": null,
+      "w": "rock_north_2",
+      "transparent": true,
+      "animation": false
+    },
+    "stair_east_2":
+    {
+      "id": 151,
+      "n": "rock_west_2",
+      "e": null,
+      "s": "rock_west_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "stair_west_2":
+    {
+      "id": 153,
+      "n": "rock_east_2",
+      "e": null,
+      "s": "rock_east_2",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "stair_north_2":
+    {
+      "id": 179,
+      "n": null,
+      "e": "rock_south_2",
+      "s": null,
+      "w": "rock_south_2",
+      "transparent": true,
+      "animation": false
+    },
     "rock_entrance_1":
     {
       "id": 127,
