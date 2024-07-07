@@ -4017,6 +4017,156 @@
       "w": null,
       "transparent": true,
       "animation": false
+    },
+    "bridge_spike_vert_north":
+    {
+      "id": 723,
+      "n": null,
+      "e": null,
+      "s": "bridge_spike",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_vert":
+    {
+      "id": 750,
+      "n": "bridge_spike",
+      "e": null,
+      "s": "bridge_spike",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_vert_south":
+    {
+      "id": 777,
+      "n": "bridge_spike",
+      "e": null,
+      "s": "water",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_horiz_west":
+    {
+      "id": 805,
+      "n": null,
+      "e": "bridge_spike",
+      "s": "water",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_horiz":
+    {
+      "id": 806,
+      "n": null,
+      "e": "bridge_spike",
+      "s": "water",
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_horiz_east":
+    {
+      "id": 807,
+      "n": null,
+      "e": null,
+      "s": "water",
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_turn_north_west":
+    {
+      "id": 724,
+      "n": null,
+      "e": "bridge_spike",
+      "s": "bridge_spike",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_three_cross_north":
+    {
+      "id": 725,
+      "n": null,
+      "e": "bridge_spike",
+      "s": "bridge_spike",
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_turn_north_east":
+    {
+      "id": 726,
+      "n": null,
+      "e": null,
+      "s": "bridge_spike",
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_three_cross_west":
+    {
+      "id": 751,
+      "n": "bridge_spike",
+      "e": "bridge_spike",
+      "s": "bridge_spike",
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_four_cross":
+    {
+      "id": 752,
+      "n": "bridge_spike",
+      "e": "bridge_spike",
+      "s": "bridge_spike",
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_three_cross_east":
+    {
+      "id": 753,
+      "n": "bridge_spike",
+      "e": null,
+      "s": "bridge_spike",
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_turn_south_west":
+    {
+      "id": 778,
+      "n": "bridge_spike",
+      "e": "bridge_spike",
+      "s": null,
+      "w": null,
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_three_cross_south":
+    {
+      "id": 779,
+      "n": "bridge_spike",
+      "e": "bridge_spike",
+      "s": null,
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
+    },
+    "bridge_spike_turn_south_east":
+    {
+      "id": 780,
+      "n": "bridge_spike",
+      "e": null,
+      "s": null,
+      "w": "bridge_spike",
+      "transparent": true,
+      "animation": false
     }
   },
   "animations":
