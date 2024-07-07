@@ -88,3 +88,21 @@ def compute_neighbours(tile: Tile, tiles: List[Tile]) -> Dict[str, List[str]]:
         's': [k for k, v in tiles.items() if v.north == tile.south and tile.south is not None],
         'w': [k for k, v in tiles.items() if v.east == tile.west and tile.west is not None],
     }
+
+
+def get_animation_ids(id: int, animations: list) -> Dict[str, int]:
+    matches = [x for x in animations if x["id"] == id]
+    if len(matches) != 1:
+        raise Exception(
+            f"there should be exactly one animation with ID {id}, found {len(matches)}"
+        )
+    return matches[0]["animation"]
+
+
+def get_tile(id: int, tiles: List[Tile]) -> Tile:
+    matches = [v for v in tiles.values() if v.id == id]
+    if len(matches) != 1:
+        raise Exception(
+            f"there should be exactly one animation with ID {id}, found {len(matches)}"
+        )
+    return matches[0]
