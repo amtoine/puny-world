@@ -34,23 +34,24 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
-    tilesize = metadata["image"]["tilesize"]
-    nb_columns = metadata["image"]["width"] // tilesize
+    tilewidth = metadata["image"]["tile_width"]
+    tileheight = metadata["image"]["tile_height"]
+    nb_columns = metadata["image"]["columns"]
     image = pygame.image.load(
         tileset.parent.joinpath(metadata["image"]["source"])
     )
 
     tiles = {}
     for k, v in tqdm(metadata["tiles"].items(), desc="loading assets"):
-        tile = pygame.Surface((tilesize, tilesize))
+        tile = pygame.Surface((tilewidth, tileheight))
         tile.blit(
             image,
             (0, 0),
             (
-                v["id"] % nb_columns * tilesize,
-                v["id"] // nb_columns * tilesize,
-                tilesize,
-                tilesize,
+                v["id"] % nb_columns * tilewidth,
+                v["id"] // nb_columns * tileheight,
+                tilewidth,
+                tileheight,
             )
         )
         tiles[k] = Tile(
@@ -78,15 +79,15 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     for a in animations:
         name = [k for k, v in tiles.items() if v.id == a.id][0]
         for i, b in enumerate(a.animation[1:], start=1):
-            tile = pygame.Surface((tilesize, tilesize))
+            tile = pygame.Surface((tilewidth, tileheight))
             tile.blit(
                 image,
                 (0, 0),
                 (
-                    b.id % nb_columns * tilesize,
-                    b.id // nb_columns * tilesize,
-                    tilesize,
-                    tilesize,
+                    b.id % nb_columns * tilewidth,
+                    b.id // nb_columns * tileheight,
+                    tilewidth,
+                    tileheight,
                 )
             )
             tiles[f"{name}__animation_{i}"] = Tile(
