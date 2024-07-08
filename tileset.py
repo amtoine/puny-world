@@ -49,15 +49,17 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
-    tilewidth = metadata["image"]["tile_width"]
-    tileheight = metadata["image"]["tile_height"]
-    nb_columns = metadata["image"]["columns"]
+    overworld = metadata["overworld"]
+
+    tilewidth = overworld["image"]["tile_width"]
+    tileheight = overworld["image"]["tile_height"]
+    nb_columns = overworld["image"]["columns"]
     image = pygame.image.load(
-        tileset.parent.joinpath(metadata["image"]["source"])
+        tileset.parent.joinpath(overworld["image"]["source"])
     )
 
     tiles = {}
-    for k, v in tqdm(metadata["tiles"].items(), desc="loading world assets"):
+    for k, v in tqdm(overworld["tiles"].items(), desc="loading world assets"):
         tiles[k] = Tile(
             image=cut(
                 image, v["id"], size=(tilewidth, tileheight), cols=nb_columns
@@ -79,7 +81,7 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
                 for b in a["animation"]
             ]
         )
-        for a in metadata["animations"]
+        for a in overworld["animations"]
     ]
 
     for a in animations:
