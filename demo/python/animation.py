@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
         if args.generate_gif:
             frames.append(np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2)))
-            if t > 4 * ANIMATION_INV_SPEED:
+            if t >= ANIMATION_SEQUENCE_LEN * ANIMATION_INV_SPEED:
                 break
         else:
             pygame.display.flip()
