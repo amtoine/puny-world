@@ -46,7 +46,9 @@ def cut(
     return tile
 
 
-def load_tileset(tileset: Path) -> (Dict[Name, Tile], List[Animation]):
+def load_tileset(
+    tileset: Path
+) -> (Dict[Name, Tile], List[Animation], Dict[Name, Character]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
@@ -101,7 +103,21 @@ def load_tileset(tileset: Path) -> (Dict[Name, Tile], List[Animation]):
                 animation=False,
             )
 
-    return tiles, animations
+    characters = {}
+    for name, character in metadata["characters"].items():
+        image = pygame.image.load(
+            tileset.parent.joinpath(character["image"]["source"])
+        )
+        size = (
+            character["image"]["tile_width"], character["image"]["tile_height"]
+        )
+        cols = character["image"]["columns"]
+        characters[name] = {
+            k: [cut(image, i, size=size, cols=cols) for i in ids]
+            for k, ids in character["animations"].items()
+        }
+
+    return tiles, animations, characters
 
 
 @dataclass
