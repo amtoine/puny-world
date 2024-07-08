@@ -24,7 +24,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     dt = 0
 
-    _, _, characters = load_tileset(Path("metadata/punyworld-overworld-tiles.json"))
+    _, _, characters = load_tileset(Path("metadata/punyworld.json"))
 
     curr = 0
     print(list(characters.keys())[curr])

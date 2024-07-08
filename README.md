@@ -104,4 +104,4 @@ let puny = open metadata/punyworld-overworld-tiles.tsx | from xml | {
 
 and `$puny.animations` has been added to the [metadata file].
 
-[metadata file]: metadata/punyworld-overworld-tiles.json
+[metadata file]: metadata/punyworld.json

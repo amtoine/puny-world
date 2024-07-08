@@ -12,7 +12,7 @@ NB_MS_IN_SEC = 1_000
 
 BLACK = (0, 0, 0)
 
-TILESET = Path("metadata/punyworld-overworld-tiles.json")
+TILESET = Path("metadata/punyworld.json")
 
 ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 10

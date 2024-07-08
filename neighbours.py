@@ -4,7 +4,7 @@ from tileset import load_tileset, compute_neighbours
 
 
 if __name__ == "__main__":
-    tiles, _, _ = load_tileset(Path("metadata/punyworld-overworld-tiles.json"))
+    tiles, _, _ = load_tileset(Path("metadata/punyworld.json"))
 
     # "show indices"
     t, n, e, s, w = (0, 0, 0, 0, 0)
