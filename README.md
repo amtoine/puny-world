@@ -3,6 +3,8 @@
 
 ![tileset](assets/punyworld-overworld-tileset.png)
 
+![animations](assets/animations.gif)
+
 ## characters
 #### Archer (green)
 ![](assets/puny-characters/Archer-Green.png)
