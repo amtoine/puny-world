@@ -93,7 +93,7 @@ if __name__ == "__main__":
             save_all=True,
             append_images=imgs[1:],
             duration=1_000/FRAME_RATE,
-            loop=True,
+            loop=0,
         )
         print("done")
         print(f"GIF written in {args.output}")
