@@ -104,7 +104,10 @@ def load_tileset(
             )
 
     characters = {}
-    for name, character in metadata["characters"].items():
+    for name, character in tqdm(
+        metadata["characters"].items(),
+        desc="loading character assets",
+    ):
         image = pygame.image.load(
             tileset.parent.joinpath(character["image"]["source"])
         )
