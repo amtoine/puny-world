@@ -7,43 +7,73 @@
 
 ## characters
 #### Archer (green)
-![](assets/puny-characters/Archer-Green.png)
+<p float="left">
+  <img src="assets/puny-characters/Archer-Green.png" width="74%" />
+  <img src="assets/characters/Archer-Green.gif" width="25%" />
+</p>
 ---
 
 #### Soldier (yellow)
-![](assets/puny-characters/Soldier-Yellow.png)
+<p float="left">
+  <img src="assets/puny-characters/Soldier-Yellow.png" width="74%" />
+  <img src="assets/characters/Soldier-Yellow.gif" width="25%" />
+</p>
 ---
 
 #### Warrior (red)
-![](assets/puny-characters/Warrior-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Warrior-Red.png" width="74%" />
+  <img src="assets/characters/Warrior-Red.gif" width="25%" />
+</p>
 ---
 
 #### Orc Peon (red)
-![](assets/puny-characters/Orc-Peon-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Orc-Peon-Red.png" width="74%" />
+  <img src="assets/characters/Orc-Peon-Red.gif" width="25%" />
+</p>
 ---
 
 #### Mage (cyan)
-![](assets/puny-characters/Mage-Cyan.png)
+<p float="left">
+  <img src="assets/puny-characters/Mage-Cyan.png" width="74%" />
+  <img src="assets/characters/Mage-Cyan.gif" width="25%" />
+</p>
 ---
 
 #### Archer (purple)
-![](assets/puny-characters/Archer-Purple.png)
+<p float="left">
+  <img src="assets/puny-characters/Archer-Purple.png" width="74%" />
+  <img src="assets/characters/Archer-Purple.gif" width="25%" />
+</p>
 ---
 
 #### Human Worker (red)
-![](assets/puny-characters/Human-Worker-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Human-Worker-Red.png" width="74%" />
+  <img src="assets/characters/Human-Worker-Red.gif" width="25%" />
+</p>
 ---
 
 #### Soldier (blue)
-![](assets/puny-characters/Soldier-Blue.png)
+<p float="left">
+  <img src="assets/puny-characters/Soldier-Blue.png" width="74%" />
+  <img src="assets/characters/Soldier-Blue.gif" width="25%" />
+</p>
 ---
 
 #### Mage (red)
-![](assets/puny-characters/Mage-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Mage-Red.png" width="74%" />
+  <img src="assets/characters/Mage-Red.gif" width="25%" />
+</p>
 ---
 
 #### Human Soldier (cyan)
-![](assets/puny-characters/Human-Soldier-Cyan.png)
+<p float="left">
+  <img src="assets/puny-characters/Human-Soldier-Cyan.png" width="74%" />
+  <img src="assets/characters/Human-Soldier-Cyan.gif" width="25%" />
+</p>
 ---
 
 #### Slime
@@ -51,37 +81,64 @@
 ---
 
 #### Human Worker (cyan)
-![](assets/puny-characters/Human-Worker-Cyan.png)
+<p float="left">
+  <img src="assets/puny-characters/Human-Worker-Cyan.png" width="74%" />
+  <img src="assets/characters/Human-Worker-Cyan.gif" width="25%" />
+</p>
 ---
 
 #### Character Base
-![](assets/puny-characters/Character-Base.png)
+<p float="left">
+  <img src="assets/puny-characters/Character-Base.png" width="74%" />
+  <img src="assets/characters/Character-Base.gif" width="25%" />
+</p>
 ---
 
 #### Orc Soldier (red)
-![](assets/puny-characters/Orc-Soldier-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Orc-Soldier-Red.png" width="74%" />
+  <img src="assets/characters/Orc-Soldier-Red.gif" width="25%" />
+</p>
 ---
 
 #### Warrior (blue)
-![](assets/puny-characters/Warrior-Blue.png)
+<p float="left">
+  <img src="assets/puny-characters/Warrior-Blue.png" width="74%" />
+  <img src="assets/characters/Warrior-Blue.gif" width="25%" />
+</p>
 ---
 
 #### Orc Grunt
-![](assets/puny-characters/Orc-Grunt.png)
+<p float="left">
+  <img src="assets/puny-characters/Orc-Grunt.png" width="74%" />
+  <img src="assets/characters/Orc-Grunt.gif" width="25%" />
+</p>
 ---
 
 #### Soldier (red)
-![](assets/puny-characters/Soldier-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Soldier-Red.png" width="74%" />
+  <img src="assets/characters/Soldier-Red.gif" width="25%" />
+</p>
 ---
 
 #### Orc Soldier (cyan)
-![](assets/puny-characters/Orc-Soldier-Cyan.png)
+<p float="left">
+  <img src="assets/puny-characters/Orc-Soldier-Cyan.png" width="74%" />
+  <img src="assets/characters/Orc-Soldier-Cyan.gif" width="25%" />
+</p>
 ---
 
 #### Orc Peon (cyan)
-![](assets/puny-characters/Orc-Peon-Cyan.png)
+<p float="left">
+  <img src="assets/puny-characters/Orc-Peon-Cyan.png" width="74%" />
+  <img src="assets/characters/Orc-Peon-Cyan.gif" width="25%" />
+</p>
 ---
 
 #### Human Soldier (red)
-![](assets/puny-characters/Human-Soldier-Red.png)
+<p float="left">
+  <img src="assets/puny-characters/Human-Soldier-Red.png" width="74%" />
+  <img src="assets/characters/Human-Soldier-Red.gif" width="25%" />
+</p>
 ---
