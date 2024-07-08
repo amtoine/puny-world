@@ -30,7 +30,8 @@ class Animation:
     animation: List[AnimationStep]
 
 
-Character = Dict[str, List[pygame.surface.Surface]]
+Name = str
+Character = Dict[Name, List[pygame.surface.Surface]]
 
 
 def cut(
@@ -45,7 +46,7 @@ def cut(
     return tile
 
 
-def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
+def load_tileset(tileset: Path) -> (Dict[Name, Tile], List[Animation]):
     with open(tileset, 'r') as handle:
         metadata = json.load(handle)
 
@@ -105,13 +106,13 @@ def load_tileset(tileset: Path) -> (Dict[str, Tile], List[Animation]):
 
 @dataclass
 class Neighbours:
-    n: List[str]
-    e: List[str]
-    s: List[str]
-    w: List[str]
+    n: List[Name]
+    e: List[Name]
+    s: List[Name]
+    w: List[Name]
 
 
-def compute_neighbours(tile: Tile, tiles: Dict[str, Tile]) -> Neighbours:
+def compute_neighbours(tile: Tile, tiles: Dict[Name, Tile]) -> Neighbours:
     return Neighbours(
         n=[k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
         e=[k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
@@ -131,7 +132,7 @@ def get_animation_steps(
     return matches[0].animation
 
 
-def get_tile(id: int, tiles: Dict[str, Tile]) -> Tile:
+def get_tile(id: int, tiles: Dict[Name, Tile]) -> Tile:
     matches = [v for v in tiles.values() if v.id == id]
     if len(matches) != 1:
         raise Exception(
@@ -215,7 +216,7 @@ def load_character(name: str, dir: Path) -> Character:
     }
 
 
-def load_characters(dir: Path) -> Dict[str, Character]:
+def load_characters(dir: Path) -> Dict[Name, Character]:
     characters = [
         "Archer-Green",
         "Soldier-Yellow",
