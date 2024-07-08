@@ -2,17 +2,26 @@ import pygame
 from pathlib import Path
 from tileset import load_tileset, compute_neighbours
 
+GRID_SIZE = 128
+
+CANVA_SIZE = (3 * GRID_SIZE, 3 * GRID_SIZE)
+
+FRAME_RATE = 60
+
+BLACK = (0, 0, 0)
+
+TILESET_PATH = "../../punyworld.json"
+
 
 if __name__ == "__main__":
-    tiles, _, _ = load_tileset(Path("../../punyworld.json"))
+    tiles, _, _ = load_tileset(Path(TILESET_PATH))
 
     # "show indices"
     t, n, e, s, w = (0, 0, 0, 0, 0)
 
     pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
+    screen = pygame.display.set_mode(CANVA_SIZE)
     clock = pygame.time.Clock()
-    frame_rate = 60
     dt = 0
 
     running = True
@@ -64,36 +73,36 @@ if __name__ == "__main__":
                         n, e, s, w = (0, 0, 0, 0)
                         print(list(tiles.keys())[t])
 
-        screen.fill((0, 0, 0))
+        screen.fill(BLACK)
 
         # show the tile and its neighbours
         width, height = screen.get_size()
         screen.blit(
-            pygame.transform.scale(tiles[list(tiles.keys())[t]].image, (128, 128)),
-            (width / 2, height / 2),
+            pygame.transform.scale(tiles[list(tiles.keys())[t]].image, (GRID_SIZE, GRID_SIZE)),
+            (GRID_SIZE, GRID_SIZE),
         )
         if len(tile.n) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile.n[n]].image, (128, 128)),
-                (width / 2, height / 2 - 128),
+                pygame.transform.scale(tiles[tile.n[n]].image, (GRID_SIZE, GRID_SIZE)),
+                (GRID_SIZE, 0),
             )
         if len(tile.s) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile.s[s]].image, (128, 128)),
-                (width / 2, height / 2 + 128),
+                pygame.transform.scale(tiles[tile.s[s]].image, (GRID_SIZE, GRID_SIZE)),
+                (GRID_SIZE, 2 * GRID_SIZE),
             )
         if len(tile.w) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile.w[w]].image, (128, 128)),
-                (width / 2 - 128, height / 2),
+                pygame.transform.scale(tiles[tile.w[w]].image, (GRID_SIZE, GRID_SIZE)),
+                (0, GRID_SIZE),
             )
         if len(tile.e) > 0:
             screen.blit(
-                pygame.transform.scale(tiles[tile.e[e]].image, (128, 128)),
-                (width / 2 + 128, height / 2),
+                pygame.transform.scale(tiles[tile.e[e]].image, (GRID_SIZE, GRID_SIZE)),
+                (2 * GRID_SIZE, GRID_SIZE),
             )
 
         pygame.display.flip()
-        dt = clock.tick(frame_rate) / 1000
+        dt = clock.tick(FRAME_RATE) / 1000
 
     pygame.quit()

@@ -12,18 +12,25 @@ NB_MS_IN_SEC = 1_000
 
 BLACK = (0, 0, 0)
 
-TILESET = Path("../../punyworld.json")
+TILESET = "../../punyworld.json"
 
 ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 10
 
 
 if __name__ == "__main__":
-    tiles, animations, _ = load_tileset(TILESET)
+    tiles, animations, _ = load_tileset(Path(TILESET))
     animated = {k: v for k, v in tiles.items() if v.animation}
 
+    quotient = len(animated) // RENDERING_GRID_WIDTH
+    remainder = len(animated) % RENDERING_GRID_WIDTH
+    h = quotient + (remainder != 0)
+    w = (len(animated) - remainder) // quotient
+
     pygame.init()
-    screen = pygame.display.set_mode(CANVA_SIZE)
+    screen = pygame.display.set_mode(
+        (w * RENDERING_TILE_SIZE, h * RENDERING_TILE_SIZE)
+    )
     clock = pygame.time.Clock()
     dt = 0
 
