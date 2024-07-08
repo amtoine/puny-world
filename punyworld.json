@@ -4,7 +4,7 @@
   {
     "image":
     {
-      "source": "../assets/punyworld-overworld-tileset.png",
+      "source": "./assets/punyworld-overworld-tileset.png",
       "width": 432,
       "height": 1040,
       "version": "1.8",
@@ -5928,7 +5928,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Archer-Green.png",
+        "source": "./assets/puny-characters/Archer-Green.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6011,7 +6011,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Archer-Purple.png",
+        "source": "./assets/puny-characters/Archer-Purple.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6094,7 +6094,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Character-Base.png",
+        "source": "./assets/puny-characters/Character-Base.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6177,7 +6177,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Human-Soldier-Cyan.png",
+        "source": "./assets/puny-characters/Human-Soldier-Cyan.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6260,7 +6260,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Human-Soldier-Red.png",
+        "source": "./assets/puny-characters/Human-Soldier-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6343,7 +6343,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Human-Worker-Cyan.png",
+        "source": "./assets/puny-characters/Human-Worker-Cyan.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6426,7 +6426,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Human-Worker-Red.png",
+        "source": "./assets/puny-characters/Human-Worker-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6509,7 +6509,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Mage-Cyan.png",
+        "source": "./assets/puny-characters/Mage-Cyan.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6592,7 +6592,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Mage-Red.png",
+        "source": "./assets/puny-characters/Mage-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6675,7 +6675,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Orc-Grunt.png",
+        "source": "./assets/puny-characters/Orc-Grunt.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6758,7 +6758,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Orc-Peon-Cyan.png",
+        "source": "./assets/puny-characters/Orc-Peon-Cyan.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6841,7 +6841,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Orc-Peon-Red.png",
+        "source": "./assets/puny-characters/Orc-Peon-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -6924,7 +6924,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Orc-Soldier-Cyan.png",
+        "source": "./assets/puny-characters/Orc-Soldier-Cyan.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -7007,7 +7007,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Orc-Soldier-Red.png",
+        "source": "./assets/puny-characters/Orc-Soldier-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -7090,7 +7090,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Soldier-Blue.png",
+        "source": "./assets/puny-characters/Soldier-Blue.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -7173,7 +7173,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Soldier-Red.png",
+        "source": "./assets/puny-characters/Soldier-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -7256,7 +7256,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Soldier-Yellow.png",
+        "source": "./assets/puny-characters/Soldier-Yellow.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -7339,7 +7339,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Warrior-Blue.png",
+        "source": "./assets/puny-characters/Warrior-Blue.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
@@ -7422,7 +7422,7 @@
     {
       "image":
       {
-        "source": "../assets/puny-characters/Warrior-Red.png",
+        "source": "./assets/puny-characters/Warrior-Red.png",
         "width": 768,
         "height": 256,
         "version": "1.8",
