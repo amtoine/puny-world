@@ -19,7 +19,7 @@ ANIMATION_INV_SPEED = 10
 
 
 if __name__ == "__main__":
-    tiles, animations = load_tileset(TILESET)
+    tiles, animations, _ = load_tileset(TILESET)
     animated = {k: v for k, v in tiles.items() if v.animation}
 
     pygame.init()

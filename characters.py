@@ -1,6 +1,6 @@
 import pygame
 from pathlib import Path
-from tileset import load_characters
+from tileset import load_tileset
 
 RENDERING_GRID_WIDTH = 8
 RENDERING_TILE_SIZE = 128
@@ -24,9 +24,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     dt = 0
 
-    characters = load_characters(
-        dir=Path("assets").joinpath("puny-characters")
-    )
+    _, _, characters = load_tileset(Path("metadata/punyworld-overworld-tiles.json"))
 
     curr = 0
     print(list(characters.keys())[curr])
