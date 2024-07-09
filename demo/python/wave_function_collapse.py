@@ -173,7 +173,12 @@ def entropy(cell: dict) -> float:
 
 
 def wave_function_collapse(
-    w: int, h: int, s: int, show_average_of_tile: bool, frame_rate: int = 30
+    w: int,
+    h: int,
+    s: int,
+    show_average_of_tile: bool,
+    frame_rate: int = 30,
+    interactive: bool = True,
 ) -> (List[dict], bool, float):
     dt = None
     running = True
@@ -234,8 +239,9 @@ def wave_function_collapse(
                     print(f"found an inconsistency in cell ({ni}, {nj})")
                     break
 
-            show(cells, s, show_average_of_tile)
-            dt = clock.tick(frame_rate) / 1000
+            if interactive:
+                show(cells, s, show_average_of_tile)
+                dt = clock.tick(frame_rate) / 1000
 
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
             valid = True
@@ -263,6 +269,7 @@ if __name__ == "__main__":
     parser.add_argument("--tile-size", "-s", type=int, required=True)
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
     parser.add_argument("--show-average", "-a", action="store_true")
+    parser.add_argument("--non-interactive", "-I", action="store_true")
     args = parser.parse_args()
 
     tiles, _, _ = load_tileset(Path("../../punyworld.json"))
@@ -291,6 +298,7 @@ if __name__ == "__main__":
                 args.tile_size,
                 args.show_average,
                 frame_rate=args.frame_rate,
+                interactive=not args.non_interactive,
             )
         show(cells, args.tile_size, args.show_average)
         dt = clock.tick(args.frame_rate) / 1000
