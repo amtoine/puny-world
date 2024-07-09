@@ -212,6 +212,7 @@ def wave_function_collapse(
             cell["is_collapsed"] = True
 
             if len(cell["options"]) > 0:
+                is_inconsistent, ii, ij = False, None, None
                 # update the neighbours
                 neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
                 i, j = cell["i"], cell["j"]
@@ -227,6 +228,11 @@ def wave_function_collapse(
                             set(cells[n]["options"]) & set(c)
                         )
                         cells[n]["entropy"] = entropy(cells[n])
+                        if cells[n]["entropy"] == 0:
+                            is_inconsistent, ii, ij = True, ni, nj
+                if is_inconsistent:
+                    print(f"found an inconsistency in cell ({ni}, {nj})")
+                    break
 
             show(cells, s, show_average_of_tile)
             dt = clock.tick(frame_rate) / 1000
