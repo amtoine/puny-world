@@ -157,7 +157,7 @@ def show(cells: List[dict], s: int, show_average_of_tile: bool):
                     ),
                     (c["j"] * s, c["i"] * s),
                 )
-            text = font.render(str(c["entropy"]), False, WHITE)
+            text = font.render(str(round(c["entropy"], 1)), False, WHITE)
             screen.blit(
                 text,
                 (
@@ -170,7 +170,9 @@ def show(cells: List[dict], s: int, show_average_of_tile: bool):
 
 
 def entropy(cell: dict) -> float:
-    return len(cell["options"])
+    p = np.array([weights[opt] for opt in cell["options"]])
+    p = p / p.sum()
+    return -np.log2(p).sum()
 
 
 def wave_function_collapse(
@@ -198,7 +200,7 @@ def wave_function_collapse(
         ]
 
         min_entropy = float("inf")
-        while min_entropy > 0 and running:
+        while running:
             running, _ = handle_events()
 
             # pick non-collapsed cell with least entropy
@@ -236,7 +238,7 @@ def wave_function_collapse(
                             set(cells[n]["options"]) & set(c)
                         )
                         cells[n]["entropy"] = entropy(cells[n])
-                        if cells[n]["entropy"] == 0:
+                        if len(cells[n]["options"]) == 0:
                             is_inconsistent, ii, ij = True, ni, nj
                 if is_inconsistent:
                     print(f"found an inconsistency in cell ({ni}, {nj})")
@@ -281,7 +283,7 @@ if __name__ == "__main__":
 
     pygame.init()
     pygame.font.init()
-    font = pygame.font.SysFont('Comic Sans MS', int(15 / 23 * args.tile_size))
+    font = pygame.font.SysFont('Comic Sans MS', int(.5 * args.tile_size))
     screen = pygame.display.set_mode((
         args.map_width * args.tile_size,
         args.map_height * args.tile_size,
