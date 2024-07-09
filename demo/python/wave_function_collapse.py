@@ -175,7 +175,9 @@ def entropy(cell: dict) -> float:
     return -np.log2(p).sum()
 
 
-def collapse(cell: dict, cells: List[dict], w: int, h: int) -> (bool, int, int):
+def collapse(
+    cell: dict, cells: List[dict], w: int, h: int, use_information_entropy: bool
+) -> (bool, int, int):
     if len(cell["options"]) > 0:
         p = np.array([weights[opt] for opt in cell["options"]])
         p = p / p.sum()
@@ -198,7 +200,10 @@ def collapse(cell: dict, cells: List[dict], w: int, h: int) -> (bool, int, int):
                 cells[n]["options"] = list(
                     set(cells[n]["options"]) & set(c)
                 )
-                cells[n]["entropy"] = entropy(cells[n])
+                if use_information_entropy:
+                    cells[n]["entropy"] = entropy(cells[n])
+                else:
+                    cells[n]["entropy"] = len(cells[n]["options"])
                 if len(cells[n]["options"]) == 0:
                     is_inconsistent, ii, ij = True, ni, nj
 
@@ -210,6 +215,7 @@ def wave_function_collapse(
     h: int,
     s: int,
     show_average_of_tile: bool,
+    use_information_entropy: bool,
     frame_rate: int = 30,
     interactive: bool = True,
 ) -> (List[dict], bool, float):
@@ -224,10 +230,13 @@ def wave_function_collapse(
                 "j": j,
                 "options": list(tiles.keys()),
                 "is_collapsed": False,
-                "entropy": len(list(tiles.keys())),
+                "entropy": None,
             }
             for i in range(h) for j in range(w)
         ]
+
+        for i, c in enumerate(cells):
+            cells[i]["entropy"] = entropy(c) if use_information_entropy else len(c["options"])
 
         min_entropy = float("inf")
         while running:
@@ -244,7 +253,7 @@ def wave_function_collapse(
                 non_collapsed,
             )))
 
-            is_inconsistent, ni, nj = collapse(cell, cells, w, h)
+            is_inconsistent, ni, nj = collapse(cell, cells, w, h, use_information_entropy)
             if is_inconsistent:
                 print(f"found an inconsistency in cell ({ni}, {nj})")
                 break
@@ -280,6 +289,7 @@ if __name__ == "__main__":
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
     parser.add_argument("--show-average", "-a", action="store_true")
     parser.add_argument("--non-interactive", "-I", action="store_true")
+    parser.add_argument("--use-information-entropy", action="store_true")
     args = parser.parse_args()
 
     tiles, _, _ = load_tileset(Path("../../punyworld.json"))
@@ -308,6 +318,7 @@ if __name__ == "__main__":
                 args.map_height,
                 args.tile_size,
                 args.show_average,
+                args.use_information_entropy,
                 frame_rate=args.frame_rate,
                 interactive=not args.non_interactive,
             )
