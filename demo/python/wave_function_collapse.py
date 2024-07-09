@@ -11,15 +11,15 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
 TILE_SUBSET = [
-    ("grass_1", 1),
-    ("grass_2", 1),
-    ("grass_3", 1),
-    ("grass_4", 1),
-    ("grass_5", 1),
-    ("grass_6", 1),
-    ("grass_7", 1),
-    ("grass_8", 1),
-    ("grass_9", 1),
+    ("grass_1", 100),
+    ("grass_2", 100),
+    ("grass_3", 100),
+    ("grass_4", 100),
+    ("grass_5", 100),
+    ("grass_6", 100),
+    ("grass_7", 100),
+    ("grass_8", 100),
+    ("grass_9", 100),
     ("path_vert_north", 1),
     ("path_vert", 1),
     ("path_vert_south", 1),
@@ -175,6 +175,36 @@ def entropy(cell: dict) -> float:
     return -np.log2(p).sum()
 
 
+def collapse(cell: dict, cells: List[dict], w: int, h: int) -> (bool, int, int):
+    if len(cell["options"]) > 0:
+        p = np.array([weights[opt] for opt in cell["options"]])
+        p = p / p.sum()
+        cell["options"] = np.random.choice(cell["options"], 1, p=p)
+    cell["is_collapsed"] = True
+
+    is_inconsistent, ii, ij = False, None, None
+    if len(cell["options"]) > 0:
+        # update the neighbours
+        neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
+        i, j = cell["i"], cell["j"]
+        for ni, nj, c in [
+            (i - 1, j, neighbours.n),
+            (i + 1, j, neighbours.s),
+            (i, j - 1, neighbours.w),
+            (i, j + 1, neighbours.e),
+        ]:
+            if 0 <= ni < h and 0 <= nj < w:
+                n = ni * w + nj
+                cells[n]["options"] = list(
+                    set(cells[n]["options"]) & set(c)
+                )
+                cells[n]["entropy"] = entropy(cells[n])
+                if len(cells[n]["options"]) == 0:
+                    is_inconsistent, ii, ij = True, ni, nj
+
+    return is_inconsistent, ii, ij
+
+
 def wave_function_collapse(
     w: int,
     h: int,
@@ -214,35 +244,10 @@ def wave_function_collapse(
                 non_collapsed,
             )))
 
-            # collapse the cell
-            if len(cell["options"]) > 0:
-                p = np.array([weights[opt] for opt in cell["options"]])
-                p = p / p.sum()
-                cell["options"] = np.random.choice(cell["options"], 1, p=p)
-            cell["is_collapsed"] = True
-
-            if len(cell["options"]) > 0:
-                is_inconsistent, ii, ij = False, None, None
-                # update the neighbours
-                neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
-                i, j = cell["i"], cell["j"]
-                for ni, nj, c in [
-                    (i - 1, j, neighbours.n),
-                    (i + 1, j, neighbours.s),
-                    (i, j - 1, neighbours.w),
-                    (i, j + 1, neighbours.e),
-                ]:
-                    if 0 <= ni < h and 0 <= nj < w:
-                        n = ni * w + nj
-                        cells[n]["options"] = list(
-                            set(cells[n]["options"]) & set(c)
-                        )
-                        cells[n]["entropy"] = entropy(cells[n])
-                        if len(cells[n]["options"]) == 0:
-                            is_inconsistent, ii, ij = True, ni, nj
-                if is_inconsistent:
-                    print(f"found an inconsistency in cell ({ni}, {nj})")
-                    break
+            is_inconsistent, ni, nj = collapse(cell, cells, w, h)
+            if is_inconsistent:
+                print(f"found an inconsistency in cell ({ni}, {nj})")
+                break
 
             if interactive:
                 show(cells, s, show_average_of_tile)
