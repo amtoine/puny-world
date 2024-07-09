@@ -223,7 +223,10 @@ def wave_function_collapse(
     running = True
     valid = False
 
+    nb_retries = 0
+
     while not valid and running:
+        nb_retries += 1
         cells = [
             {
                 "i": i,
@@ -240,7 +243,8 @@ def wave_function_collapse(
 
         min_entropy = float("inf")
         while running:
-            running, _ = handle_events()
+            if interactive:
+                running, _ = handle_events()
 
             # pick non-collapsed cell with least entropy
             non_collapsed = list(filter(lambda c: not c["is_collapsed"] and len(c["options"]) > 0, cells))
@@ -264,6 +268,8 @@ def wave_function_collapse(
 
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
             valid = True
+
+    print("retries:", nb_retries)
 
     return cells, running, dt
 
@@ -290,11 +296,26 @@ if __name__ == "__main__":
     parser.add_argument("--show-average", "-a", action="store_true")
     parser.add_argument("--non-interactive", "-I", action="store_true")
     parser.add_argument("--use-information-entropy", action="store_true")
+    parser.add_argument("--analyze-algorithm", "-A", action="store_true")
+    parser.add_argument("--nb-measurements", "-n", type=int, default=10)
     args = parser.parse_args()
 
     tiles, _, _ = load_tileset(Path("../../punyworld.json"))
     tiles = {k: tiles[k] for k, _ in TILE_SUBSET}
     weights = {k: w for k, w in TILE_SUBSET}
+
+    if args.analyze_algorithm:
+        for _ in range(args.nb_measurements):
+            _ = wave_function_collapse(
+                args.map_width,
+                args.map_height,
+                args.tile_size,
+                args.show_average,
+                args.use_information_entropy,
+                frame_rate=args.frame_rate,
+                interactive=False,
+            )
+        exit(0)
 
     pygame.init()
     pygame.font.init()
