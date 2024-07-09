@@ -42,3 +42,12 @@ python characters.py
 > **Important**
 >
 > - the _slime_ is missing
+
+### wave function collapse
+Generate random maps with the _Wave Function Collapse_ algorithm.
+
+```shell
+python wave_function_collapse.py
+```
+
+- _space_ to run another generation
