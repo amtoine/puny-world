@@ -6,21 +6,22 @@ from typing import List
 import argparse
 import numpy as np
 from time import time_ns
+from PIL import Image
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
 TILE_SUBSET = [
-    ("grass_1", 100),
-    ("grass_2", 100),
-    ("grass_3", 100),
-    ("grass_4", 100),
-    ("grass_5", 100),
-    ("grass_6", 100),
-    ("grass_7", 100),
-    ("grass_8", 100),
-    ("grass_9", 100),
+    ("grass_1", 50),
+    ("grass_2", 50),
+    ("grass_3", 50),
+    ("grass_4", 50),
+    ("grass_5", 50),
+    ("grass_6", 50),
+    ("grass_7", 50),
+    ("grass_8", 50),
+    ("grass_9", 50),
     ("path_vert_north", 1),
     ("path_vert", 1),
     ("path_vert_south", 1),
@@ -117,16 +118,18 @@ TILE_SUBSET = [
 ]
 
 
-def handle_events() -> (bool, bool):
+def handle_events() -> (bool, bool, bool):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            return (False, False)
+            return (False, False, False)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                return (True, True)
-    return (True, False)
+                return (True, True, False)
+            elif event.key == pygame.K_RETURN:
+                return (True, False, True)
+    return (True, False, False)
 
 
 def show(cells: List[dict], s: int, show_average_of_tile: bool):
@@ -246,7 +249,7 @@ def wave_function_collapse(
         min_entropy = float("inf")
         while running:
             if interactive:
-                running, _ = handle_events()
+                running, *_ = handle_events()
 
             # pick non-collapsed cell with least entropy
             non_collapsed = list(filter(lambda c: not c["is_collapsed"] and len(c["options"]) > 0, cells))
@@ -334,7 +337,12 @@ if __name__ == "__main__":
     cells = []
 
     while running:
-        running, rerun = handle_events()
+        running, rerun, snapshot = handle_events()
+        if snapshot:
+            out = f"{time_ns()}.png"
+            image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
+            Image.fromarray(image).save(out)
+            print(f"window save in `{out}`")
         if rerun:
             cells, running, dt = wave_function_collapse(
                 args.map_width,
