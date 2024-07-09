@@ -3,20 +3,116 @@ from pathlib import Path
 from tileset import load_tileset, compute_neighbours
 from random import choice
 from typing import List
-
-MAP_GRID_WIDTH = 10
-MAP_GRID_HEIGHT = 5
-MAP_GRID_SIZE = 92
-
-CANVA_SIZE = (MAP_GRID_WIDTH * MAP_GRID_SIZE, MAP_GRID_HEIGHT * MAP_GRID_SIZE)
+import argparse
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
-FRAME_RATE = 60
-
-SHOW_AVERAGE_TILE = False
+TILE_SUBSET = [
+    "grass_1",
+    "grass_2",
+    "grass_3",
+    "grass_4",
+    "grass_5",
+    "grass_6",
+    "grass_7",
+    "grass_8",
+    "grass_9",
+    "path_vert_north",
+    "path_vert",
+    "path_vert_south",
+    "path_spot",
+    "path_horiz_west",
+    "path_horiz",
+    "path_horiz_east",
+    "path_turn_north_west",
+    "path_three_cross_north",
+    "path_turn_north_east",
+    "path_three_cross_west",
+    "path_four_cross",
+    "path_three_cross_east",
+    "path_turn_south_west",
+    "path_three_cross_south",
+    "path_turn_south_east",
+    "path_start_north",
+    "path_start_west",
+    "path_start_east",
+    "path_start_south",
+    "path_corner_north_west",
+    "path_north",
+    "path_corner_north_east",
+    "path_west",
+    "path",
+    "path_east",
+    "path_corner_south_west",
+    "path_south",
+    "path_corner_south_east",
+    "path_inv_corner_north_west",
+    "path_inv_corner_north_east",
+    "path_inv_corner_south_west",
+    "path_inv_corner_south_east",
+    "path_diag",
+    "path_diag_anti",
+    "rock_north_west",
+    "rock_north",
+    "rock_north_east",
+    "rock_west",
+    "rock_east",
+    "rock_south_west",
+    "rock_south",
+    "rock_south_east",
+    "rock_corner_north_west",
+    "rock_corner_north_east",
+    "rock_corner_south_west",
+    "rock_corner_south_east",
+    "rock_diag",
+    "rock_diag_anti",
+    "stair_south",
+    "stair_east",
+    "stair_west",
+    "stair_north",
+    "path_slope_south",
+    "path_slope_east",
+    "path_slope_west",
+    "path_slope_north",
+    "rock_entrance_1_1",
+    "rock_entrance_2_1",
+    "river_vert_north",
+    "river_vert",
+    "river_vert_south",
+    "river_spot",
+    "river_horiz_west",
+    "river_horiz",
+    "river_horiz_east",
+    "river_turn_north_west",
+    "river_three_cross_north",
+    "river_turn_north_east",
+    "river_three_cross_west",
+    "river_four_cross",
+    "river_three_cross_east",
+    "river_turn_south_west",
+    "river_three_cross_south",
+    "river_turn_south_east",
+    "river_start_north",
+    "river_start_west",
+    "river_start_east",
+    "river_start_south",
+    "river_island",
+    "river_corner_north_west",
+    "river_north",
+    "river_corner_north_east",
+    "river_west",
+    "water",
+    "river_east",
+    "river_corner_south_west",
+    "river_south",
+    "river_corner_south_east",
+    "river_inv_corner_north_west",
+    "river_inv_corner_north_east",
+    "river_inv_corner_south_west",
+    "river_inv_corner_south_east",
+]
 
 
 def handle_events() -> (bool, bool):
@@ -31,7 +127,7 @@ def handle_events() -> (bool, bool):
     return (True, False)
 
 
-def show(cells: List[dict]):
+def show(cells: List[dict], s: int, show_average_of_tile: bool):
     screen.fill(BLACK)
 
     for c in cells:
@@ -40,32 +136,32 @@ def show(cells: List[dict]):
                 pygame.draw.rect(
                     screen,
                     RED,
-                    (c["j"] * MAP_GRID_SIZE, c["i"] * MAP_GRID_SIZE, MAP_GRID_SIZE, MAP_GRID_SIZE),
+                    (c["j"] * s, c["i"] * s, s, s),
                     width=1,
                 )
             else:
                 screen.blit(
                     pygame.transform.scale(
                         tiles[c["options"][0]].image,
-                        (MAP_GRID_SIZE, MAP_GRID_SIZE),
+                        (s, s),
                     ),
-                    (c["j"] * MAP_GRID_SIZE, c["i"] * MAP_GRID_SIZE),
+                    (c["j"] * s, c["i"] * s),
                 )
         else:
-            if len(c["options"]) > 0 and SHOW_AVERAGE_TILE:
+            if len(c["options"]) > 0 and show_average_of_tile:
                 screen.blit(
                     pygame.transform.scale(
                         average_images([tiles[opt].image for opt in c["options"]]),
-                        (MAP_GRID_SIZE, MAP_GRID_SIZE),
+                        (s, s),
                     ),
-                    (c["j"] * MAP_GRID_SIZE, c["i"] * MAP_GRID_SIZE),
+                    (c["j"] * s, c["i"] * s),
                 )
             text = font.render(str(c["entropy"]), False, WHITE)
             screen.blit(
                 text,
                 (
-                    (c["j"] + .5) * MAP_GRID_SIZE - text.get_width() / 2,
-                    (c["i"] + .5) * MAP_GRID_SIZE - text.get_height() / 2,
+                    (c["j"] + .5) * s - text.get_width() / 2,
+                    (c["i"] + .5) * s - text.get_height() / 2,
                 ),
             )
 
@@ -76,7 +172,9 @@ def entropy(cell: dict) -> float:
     return len(cell["options"])
 
 
-def wave_function_collapse() -> (List[dict], bool, float):
+def wave_function_collapse(
+    w: int, h: int, s: int, show_average_of_tile: bool, frame_rate: int = 30
+) -> (List[dict], bool, float):
     dt = None
     running = True
     valid = False
@@ -90,7 +188,7 @@ def wave_function_collapse() -> (List[dict], bool, float):
                 "is_collapsed": False,
                 "entropy": len(list(tiles.keys())),
             }
-            for i in range(MAP_GRID_HEIGHT) for j in range(MAP_GRID_WIDTH)
+            for i in range(h) for j in range(w)
         ]
 
         min_entropy = float("inf")
@@ -123,15 +221,15 @@ def wave_function_collapse() -> (List[dict], bool, float):
                     (i, j - 1, neighbours.w),
                     (i, j + 1, neighbours.e),
                 ]:
-                    if 0 <= ni < MAP_GRID_HEIGHT and 0 <= nj < MAP_GRID_WIDTH:
-                        n = ni * MAP_GRID_WIDTH + nj
+                    if 0 <= ni < h and 0 <= nj < w:
+                        n = ni * w + nj
                         cells[n]["options"] = list(
                             set(cells[n]["options"]) & set(c)
                         )
                         cells[n]["entropy"] = entropy(cells[n])
 
-            show(cells)
-            dt = clock.tick(FRAME_RATE) / 1000
+            show(cells, s, show_average_of_tile)
+            dt = clock.tick(frame_rate) / 1000
 
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
             valid = True
@@ -153,117 +251,24 @@ def average_images(images: List[pygame.surface.Surface]) -> pygame.surface.Surfa
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--map-width", "-W", type=int, required=True)
+    parser.add_argument("--map-height", "-H", type=int, required=True)
+    parser.add_argument("--tile-size", "-s", type=int, required=True)
+    parser.add_argument("--frame-rate", "-f", type=int, default=30)
+    parser.add_argument("--show-average", "-a", action="store_true")
+    args = parser.parse_args()
+
     tiles, _, _ = load_tileset(Path("../../punyworld.json"))
-    TILE_SUBSET = [
-      "grass_1",
-      "grass_2",
-      "grass_3",
-      "grass_4",
-      "grass_5",
-      "grass_6",
-      "grass_7",
-      "grass_8",
-      "grass_9",
-      "path_vert_north",
-      "path_vert",
-      "path_vert_south",
-      "path_spot",
-      "path_horiz_west",
-      "path_horiz",
-      "path_horiz_east",
-      "path_turn_north_west",
-      "path_three_cross_north",
-      "path_turn_north_east",
-      "path_three_cross_west",
-      "path_four_cross",
-      "path_three_cross_east",
-      "path_turn_south_west",
-      "path_three_cross_south",
-      "path_turn_south_east",
-      "path_start_north",
-      "path_start_west",
-      "path_start_east",
-      "path_start_south",
-      "path_corner_north_west",
-      "path_north",
-      "path_corner_north_east",
-      "path_west",
-      "path",
-      "path_east",
-      "path_corner_south_west",
-      "path_south",
-      "path_corner_south_east",
-      "path_inv_corner_north_west",
-      "path_inv_corner_north_east",
-      "path_inv_corner_south_west",
-      "path_inv_corner_south_east",
-      "path_diag",
-      "path_diag_anti",
-      "rock_north_west",
-      "rock_north",
-      "rock_north_east",
-      "rock_west",
-      "rock_east",
-      "rock_south_west",
-      "rock_south",
-      "rock_south_east",
-      "rock_corner_north_west",
-      "rock_corner_north_east",
-      "rock_corner_south_west",
-      "rock_corner_south_east",
-      "rock_diag",
-      "rock_diag_anti",
-      "stair_south",
-      "stair_east",
-      "stair_west",
-      "stair_north",
-      "path_slope_south",
-      "path_slope_east",
-      "path_slope_west",
-      "path_slope_north",
-      "rock_entrance_1_1",
-      "rock_entrance_2_1",
-      "river_vert_north",
-      "river_vert",
-      "river_vert_south",
-      "river_spot",
-      "river_horiz_west",
-      "river_horiz",
-      "river_horiz_east",
-      "river_turn_north_west",
-      "river_three_cross_north",
-      "river_turn_north_east",
-      "river_three_cross_west",
-      "river_four_cross",
-      "river_three_cross_east",
-      "river_turn_south_west",
-      "river_three_cross_south",
-      "river_turn_south_east",
-      "river_start_north",
-      "river_start_west",
-      "river_start_east",
-      "river_start_south",
-      "river_island",
-      "river_corner_north_west",
-      "river_north",
-      "river_corner_north_east",
-      "river_west",
-      "water",
-      "river_east",
-      "river_corner_south_west",
-      "river_south",
-      "river_corner_south_east",
-      "river_inv_corner_north_west",
-      "river_inv_corner_north_east",
-      "river_inv_corner_south_west",
-      "river_inv_corner_south_east",
-    ]
     tiles = {k: tiles[k] for k in TILE_SUBSET}
 
     pygame.init()
     pygame.font.init()
-    font = pygame.font.SysFont('Comic Sans MS', int(60 * MAP_GRID_SIZE / 92))
-    screen = pygame.display.set_mode(CANVA_SIZE)
+    font = pygame.font.SysFont('Comic Sans MS', int(15 / 23 * args.tile_size))
+    screen = pygame.display.set_mode((
+        args.map_width * args.tile_size,
+        args.map_height * args.tile_size,
+    ))
     clock = pygame.time.Clock()
     dt = 0
 
@@ -274,8 +279,14 @@ if __name__ == "__main__":
     while running:
         running, rerun = handle_events()
         if rerun:
-            cells, running, dt = wave_function_collapse()
-        show(cells)
-        dt = clock.tick(FRAME_RATE) / 1000
+            cells, running, dt = wave_function_collapse(
+                args.map_width,
+                args.map_height,
+                args.tile_size,
+                args.show_average,
+                frame_rate=args.frame_rate,
+            )
+        show(cells, args.tile_size, args.show_average)
+        dt = clock.tick(args.frame_rate) / 1000
 
     pygame.quit()
