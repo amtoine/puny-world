@@ -5,6 +5,7 @@ from random import choice
 from typing import List
 import argparse
 import numpy as np
+from time import time_ns
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -224,6 +225,7 @@ def wave_function_collapse(
     valid = False
 
     nb_retries = 0
+    t = time_ns()
 
     while not valid and running:
         nb_retries += 1
@@ -269,7 +271,7 @@ def wave_function_collapse(
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
             valid = True
 
-    print("retries:", nb_retries)
+    print(f"retries: {nb_retries}, t: {time_ns() - t}")
 
     return cells, running, dt
 
