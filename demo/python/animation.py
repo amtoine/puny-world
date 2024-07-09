@@ -61,12 +61,12 @@ if __name__ == "__main__":
         screen.fill(BLACK)
 
         for i, (k, v) in enumerate(animated.items()):
-            id = get_animation_steps(v.id, animations)[
+            tile = get_animation_steps(v.id, animations)[
                 (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
-            ].id
+            ].tile
             screen.blit(
                 pygame.transform.scale(
-                    get_tile(id, tiles).image,
+                    tile.image,
                     (RENDERING_TILE_SIZE, RENDERING_TILE_SIZE),
                 ),
                 (

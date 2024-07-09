@@ -42,3 +42,99 @@ python characters.py
 > **Important**
 >
 > - the _slime_ is missing
+
+### wave function collapse
+Generate random maps with the _Wave Function Collapse_ algorithm.
+
+```shell
+python wave_function_collapse.py
+```
+
+- _space_ to run another generation
+
+```nushell
+let ns = seq 1 20
+const NB_MEASUREMENTS = 10
+
+let res_no_entropy = $ns | each { |n|
+    python wave_function_collapse.py ...[
+        -W $n
+        -H $n
+        -s -1
+        -I
+        --use-information-entropy
+        -A
+        --nb-measurements $NB_MEASUREMENTS
+    ]
+        | lines
+        | parse "retries: {r}, t: {t}"
+}
+
+let res_entropy = $ns | each { |n|
+    python wave_function_collapse.py ...[
+        -W $n
+        -H $n
+        -s -1
+        -I
+        -A
+        --nb-measurements $NB_MEASUREMENTS
+    ]
+        | lines
+        | parse "retries: {r}, t: {t}"
+}
+```
+```nushell
+const NB_NS_IN_SEC = 1e9
+
+[
+    {
+        name: "\\#options",
+        points: ($res_no_entropy | zip $ns | each {{
+            x: $in.1,
+            y: ($in.0.r | into int | math avg),
+            e: ($in.0.r | into int | math stddev),
+        }}),
+    },
+    {
+        name: "entropy",
+        points: ($res_entropy | zip $ns | each {{
+            x: $in.1,
+            y: ($in.0.r | into int | math avg),
+            e: ($in.0.r | into int | math stddev),
+        }}),
+    },
+] | to json | gplt plot $in ...[
+    --use-tex
+    --x-label "$n$"
+    --y-label "\\#retries"
+    --title "number of WFC retries on a map of size $n \\times n$"
+    --font ({ size: 30, family: serif, sans-serif: Helvetica } | to json)
+    --fullscreen
+]
+
+[
+    {
+        name: "\\#options",
+        points: ($res_no_entropy | zip $ns | each {{
+            x: $in.1,
+            y: ($in.0.t | into int | math avg | $in / $NB_NS_IN_SEC),
+            e: ($in.0.t | into float | math stddev | $in / $NB_NS_IN_SEC),
+        }}),
+    },
+    {
+        name: "entropy",
+        points: ($res_entropy | zip $ns | each {{
+            x: $in.1,
+            y: ($in.0.t | into int | math avg | $in / $NB_NS_IN_SEC),
+            e: ($in.0.t | into float | math stddev | $in / $NB_NS_IN_SEC),
+        }}),
+    },
+] | to json | gplt plot $in ...[
+    --use-tex
+    --x-label "$n$"
+    --y-label "$t$ (in s)"
+    --title "time for WFC to generate a map of size $n \\times n$"
+    --font ({ size: 30, family: serif, sans-serif: Helvetica } | to json)
+    --fullscreen
+]
+```

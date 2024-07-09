@@ -22,6 +22,7 @@ class Tile:
 class AnimationStep:
     id: int
     duration: int
+    tile: pygame.surface.Surface
 
 
 @dataclass
@@ -80,28 +81,27 @@ def load_tileset(
         Animation(
             id=a["id"],
             animation=[
-                AnimationStep(id=b["id"], duration=b["duration"])
+                AnimationStep(
+                    id=b["id"],
+                    duration=b["duration"],
+                    tile=Tile(
+                        image=cut(
+                            image, b["id"], size=(tilewidth, tileheight), cols=nb_columns
+                        ),
+                        id=b["id"],
+                        north=None,
+                        east=None,
+                        west=None,
+                        south=None,
+                        transparent=False,
+                        animation=False,
+                    )
+                )
                 for b in a["animation"]
             ]
         )
         for a in overworld["animations"]
     ]
-
-    for a in animations:
-        name = [k for k, v in tiles.items() if v.id == a.id][0]
-        for i, b in enumerate(a.animation[1:], start=1):
-            tiles[f"{name}__animation_{i}"] = Tile(
-                image=cut(
-                    image, b.id, size=(tilewidth, tileheight), cols=nb_columns
-                ),
-                id=b.id,
-                north=None,
-                east=None,
-                west=None,
-                south=None,
-                transparent=False,
-                animation=False,
-            )
 
     characters = {}
     for name, character in tqdm(
