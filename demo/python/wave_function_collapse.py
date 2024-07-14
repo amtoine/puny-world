@@ -1,121 +1,180 @@
 import pygame
 from pathlib import Path
-from tileset import load_tileset, compute_neighbours
+from tileset import load_tileset
 from random import choice
 from typing import List
 import argparse
 import numpy as np
 from time import time_ns
 from PIL import Image
+from rich import print
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+DARK_GREY = (100, 100, 100)
+GREEN = (0, 255, 0)
 
 TILE_SUBSET = [
-    ("grass_1", 50),
-    ("grass_2", 50),
-    ("grass_3", 50),
-    ("grass_4", 50),
-    ("grass_5", 50),
-    ("grass_6", 50),
-    ("grass_7", 50),
-    ("grass_8", 50),
-    ("grass_9", 50),
-    ("path_vert_north", 1),
-    ("path_vert", 1),
-    ("path_vert_south", 1),
-    ("path_spot", 1),
-    ("path_horiz_west", 1),
-    ("path_horiz", 1),
-    ("path_horiz_east", 1),
-    ("path_turn_north_west", 1),
-    ("path_three_cross_north", 1),
-    ("path_turn_north_east", 1),
-    ("path_three_cross_west", 1),
-    ("path_four_cross", 1),
-    ("path_three_cross_east", 1),
-    ("path_turn_south_west", 1),
-    ("path_three_cross_south", 1),
-    ("path_turn_south_east", 1),
-    ("path_start_north", 1),
-    ("path_start_west", 1),
-    ("path_start_east", 1),
-    ("path_start_south", 1),
-    ("path_corner_north_west", 1),
-    ("path_north", 1),
-    ("path_corner_north_east", 1),
-    ("path_west", 1),
-    ("path", 1),
-    ("path_east", 1),
-    ("path_corner_south_west", 1),
-    ("path_south", 1),
-    ("path_corner_south_east", 1),
-    ("path_inv_corner_north_west", 1),
-    ("path_inv_corner_north_east", 1),
-    ("path_inv_corner_south_west", 1),
-    ("path_inv_corner_south_east", 1),
-    ("path_diag", 1),
-    ("path_diag_anti", 1),
-    ("rock_north_west", 1),
-    ("rock_north", 1),
-    ("rock_north_east", 1),
-    ("rock_west", 1),
-    ("rock_east", 1),
-    ("rock_south_west", 1),
-    ("rock_south", 1),
-    ("rock_south_east", 1),
-    ("rock_corner_north_west", 1),
-    ("rock_corner_north_east", 1),
-    ("rock_corner_south_west", 1),
-    ("rock_corner_south_east", 1),
-    ("rock_diag", 1),
-    ("rock_diag_anti", 1),
-    ("stair_south", 1),
-    ("stair_east", 1),
-    ("stair_west", 1),
-    ("stair_north", 1),
-    ("path_slope_south", 1),
-    ("path_slope_east", 1),
-    ("path_slope_west", 1),
-    ("path_slope_north", 1),
-    ("rock_entrance_1_1", 1),
-    ("rock_entrance_2_1", 1),
-    ("river_vert_north", 1),
-    ("river_vert", 1),
-    ("river_vert_south", 1),
-    ("river_spot", 1),
-    ("river_horiz_west", 1),
-    ("river_horiz", 1),
-    ("river_horiz_east", 1),
-    ("river_turn_north_west", 1),
-    ("river_three_cross_north", 1),
-    ("river_turn_north_east", 1),
-    ("river_three_cross_west", 1),
-    ("river_four_cross", 1),
-    ("river_three_cross_east", 1),
-    ("river_turn_south_west", 1),
-    ("river_three_cross_south", 1),
-    ("river_turn_south_east", 1),
-    ("river_start_north", 1),
-    ("river_start_west", 1),
-    ("river_start_east", 1),
-    ("river_start_south", 1),
-    ("river_island", 1),
-    ("river_corner_north_west", 1),
-    ("river_north", 1),
-    ("river_corner_north_east", 1),
-    ("river_west", 1),
-    ("water", 1),
-    ("river_east", 1),
-    ("river_corner_south_west", 1),
-    ("river_south", 1),
-    ("river_corner_south_east", 1),
-    ("river_inv_corner_north_west", 1),
-    ("river_inv_corner_north_east", 1),
-    ("river_inv_corner_south_west", 1),
-    ("river_inv_corner_south_east", 1),
+    ("grass_1", 1),
+    ("grass_2", .1),
+    ("grass_3", .1),
+    ("grass_4", .1),
+    ("grass_5", .1),
+    ("grass_6", .1),
+    ("grass_7", .1),
+    ("grass_8", .1),
+    ("grass_9", .1),
+    ("rock_north_west", 0.1285),
+    ("rock_north", 0.1285),
+    ("rock_north_east", 0.1285),
+    ("rock_west", 0.1285),
+    ("rock_east", 0.1285),
+    ("rock_south_west", 0.1285),
+    ("rock_south", 0.1285),
+    ("rock_south_east", 0.1285),
+    ("rock_corner_north_west", 0.1285),
+    ("rock_corner_north_east", 0.1285),
+    ("rock_corner_south_west", 0.1285),
+    ("rock_corner_south_east", 0.1285),
+    ("rock_diag", 0.1285),
+    ("rock_diag_anti", 0.1285),
+    ("river_corner_north_west", 0.1111),
+    ("river_north", 0.1111),
+    ("river_corner_north_east", 0.1111),
+    ("river_west", 0.1111),
+    ("water", 0.1111),
+    ("river_east", 0.1111),
+    ("river_corner_south_west", 0.1111),
+    ("river_south", 0.1111),
+    ("river_corner_south_east", 0.1111),
+    ("river_inv_corner_north_west", 0.1111),
+    ("river_inv_corner_north_east", 0.1111),
+    ("river_inv_corner_south_west", 0.1111),
+    ("river_inv_corner_south_east", 0.1111),
+    ("beach_corner_north_west", 0.1111),
+    ("beach_north", 0.1111),
+    ("beach_corner_north_east", 0.1111),
+    ("beach_west", 0.1111),
+    ("beach_water", 0.1111),
+    ("beach_east", 0.1111),
+    ("beach_corner_south_west", 0.1111),
+    ("beach_south", 0.1111),
+    ("beach_corner_south_east", 0.1111),
+    ("beach_inv_corner_north_west", 0.1111),
+    ("beach_inv_corner_north_east", 0.1111),
+    ("beach_inv_corner_south_west", 0.1111),
+    ("beach_inv_corner_south_east", 0.1111),
+    ("sea_corner_north_west", 0.1111),
+    ("sea_north", 0.1111),
+    ("sea_corner_north_east", 0.1111),
+    ("sea_west", 0.1111),
+    ("sea_east", 0.1111),
+    ("sea_corner_south_west", 0.1111),
+    ("sea_south", 0.1111),
+    ("sea_corner_south_east", 0.1111),
+    ("sea_inv_corner_north_west", 0.1111),
+    ("sea_inv_corner_north_east", 0.1111),
+    ("sea_inv_corner_south_west", 0.1111),
+    ("sea_inv_corner_south_east", 0.1111),
+    ("ocean_corner_north_west", 0.1111),
+    ("ocean_north", 0.1111),
+    ("ocean_corner_north_east", 0.1111),
+    ("ocean_west", 0.1111),
+    ("ocean", 0.1111),
+    ("ocean_east", 0.1111),
+    ("ocean_corner_south_west", 0.1111),
+    ("ocean_south", 0.1111),
+    ("ocean_corner_south_east", 0.1111),
+    ("ocean_inv_corner_north_west", 0.1111),
+    ("ocean_inv_corner_north_east", 0.1111),
+    ("ocean_inv_corner_south_west", 0.1111),
+    ("ocean_inv_corner_south_east", 0.1111),
+    ("waterfall", 0.1111),
+    ("path_vert_north", 0.1111),
+    ("path_vert", 0.1111),
+    ("path_vert_south", 0.1111),
+    ("path_spot", 0.1111),
+    ("path_horiz_west", 0.1111),
+    ("path_horiz", 0.1111),
+    ("path_horiz_east", 0.1111),
+    ("path_turn_north_west", 0.1111),
+    ("path_three_cross_north", 0.1111),
+    ("path_turn_north_east", 0.1111),
+    ("path_three_cross_west", 0.1111),
+    ("path_four_cross", 0.1111),
+    ("path_three_cross_east", 0.1111),
+    ("path_turn_south_west", 0.1111),
+    ("path_three_cross_south", 0.1111),
+    ("path_turn_south_east", 0.1111),
+    ("path_start_north", 0.1111),
+    ("path_start_west", 0.1111),
+    ("path_start_east", 0.1111),
+    ("path_start_south", 0.1111),
+    ("path_corner_north_west", 0.1111),
+    ("path_north", 0.1111),
+    ("path_corner_north_east", 0.1111),
+    ("path_west", 0.1111),
+    ("path", 0.1111),
+    ("path_east", 0.1111),
+    ("path_corner_south_west", 0.1111),
+    ("path_south", 0.1111),
+    ("path_corner_south_east", 0.1111),
+    ("path_inv_corner_north_west", 0.1111),
+    ("path_inv_corner_north_east", 0.1111),
+    ("path_inv_corner_south_west", 0.1111),
+    ("path_inv_corner_south_east", 0.1111),
+    ("path_diag", 0.1111),
+    ("path_diag_anti", 0.1111),
+
+    ("sand_path_vert_north", 0.1111),
+    ("sand_path_vert", 0.1111),
+    ("sand_path_vert_south", 0.1111),
+    ("sand_path_spot", 0.1111),
+    ("sand_path_horiz_west", 0.1111),
+    ("sand_path_horiz", 0.1111),
+    ("sand_path_horiz_east", 0.1111),
+    ("sand_path_turn_north_west", 0.1111),
+    ("sand_path_three_cross_north", 0.1111),
+    ("sand_path_turn_north_east", 0.1111),
+    ("sand_path_three_cross_west", 0.1111),
+    ("sand_path_four_cross", 0.1111),
+    ("sand_path_three_cross_east", 0.1111),
+    ("sand_path_turn_south_west", 0.1111),
+    ("sand_path_three_cross_south", 0.1111),
+    ("sand_path_turn_south_east", 0.1111),
+    ("sand_path_start_north", 0.1111),
+    ("sand_path_start_west", 0.1111),
+    ("sand_path_start_east", 0.1111),
+    ("sand_path_start_south", 0.1111),
+    ("sand_path_corner_north_west", 0.1111),
+    ("sand_path_north", 0.1111),
+    ("sand_path_corner_north_east", 0.1111),
+    ("sand_path_west", 0.1111),
+    ("sand_path", 0.1111),
+    ("sand_path_east", 0.1111),
+    ("sand_path_corner_south_west", 0.1111),
+    ("sand_path_south", 0.1111),
+    ("sand_path_corner_south_east", 0.1111),
+    ("sand_path_inv_corner_north_west", 0.1111),
+    ("sand_path_inv_corner_north_east", 0.1111),
+    ("sand_path_inv_corner_south_west", 0.1111),
+    ("sand_path_inv_corner_south_east", 0.1111),
+    ("sand_path_diag", 0.1111),
+    ("sand_path_diag_anti", 0.1111),
 ]
+
+
+def error(msg: str):
+    print(f"[bold red]ERROR[/bold red]: {msg}")
+
+
+def info(msg: str):
+    print(f"[bold green]INFO[/bold green]: {msg}")
+
+
+def warning(msg: str):
+    print(f"[bold yellow]WARNING[/bold yellow]: {msg}")
 
 
 def handle_events() -> (bool, bool, bool):
@@ -132,7 +191,7 @@ def handle_events() -> (bool, bool, bool):
     return (True, False, False)
 
 
-def show(cells: List[dict], s: int, show_average_of_tile: bool):
+def show(cells: List[dict], s: int, show_average_of_tile: bool, min_entropy: float | None):
     screen.fill(BLACK)
 
     for c in cells:
@@ -161,7 +220,16 @@ def show(cells: List[dict], s: int, show_average_of_tile: bool):
                     ),
                     (c["j"] * s, c["i"] * s),
                 )
-            text = font.render(str(round(c["entropy"], 1)), False, WHITE)
+            if c["entropy"] == 0:
+                color = RED
+            elif min_entropy is not None and c["entropy"] == min_entropy:
+                color = GREEN
+            elif c["entropy"] < 10:
+                color = WHITE
+            else:
+                color = DARK_GREY
+
+            text = font.render(str(round(c["entropy"], 1)), False, color)
             screen.blit(
                 text,
                 (
@@ -182,36 +250,50 @@ def entropy(cell: dict) -> float:
 def collapse(
     cell: dict, cells: List[dict], w: int, h: int, use_information_entropy: bool
 ) -> (bool, int, int):
-    if len(cell["options"]) > 0:
-        p = np.array([weights[opt] for opt in cell["options"]])
-        p = p / p.sum()
-        cell["options"] = np.random.choice(cell["options"], 1, p=p)
-    cell["is_collapsed"] = True
+    assert len(cell["options"]) > 0, "cell shouldn't be inconsistent"
 
-    is_inconsistent, ii, ij = False, None, None
-    if len(cell["options"]) > 0:
-        # update the neighbours
-        neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
-        i, j = cell["i"], cell["j"]
-        for ni, nj, c in [
-            (i - 1, j, neighbours.n),
-            (i + 1, j, neighbours.s),
-            (i, j - 1, neighbours.w),
-            (i, j + 1, neighbours.e),
+    p = np.array([weights[opt] for opt in cell["options"]])
+    p = p / p.sum()
+    cell["options"] = np.random.choice(cell["options"], 1, p=p)
+    cell["is_collapsed"] = True
+    cell["entropy"] = 0
+
+    stack = [cell]
+    while len(stack) > 0:
+        curr = stack.pop()
+        i, j = curr["i"], curr["j"]
+        for ni, nj, dir, opposite in [
+            (i - 1, j, 'n', 's'),
+            (i + 1, j, 's', 'n'),
+            (i, j - 1, 'w', 'e'),
+            (i, j + 1, 'e', 'w'),
         ]:
             if 0 <= ni < h and 0 <= nj < w:
                 n = ni * w + nj
-                cells[n]["options"] = list(
-                    set(cells[n]["options"]) & set(c)
-                )
+                if cells[n]["entropy"] == 0:
+                    continue
+
+                before = len(cells[n]["options"])
+                connectors = [tiles[opt].get_type(dir) for opt in curr["options"]]
+                options = [
+                    opt
+                    for opt in cells[n]["options"]
+                    if tiles[opt].get_type(opposite) in connectors
+                ]
+
+                cells[n]["options"] = options
+                if len(cells[n]["options"]) < before:
+                    stack.append(cells[n])
+
                 if use_information_entropy:
                     cells[n]["entropy"] = entropy(cells[n])
                 else:
                     cells[n]["entropy"] = len(cells[n]["options"])
-                if len(cells[n]["options"]) == 0:
-                    is_inconsistent, ii, ij = True, ni, nj
 
-    return is_inconsistent, ii, ij
+                if len(cells[n]["options"]) == 0:
+                    return True, ni, nj
+
+    return False, None, None
 
 
 def wave_function_collapse(
@@ -252,7 +334,7 @@ def wave_function_collapse(
                 running, *_ = handle_events()
 
             # pick non-collapsed cell with least entropy
-            non_collapsed = list(filter(lambda c: not c["is_collapsed"] and len(c["options"]) > 0, cells))
+            non_collapsed = list(filter(lambda c: not c["is_collapsed"], cells))
             # FIXME: should backtrack here instead of breaking out of the algorithm
             if len(non_collapsed) == 0:
                 break
@@ -264,17 +346,17 @@ def wave_function_collapse(
 
             is_inconsistent, ni, nj = collapse(cell, cells, w, h, use_information_entropy)
             if is_inconsistent:
-                print(f"found an inconsistency in cell ({ni}, {nj})")
+                error(f"found an inconsistency in cell ({ni}, {nj})")
                 break
 
             if interactive:
-                show(cells, s, show_average_of_tile)
+                show(cells, s, show_average_of_tile, min_entropy)
                 dt = clock.tick(frame_rate) / 1000
 
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
             valid = True
 
-    print(f"retries: {nb_retries}, t: {time_ns() - t}")
+    warning(f"retries: {nb_retries}, t: {time_ns() - t}")
 
     return cells, running, dt
 
@@ -342,7 +424,7 @@ if __name__ == "__main__":
             out = f"{time_ns()}.png"
             image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
             Image.fromarray(image).save(out)
-            print(f"window save in `{out}`")
+            info(f"window saved in [purple]{out}[/purple]")
         if rerun:
             cells, running, dt = wave_function_collapse(
                 args.map_width,
@@ -353,7 +435,7 @@ if __name__ == "__main__":
                 frame_rate=args.frame_rate,
                 interactive=not args.non_interactive,
             )
-        show(cells, args.tile_size, args.show_average)
+        show(cells, args.tile_size, args.show_average, min_entropy=None)
         dt = clock.tick(args.frame_rate) / 1000
 
     pygame.quit()
