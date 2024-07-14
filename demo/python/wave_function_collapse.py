@@ -12,6 +12,8 @@ from rich import print
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+DARK_GREY = (100, 100, 100)
+GREEN = (0, 255, 0)
 
 TILE_SUBSET = [
     ("grass_1", 50),
@@ -145,7 +147,7 @@ def handle_events() -> (bool, bool, bool):
     return (True, False, False)
 
 
-def show(cells: List[dict], s: int, show_average_of_tile: bool):
+def show(cells: List[dict], s: int, show_average_of_tile: bool, min_entropy: float | None):
     screen.fill(BLACK)
 
     for c in cells:
@@ -174,7 +176,16 @@ def show(cells: List[dict], s: int, show_average_of_tile: bool):
                     ),
                     (c["j"] * s, c["i"] * s),
                 )
-            text = font.render(str(round(c["entropy"], 1)), False, WHITE)
+            if c["entropy"] == 0:
+                color = RED
+            elif min_entropy is not None and c["entropy"] == min_entropy:
+                color = GREEN
+            elif c["entropy"] < 10:
+                color = WHITE
+            else:
+                color = DARK_GREY
+
+            text = font.render(str(round(c["entropy"], 1)), False, color)
             screen.blit(
                 text,
                 (
@@ -295,7 +306,7 @@ def wave_function_collapse(
                 break
 
             if interactive:
-                show(cells, s, show_average_of_tile)
+                show(cells, s, show_average_of_tile, min_entropy)
                 dt = clock.tick(frame_rate) / 1000
 
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
@@ -380,7 +391,7 @@ if __name__ == "__main__":
                 frame_rate=args.frame_rate,
                 interactive=not args.non_interactive,
             )
-        show(cells, args.tile_size, args.show_average)
+        show(cells, args.tile_size, args.show_average, min_entropy=None)
         dt = clock.tick(args.frame_rate) / 1000
 
     pygame.quit()
