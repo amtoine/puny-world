@@ -138,3 +138,25 @@ const NB_NS_IN_SEC = 1e9
     --fullscreen
 ]
 ```
+
+### perlin noise
+```nushell
+let noise = [
+    [amplitude, octaves];
+    [1.000,     3],
+    [0.500,     6],
+    [0.250,     12],
+    [0.125,     24],
+]
+
+python perlin.py ...[
+    -W 160
+    -H 90
+    -s 8
+    -t 100
+    -f 60
+    --seed 123
+    --show-fps
+    --noise ($noise | to json)
+]
+```
