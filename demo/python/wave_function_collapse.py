@@ -182,34 +182,35 @@ def entropy(cell: dict) -> float:
 def collapse(
     cell: dict, cells: List[dict], w: int, h: int, use_information_entropy: bool
 ) -> (bool, int, int):
-    if len(cell["options"]) > 0:
-        p = np.array([weights[opt] for opt in cell["options"]])
-        p = p / p.sum()
-        cell["options"] = np.random.choice(cell["options"], 1, p=p)
+    assert len(cell["options"]) > 0, "cell shouldn't be inconsistent"
+
+    p = np.array([weights[opt] for opt in cell["options"]])
+    p = p / p.sum()
+    cell["options"] = np.random.choice(cell["options"], 1, p=p)
     cell["is_collapsed"] = True
+    cell["entropy"] = 0
 
     is_inconsistent, ii, ij = False, None, None
-    if len(cell["options"]) > 0:
-        # update the neighbours
-        neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
-        i, j = cell["i"], cell["j"]
-        for ni, nj, c in [
-            (i - 1, j, neighbours.n),
-            (i + 1, j, neighbours.s),
-            (i, j - 1, neighbours.w),
-            (i, j + 1, neighbours.e),
-        ]:
-            if 0 <= ni < h and 0 <= nj < w:
-                n = ni * w + nj
-                cells[n]["options"] = list(
-                    set(cells[n]["options"]) & set(c)
-                )
-                if use_information_entropy:
-                    cells[n]["entropy"] = entropy(cells[n])
-                else:
-                    cells[n]["entropy"] = len(cells[n]["options"])
-                if len(cells[n]["options"]) == 0:
-                    is_inconsistent, ii, ij = True, ni, nj
+
+    neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
+    i, j = cell["i"], cell["j"]
+    for ni, nj, c in [
+        (i - 1, j, neighbours.n),
+        (i + 1, j, neighbours.s),
+        (i, j - 1, neighbours.w),
+        (i, j + 1, neighbours.e),
+    ]:
+        if 0 <= ni < h and 0 <= nj < w:
+            n = ni * w + nj
+            cells[n]["options"] = list(
+                set(cells[n]["options"]) & set(c)
+            )
+            if use_information_entropy:
+                cells[n]["entropy"] = entropy(cells[n])
+            else:
+                cells[n]["entropy"] = len(cells[n]["options"])
+            if len(cells[n]["options"]) == 0:
+                is_inconsistent, ii, ij = True, ni, nj
 
     return is_inconsistent, ii, ij
 
