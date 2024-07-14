@@ -17,6 +17,16 @@ class Tile:
     transparent: bool
     animation: bool
 
+    def get_type(self, dir: str) -> str | None:
+        if dir == 'n' or dir == "north":
+            return self.north
+        if dir == 'e' or dir == "east":
+            return self.east
+        if dir == 's' or dir == "south":
+            return self.south
+        if dir == 'w' or dir == "west":
+            return self.west
+
 
 @dataclass
 class AnimationStep:
