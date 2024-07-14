@@ -1,6 +1,6 @@
 import pygame
 from pathlib import Path
-from tileset import load_tileset, compute_neighbours
+from tileset import load_tileset
 from random import choice
 from typing import List
 import argparse
@@ -190,25 +190,40 @@ def collapse(
     cell["is_collapsed"] = True
     cell["entropy"] = 0
 
-    neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
-    i, j = cell["i"], cell["j"]
-    for ni, nj, c in [
-        (i - 1, j, neighbours.n),
-        (i + 1, j, neighbours.s),
-        (i, j - 1, neighbours.w),
-        (i, j + 1, neighbours.e),
-    ]:
-        if 0 <= ni < h and 0 <= nj < w:
-            n = ni * w + nj
-            cells[n]["options"] = list(
-                set(cells[n]["options"]) & set(c)
-            )
-            if use_information_entropy:
-                cells[n]["entropy"] = entropy(cells[n])
-            else:
-                cells[n]["entropy"] = len(cells[n]["options"])
-            if len(cells[n]["options"]) == 0:
-                return True, ni, nj
+    stack = [cell]
+    while len(stack) > 0:
+        curr = stack.pop()
+        i, j = curr["i"], curr["j"]
+        for ni, nj, dir, opposite in [
+            (i - 1, j, 'n', 's'),
+            (i + 1, j, 's', 'n'),
+            (i, j - 1, 'w', 'e'),
+            (i, j + 1, 'e', 'w'),
+        ]:
+            if 0 <= ni < h and 0 <= nj < w:
+                n = ni * w + nj
+                if cells[n]["entropy"] == 0:
+                    continue
+
+                before = len(cells[n]["options"])
+                connectors = [tiles[opt].get_type(dir) for opt in curr["options"]]
+                options = [
+                    opt
+                    for opt in cells[n]["options"]
+                    if tiles[opt].get_type(opposite) in connectors
+                ]
+
+                cells[n]["options"] = options
+                if len(cells[n]["options"]) < before:
+                    stack.append(cells[n])
+
+                if use_information_entropy:
+                    cells[n]["entropy"] = entropy(cells[n])
+                else:
+                    cells[n]["entropy"] = len(cells[n]["options"])
+
+                if len(cells[n]["options"]) == 0:
+                    return True, ni, nj
 
     return False, None, None
 
