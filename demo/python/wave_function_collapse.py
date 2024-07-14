@@ -7,6 +7,7 @@ import argparse
 import numpy as np
 from time import time_ns
 from PIL import Image
+from rich import print
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -116,6 +117,18 @@ TILE_SUBSET = [
     ("river_inv_corner_south_west", 1),
     ("river_inv_corner_south_east", 1),
 ]
+
+
+def error(msg: str):
+    print(f"[bold red]ERROR[/bold red]: {msg}")
+
+
+def info(msg: str):
+    print(f"[bold green]INFO[/bold green]: {msg}")
+
+
+def warning(msg: str):
+    print(f"[bold yellow]WARNING[/bold yellow]: {msg}")
 
 
 def handle_events() -> (bool, bool, bool):
@@ -278,7 +291,7 @@ def wave_function_collapse(
 
             is_inconsistent, ni, nj = collapse(cell, cells, w, h, use_information_entropy)
             if is_inconsistent:
-                print(f"found an inconsistency in cell ({ni}, {nj})")
+                error(f"found an inconsistency in cell ({ni}, {nj})")
                 break
 
             if interactive:
@@ -288,7 +301,7 @@ def wave_function_collapse(
         if len([c for c in cells if not c["is_collapsed"]]) == 0:
             valid = True
 
-    print(f"retries: {nb_retries}, t: {time_ns() - t}")
+    warning(f"retries: {nb_retries}, t: {time_ns() - t}")
 
     return cells, running, dt
 
@@ -356,7 +369,7 @@ if __name__ == "__main__":
             out = f"{time_ns()}.png"
             image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
             Image.fromarray(image).save(out)
-            print(f"window save in `{out}`")
+            info(f"window saved in [purple]{out}[/purple]")
         if rerun:
             cells, running, dt = wave_function_collapse(
                 args.map_width,
