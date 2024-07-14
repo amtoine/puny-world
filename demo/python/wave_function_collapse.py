@@ -251,7 +251,7 @@ def wave_function_collapse(
                 running, *_ = handle_events()
 
             # pick non-collapsed cell with least entropy
-            non_collapsed = list(filter(lambda c: not c["is_collapsed"] and len(c["options"]) > 0, cells))
+            non_collapsed = list(filter(lambda c: not c["is_collapsed"], cells))
             # FIXME: should backtrack here instead of breaking out of the algorithm
             if len(non_collapsed) == 0:
                 break
