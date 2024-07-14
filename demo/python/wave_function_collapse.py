@@ -190,8 +190,6 @@ def collapse(
     cell["is_collapsed"] = True
     cell["entropy"] = 0
 
-    is_inconsistent, ii, ij = False, None, None
-
     neighbours = compute_neighbours(tiles[cell["options"][0]], tiles)
     i, j = cell["i"], cell["j"]
     for ni, nj, c in [
@@ -210,9 +208,9 @@ def collapse(
             else:
                 cells[n]["entropy"] = len(cells[n]["options"])
             if len(cells[n]["options"]) == 0:
-                is_inconsistent, ii, ij = True, ni, nj
+                return True, ni, nj
 
-    return is_inconsistent, ii, ij
+    return False, None, None
 
 
 def wave_function_collapse(
