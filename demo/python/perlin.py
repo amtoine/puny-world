@@ -10,6 +10,7 @@ from tileset import load_tileset, Tile, Name
 from pathlib import Path
 from enum import Enum
 from random import choice
+from tqdm import trange
 
 BLACK = (0, 0, 0)
 
@@ -175,7 +176,7 @@ def generate_cells(
             sum(weight * n([i / h, j / w, z]) for weight, n in noise)
             for j in range(w + 1)
         ]
-        for i in range(h + 1)
+        for i in trange(h + 1)
     ]
 
     cells = []
