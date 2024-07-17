@@ -180,6 +180,7 @@ def generate_cells(
     ]
 
     cells = []
+    incomplete, bad_tile = False, None
     for i in range(h):
         for j in range(w):
             nw = to_land_type(noise_values[i][j])
@@ -193,9 +194,14 @@ def generate_cells(
             if fg is not None:
                 fg = tileset[fg]
 
+            if key not in TILEMAP:
+                incomplete, bad_tile = True, (nw, ne, sw, se)
+
             cells.append(Cell(i, j, background=bg, foreground=fg))
 
-    print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1000} ms")
+    print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
+    if incomplete:
+        print(f"[bold yellow]WARNING[/bold yellow]: generation is incomplete with {bad_tile}")
 
     return cells
 
