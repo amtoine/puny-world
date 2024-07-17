@@ -2067,6 +2067,26 @@
         "transparent": false,
         "animation": true
       },
+      "river_diag":
+      {
+        "id": 274,
+        "n": "partial_river_west",
+        "e": "partial_river_south",
+        "s": "partial_river_east",
+        "w": "partial_river_north",
+        "transparent": false,
+        "animation": true
+      },
+      "river_diag_anti":
+      {
+        "id": 276,
+        "n": "partial_river_east",
+        "e": "partial_river_north",
+        "s": "partial_river_west",
+        "w": "partial_river_south",
+        "transparent": false,
+        "animation": true
+      },
       "beach_corner_north_west":
       {
         "id": 282,
@@ -5916,6 +5936,50 @@
           },
           {
             "id": 601,
+            "duration": 100
+          }
+        ]
+      },
+      {
+        "id": 274,
+        "animation":
+        [
+          {
+            "id": 274,
+            "duration": 100
+          },
+          {
+            "id": 355,
+            "duration": 100
+          },
+          {
+            "id": 436,
+            "duration": 100
+          },
+          {
+            "id": 517,
+            "duration": 100
+          }
+        ]
+      },
+      {
+        "id": 276,
+        "animation":
+        [
+          {
+            "id": 276,
+            "duration": 100
+          },
+          {
+            "id": 357,
+            "duration": 100
+          },
+          {
+            "id": 438,
+            "duration": 100
+          },
+          {
+            "id": 519,
             "duration": 100
           }
         ]
