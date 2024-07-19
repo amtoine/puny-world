@@ -19,6 +19,8 @@ BLACK = (0, 0, 0)
 ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 5
 
+CHUNK_SIZE = 8
+
 
 def info(msg: str):
     print(f"[bold green]INFO[/bold green]: {msg}")
@@ -444,13 +446,12 @@ FOREST_TILEMAP = {
 }
 
 
-def generate_cells(
+def generate_chunk(
     terrain_noise,
     biome_noise,
     forest_threshold: float,
     land_types,
-    w: int,
-    h: int,
+    pos: (int, int),
     tileset: Dict[Name, Tile],
     z: float = 0.0,
 ) -> List[Cell]:
@@ -458,34 +459,37 @@ def generate_cells(
 
     print("[bold green]INFO[/bold green]: starting generating cells")
 
+    chunk_i, chunk_j = pos
+    chunk_i, chunk_j = chunk_i * CHUNK_SIZE, chunk_j * CHUNK_SIZE
+
     terrain_noise_values = [
         [
             sum(
-                weight * n([i / (h + 2), j / (w + 2), z])
+                weight * n([i / CHUNK_SIZE, j / CHUNK_SIZE, z])
                 for weight, n in terrain_noise
             )
-            for j in range(w + 3)
+            for j in range(chunk_j, chunk_j + CHUNK_SIZE + 3)
         ]
-        for i in trange(h + 3)
+        for i in trange(chunk_i, chunk_i + CHUNK_SIZE + 3)
     ]
 
     biome_noise_values = [
         [
             sum(
-                weight * n([i / (h + 1), j / (w + 1), z])
+                weight * n([i / CHUNK_SIZE, j / CHUNK_SIZE, z])
                 for weight, n in biome_noise
             )
-            for j in range(w + 2)
+            for j in range(chunk_j, chunk_j + CHUNK_SIZE + 2)
         ]
-        for i in trange(h + 2)
+        for i in trange(chunk_i, chunk_i + CHUNK_SIZE + 2)
     ]
 
     tlt = lambda x: to_land_type(x, land_types=land_types)
 
     cells = []
     incomplete, bad_tile = False, None
-    for i in range(1, h + 1):
-        for j in range(1, w + 1):
+    for i in range(1, CHUNK_SIZE + 1):
+        for j in range(1, CHUNK_SIZE + 1):
             nw = tlt(terrain_noise_values[i][j])
             ne = tlt(terrain_noise_values[i][j + 1])
             sw = tlt(terrain_noise_values[i + 1][j])
@@ -531,19 +535,25 @@ def generate_cells(
     return cells
 
 
-def handle_events() -> (bool, bool, bool):
+def handle_events() -> (bool, bool, (int, int)):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            return False, None, False
+            return False, False, None
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                return True, True, False
-            elif event.key == pygame.K_RETURN:
-                return True, False, True
+            if event.key == pygame.K_RETURN:
+                return True, True, None
+            elif event.key == pygame.K_h:
+                return True, False, (0, -1)
+            elif event.key == pygame.K_l:
+                return True, False, (0, +1)
+            elif event.key == pygame.K_j:
+                return True, False, (+1, 0)
+            elif event.key == pygame.K_k:
+                return True, False, (-1, 0)
 
-    return True, False, False
+    return True, False, None
 
 
 def show(
@@ -684,45 +694,44 @@ if __name__ == "__main__":
         for n in args.biome_noise
     ]
 
-    cells = generate_cells(
+    pos = (0, 0)
+    chunks = {}
+    chunks[pos] = generate_chunk(
         terrain_noise,
         biome_noise,
         args.forest_threshold,
         args.land_types,
-        args.map_width,
-        args.map_height,
+        pos,
         tiles,
     )
 
     t = 0
     running = True
     while running:
-        running, regenerate_cells, snapshot = handle_events()
+        running, snapshot, move = handle_events()
         if snapshot:
             out = f"{time_ns()}.png"
             image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
             Image.fromarray(image).save(out)
             info(f"window saved in [purple]{out}[/purple]")
 
-        if regenerate_cells:
-            print()
-            if args.change_with_time is not None:
-                z = t / args.change_with_time
-            else:
-                z = 0.0
-            cells = generate_cells(
-                terrain_noise,
-                biome_noise,
-                args.forest_threshold,
-                args.land_types,
-                args.map_width,
-                args.map_height,
-                tiles,
-                z=z,
-            )
+        if move is not None:
+            pi, pj = pos
+            mi, mj = move
+            pos = (pi + mi, pj + mj)
+            if pos not in chunks:
+                info(f"generating chunk {pos}")
+                chunks[pos] = generate_chunk(
+                    terrain_noise,
+                    biome_noise,
+                    args.forest_threshold,
+                    args.land_types,
+                    pos,
+                    tiles,
+                )
 
         show(
-            screen, cells, animations, t, args.tile_size, show_grid=args.show_grid
+            screen, chunks[pos], animations, t, args.tile_size, show_grid=args.show_grid
         )
 
         dt = clock.tick(args.frame_rate) / 1000
