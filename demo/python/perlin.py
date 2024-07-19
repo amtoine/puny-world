@@ -586,10 +586,14 @@ def blit(
     screen: pygame.surface.Surface,
     chunks: Dict[Tuple[int, int], List[Cell]],
     animations: List[Animation],
+    pos: (float, float),
     t: int,
     s: int,
     debug: bool = False,
 ):
+    w, h = screen.get_size()
+    dx, dy = pos
+
     for (pi, pj), cells in chunks.items():
         for c in cells:
             try:
@@ -598,14 +602,15 @@ def blit(
                 ].tile
             except Exception:
                 tile = c.background
-            screen.blit(
-                pygame.transform.scale(tile.image, (s, s)),
-                ((pj * CHUNK_SIZE + c.j) * s, (pi * CHUNK_SIZE + c.i) * s),
+            cell_pos = (
+                w / 2 + (pj * CHUNK_SIZE + c.j) * s - dx,
+                h / 2 + (pi * CHUNK_SIZE + c.i) * s - dy,
             )
+            screen.blit(pygame.transform.scale(tile.image, (s, s)), cell_pos)
             if c.foreground is not None:
                 screen.blit(
                     pygame.transform.scale(c.foreground.image, (s, s)),
-                    ((pj * CHUNK_SIZE + c.j) * s, (pi * CHUNK_SIZE + c.i) * s),
+                    cell_pos,
                 )
 
     if debug:
@@ -619,6 +624,8 @@ def blit(
             )
             pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
             screen.blit(shape_surf, rect)
+
+    pygame.draw.circle(screen, RED, (w / 2, h / 2), 10)
 
 
 def blit_debug_pannel(
@@ -814,6 +821,7 @@ if __name__ == "__main__":
                 if (pi + i, pj + j) in chunks
             },
             animations,
+            pos,
             t,
             tile_size,
             debug=debug,
