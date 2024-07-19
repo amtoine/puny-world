@@ -536,14 +536,14 @@ def generate_chunk(
 
 
 def take_screenshot(screen: pygame.surface.Surface):
-    w, h = screen.get_size()
-    pygame.draw.rect(screen, RED, (0, 0, w, h), width=10)
-    pygame.display.flip()
-
     out = f"{time_ns()}.png"
     image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
     Image.fromarray(image).save(out)
     info(f"window saved in [purple]{out}[/purple]")
+
+    w, h = screen.get_size()
+    pygame.draw.rect(screen, RED, (0, 0, w, h), width=10)
+    pygame.display.flip()
 
 
 def handle_events() -> (bool, bool, (int, int), bool):
