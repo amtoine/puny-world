@@ -14,13 +14,11 @@ from tqdm import trange
 
 BLACK = (0, 0, 0)
 
-# values need to be sorted from highest to lowest
-LAND_TYPES = {
-    "ROCK": 0.1,
-    "GRASS": 0.0,
-    "WATER": float("-inf"),
-}
-LandType = Enum("LandType", list(LAND_TYPES.keys()))
+
+class LandType(Enum):
+    ROCK = 'r'
+    GRASS = 'g'
+    WATER = 'w'
 
 
 @dataclass
@@ -31,21 +29,16 @@ class Cell:
     foreground: Tile | None
 
 
-def to_land_type(x: float) -> LandType:
-    for k, v in LAND_TYPES.items():
+def to_land_type(x: float, land_types) -> LandType:
+    for k, v in land_types.items():
         if x > v:
             return LandType._member_map_[k]
-
-
-def hash_lt(nw: LandType, ne: LandType, sw: LandType, se: LandType) -> int:
-    n = len(LAND_TYPES.keys())
-    return nw.value + n * ne.value + n ** 2 * sw.value + n ** 3 * se.value
 
 
 LT = LandType
 TILEMAP = {
     # iiii
-    hash_lt(LT.GRASS, LT.GRASS, LT.GRASS, LT.GRASS): [
+    "gggg": [
         ("grass_1", None),
         ("grass_2", None),
         ("grass_3", None),
@@ -56,107 +49,107 @@ TILEMAP = {
         ("grass_8", None),
         ("grass_9", None),
     ],
-    hash_lt(LT.WATER, LT.WATER, LT.WATER, LT.WATER): [("water", None)],
-    hash_lt(LT.ROCK, LT.ROCK, LT.ROCK, LT.ROCK): [("grass_1", None)],
+    "wwww": [("water", None)],
+    "rrrr": [("grass_1", None)],
 
     # iiij
-    hash_lt(LT.GRASS, LT.GRASS, LT.GRASS, LT.WATER): [("river_corner_north_west", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.GRASS, LT.WATER, LT.GRASS): [("river_corner_north_east", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.GRASS, LT.GRASS): [("river_corner_south_west", None)],  # noqa: E501
-    hash_lt(LT.WATER, LT.GRASS, LT.GRASS, LT.GRASS): [("river_corner_south_east", None)],  # noqa: E501
+    "gggw": [("river_corner_north_west", None)],  # noqa: E501
+    "ggwg": [("river_corner_north_east", None)],  # noqa: E501
+    "gwgg": [("river_corner_south_west", None)],  # noqa: E501
+    "wggg": [("river_corner_south_east", None)],  # noqa: E501
 
-    hash_lt(LT.WATER, LT.WATER, LT.WATER, LT.GRASS): [("river_inv_corner_south_east", None)],  # noqa: E501
-    hash_lt(LT.WATER, LT.WATER, LT.GRASS, LT.WATER): [("river_inv_corner_south_west", None)],  # noqa: E501
-    hash_lt(LT.WATER, LT.GRASS, LT.WATER, LT.WATER): [("river_inv_corner_north_east", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.WATER, LT.WATER): [("river_inv_corner_north_west", None)],  # noqa: E501
+    "wwwg": [("river_inv_corner_south_east", None)],  # noqa: E501
+    "wwgw": [("river_inv_corner_south_west", None)],  # noqa: E501
+    "wgww": [("river_inv_corner_north_east", None)],  # noqa: E501
+    "gwww": [("river_inv_corner_north_west", None)],  # noqa: E501
 
-    hash_lt(LT.GRASS, LT.GRASS, LT.GRASS, LT.ROCK): [("rock_north_west", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.GRASS, LT.ROCK, LT.GRASS): [("rock_north_east", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.GRASS, LT.GRASS): [("rock_south_west", None)],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.GRASS, LT.GRASS): [("rock_south_east", None)],  # noqa: E501
+    "gggr": [("rock_north_west", None)],  # noqa: E501
+    "ggrg": [("rock_north_east", None)],  # noqa: E501
+    "grgg": [("rock_south_west", None)],  # noqa: E501
+    "rggg": [("rock_south_east", None)],  # noqa: E501
 
-    hash_lt(LT.WATER, LT.WATER, LT.WATER, LT.ROCK): [("water", "rock_north_west_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.WATER, LT.ROCK, LT.WATER): [("water", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.WATER, LT.WATER): [("water", "rock_south_west_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.WATER, LT.WATER): [("water", "rock_south_east_2")],  # noqa: E501
+    "wwwr": [("water", "rock_north_west_2")],  # noqa: E501
+    "wwrw": [("water", "rock_north_east_2")],  # noqa: E501
+    "wrww": [("water", "rock_south_west_2")],  # noqa: E501
+    "rwww": [("water", "rock_south_east_2")],  # noqa: E501
 
-    hash_lt(LT.ROCK, LT.ROCK, LT.ROCK, LT.WATER): [("water", "rock_corner_south_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.ROCK, LT.WATER, LT.ROCK): [("water", "rock_corner_south_west_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.ROCK, LT.ROCK): [("water", "rock_corner_north_east_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.ROCK, LT.ROCK): [("water", "rock_corner_north_west_2")],  # noqa: E501
+    "rrrw": [("water", "rock_corner_south_east_2")],  # noqa: E501
+    "rrwr": [("water", "rock_corner_south_west_2")],  # noqa: E501
+    "rwrr": [("water", "rock_corner_north_east_2")],  # noqa: E501
+    "wrrr": [("water", "rock_corner_north_west_2")],  # noqa: E501
 
-    hash_lt(LT.ROCK, LT.ROCK, LT.ROCK, LT.GRASS): [("rock_corner_south_east", None)],  # noqa: E501
-    hash_lt(LT.ROCK, LT.ROCK, LT.GRASS, LT.ROCK): [("rock_corner_south_west", None)],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.ROCK, LT.ROCK): [("rock_corner_north_east", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.ROCK, LT.ROCK): [("rock_corner_north_west", None)],  # noqa: E501
+    "rrrg": [("rock_corner_south_east", None)],  # noqa: E501
+    "rrgr": [("rock_corner_south_west", None)],  # noqa: E501
+    "rgrr": [("rock_corner_north_east", None)],  # noqa: E501
+    "grrr": [("rock_corner_north_west", None)],  # noqa: E501
 
     # iijj
-    hash_lt(LT.WATER, LT.GRASS, LT.GRASS, LT.WATER): [("river_diag_anti", None)],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.WATER, LT.GRASS): [("river_diag", None)],
-    hash_lt(LT.GRASS, LT.GRASS, LT.WATER, LT.WATER): [("river_north", None)],
-    hash_lt(LT.GRASS, LT.WATER, LT.GRASS, LT.WATER): [("river_west", None)],
-    hash_lt(LT.WATER, LT.GRASS, LT.WATER, LT.GRASS): [("river_east", None)],
-    hash_lt(LT.WATER, LT.WATER, LT.GRASS, LT.GRASS): [("river_south", None)],
+    "wggw": [("river_diag_anti", None)],  # noqa: E501
+    "gwwg": [("river_diag", None)],
+    "ggww": [("river_north", None)],
+    "gwgw": [("river_west", None)],
+    "wgwg": [("river_east", None)],
+    "wwgg": [("river_south", None)],
 
-    hash_lt(LT.WATER, LT.ROCK, LT.ROCK, LT.WATER): [("water", "rock_diag_anti_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.WATER, LT.ROCK): [("water", "rock_diag_2")],
-    hash_lt(LT.ROCK, LT.ROCK, LT.WATER, LT.WATER): [("water", "rock_south_2")],
-    hash_lt(LT.ROCK, LT.WATER, LT.ROCK, LT.WATER): [("water", "rock_east_2")],
-    hash_lt(LT.WATER, LT.ROCK, LT.WATER, LT.ROCK): [("water", "rock_west_2")],
-    hash_lt(LT.WATER, LT.WATER, LT.ROCK, LT.ROCK): [("water", "rock_north_2")],
+    "wrrw": [("water", "rock_diag_anti_2")],  # noqa: E501
+    "rwwr": [("water", "rock_diag_2")],
+    "rrww": [("water", "rock_south_2")],
+    "rwrw": [("water", "rock_east_2")],
+    "wrwr": [("water", "rock_west_2")],
+    "wwrr": [("water", "rock_north_2")],
 
-    hash_lt(LT.ROCK, LT.GRASS, LT.GRASS, LT.ROCK): [("rock_diag", None)],
-    hash_lt(LT.GRASS, LT.ROCK, LT.ROCK, LT.GRASS): [("rock_diag_anti", None)],
-    hash_lt(LT.GRASS, LT.GRASS, LT.ROCK, LT.ROCK): [("rock_north", None)],
-    hash_lt(LT.GRASS, LT.ROCK, LT.GRASS, LT.ROCK): [("rock_west", None)],
-    hash_lt(LT.ROCK, LT.GRASS, LT.ROCK, LT.GRASS): [("rock_east", None)],
-    hash_lt(LT.ROCK, LT.ROCK, LT.GRASS, LT.GRASS): [("rock_south", None)],
+    "rggr": [("rock_diag", None)],
+    "grrg": [("rock_diag_anti", None)],
+    "ggrr": [("rock_north", None)],
+    "grgr": [("rock_west", None)],
+    "rgrg": [("rock_east", None)],
+    "rrgg": [("rock_south", None)],
 
     # iijk
-    hash_lt(LT.WATER, LT.WATER, LT.GRASS, LT.ROCK): [("river_south", "rock_north_west_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.ROCK, LT.WATER): [("river_west", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.WATER, LT.WATER): [("river_north", "rock_south_east_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.WATER, LT.GRASS): [("river_east", "rock_south_west_2")],  # noqa: E501
+    "wwgr": [("river_south", "rock_north_west_2")],  # noqa: E501
+    "gwrw": [("river_west", "rock_north_east_2")],  # noqa: E501
+    "rgww": [("river_north", "rock_south_east_2")],  # noqa: E501
+    "wrwg": [("river_east", "rock_south_west_2")],  # noqa: E501
 
-    hash_lt(LT.WATER, LT.WATER, LT.ROCK, LT.GRASS): [("river_south", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.GRASS, LT.WATER): [("river_west", "rock_south_east_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.WATER, LT.WATER): [("river_north", "rock_south_west_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.GRASS, LT.WATER, LT.ROCK): [("river_east", "rock_north_west_2")],  # noqa: E501
+    "wwrg": [("river_south", "rock_north_east_2")],  # noqa: E501
+    "rwgw": [("river_west", "rock_south_east_2")],  # noqa: E501
+    "grww": [("river_north", "rock_south_west_2")],  # noqa: E501
+    "wgwr": [("river_east", "rock_north_west_2")],  # noqa: E501
 
-    hash_lt(LT.ROCK, LT.ROCK, LT.WATER, LT.GRASS): [("river_east", "rock_south_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.GRASS, LT.ROCK): [("river_corner_south_east", "rock_west_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.ROCK, LT.ROCK): [("river_west", "rock_north_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.ROCK, LT.WATER): [("river_corner_north_west", "rock_east_2")],  # noqa: E501
+    "rrwg": [("river_east", "rock_south_2")],  # noqa: E501
+    "wrgr": [("river_corner_south_east", "rock_west_2")],  # noqa: E501
+    "gwrr": [("river_west", "rock_north_2")],  # noqa: E501
+    "rgrw": [("river_corner_north_west", "rock_east_2")],  # noqa: E501
 
-    hash_lt(LT.ROCK, LT.ROCK, LT.GRASS, LT.WATER): [("river_corner_north_west", "rock_south_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.WATER, LT.ROCK): [("river_corner_north_east", "rock_west_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.GRASS, LT.ROCK, LT.ROCK): [("river_east", "rock_north_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.ROCK, LT.GRASS): [("river_south", "rock_east_2")],  # noqa: E501
+    "rrgw": [("river_corner_north_west", "rock_south_2")],  # noqa: E501
+    "grwr": [("river_corner_north_east", "rock_west_2")],  # noqa: E501
+    "wgrr": [("river_east", "rock_north_2")],  # noqa: E501
+    "rwrg": [("river_south", "rock_east_2")],  # noqa: E501
 
-    hash_lt(LT.GRASS, LT.GRASS, LT.WATER, LT.ROCK): [("river_corner_north_east", "rock_north_west_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.GRASS, LT.ROCK, LT.GRASS): [("river_corner_south_east", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.GRASS, LT.GRASS): [("river_corner_south_west", "rock_south_east_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.GRASS, LT.WATER): [("river_corner_north_west", "rock_south_west_2")],  # noqa: E501
+    "ggwr": [("river_corner_north_east", "rock_north_west_2")],  # noqa: E501
+    "wgrg": [("river_corner_south_east", "rock_north_east_2")],  # noqa: E501
+    "rwgg": [("river_corner_south_west", "rock_south_east_2")],  # noqa: E501
+    "grgw": [("river_corner_north_west", "rock_south_west_2")],  # noqa: E501
 
-    hash_lt(LT.GRASS, LT.GRASS, LT.ROCK, LT.WATER): [("river_corner_north_west", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.WATER, LT.GRASS): [("river_corner_north_east", "rock_south_east_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.GRASS, LT.GRASS): [("river_corner_south_east", "rock_south_west_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.GRASS, LT.ROCK): [("river_corner_south_west", "rock_north_west_2")],  # noqa: E501
+    "ggrw": [("river_corner_north_west", "rock_north_east_2")],  # noqa: E501
+    "rgwg": [("river_corner_north_east", "rock_south_east_2")],  # noqa: E501
+    "wrgg": [("river_corner_south_east", "rock_south_west_2")],  # noqa: E501
+    "gwgr": [("river_corner_south_west", "rock_north_west_2")],  # noqa: E501
 
-    hash_lt(LT.GRASS, LT.WATER, LT.ROCK, LT.GRASS): [("river_corner_south_west", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.GRASS, LT.WATER): [("river_corner_north_west", "rock_south_east_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.WATER, LT.GRASS): [("river_corner_north_east", "rock_south_west_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.GRASS, LT.GRASS, LT.ROCK): [("river_corner_south_east", "rock_north_west_2")],  # noqa: E501
+    "gwrg": [("river_corner_south_west", "rock_north_east_2")],  # noqa: E501
+    "rggw": [("river_corner_north_west", "rock_south_east_2")],  # noqa: E501
+    "grwg": [("river_corner_north_east", "rock_south_west_2")],  # noqa: E501
+    "wggr": [("river_corner_south_east", "rock_north_west_2")],  # noqa: E501
 
-    hash_lt(LT.WATER, LT.GRASS, LT.ROCK, LT.WATER): [("river_inv_corner_north_east", "rock_north_east_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.WATER, LT.WATER, LT.GRASS): [("river_inv_corner_south_east", "rock_south_east_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.GRASS, LT.WATER): [("river_inv_corner_south_west", "rock_south_west_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.WATER, LT.WATER, LT.ROCK): [("river_inv_corner_north_west", "rock_north_west_2")],  # noqa: E501
+    "wgrw": [("river_inv_corner_north_east", "rock_north_east_2")],  # noqa: E501
+    "rwwg": [("river_inv_corner_south_east", "rock_south_east_2")],  # noqa: E501
+    "wrgw": [("river_inv_corner_south_west", "rock_south_west_2")],  # noqa: E501
+    "gwwr": [("river_inv_corner_north_west", "rock_north_west_2")],  # noqa: E501
 
-    hash_lt(LT.ROCK, LT.WATER, LT.GRASS, LT.ROCK): [("river_corner_south_west", "rock_diag_2")],  # noqa: E501
-    hash_lt(LT.GRASS, LT.ROCK, LT.ROCK, LT.WATER): [("river_corner_north_west", "rock_diag_anti_2")],  # noqa: E501
-    hash_lt(LT.ROCK, LT.GRASS, LT.WATER, LT.ROCK): [("river_corner_north_east", "rock_diag_2")],  # noqa: E501
-    hash_lt(LT.WATER, LT.ROCK, LT.ROCK, LT.GRASS): [("river_corner_south_east", "rock_diag_anti_2")],  # noqa: E501
+    "rwgr": [("river_corner_south_west", "rock_diag_2")],  # noqa: E501
+    "grrw": [("river_corner_north_west", "rock_diag_anti_2")],  # noqa: E501
+    "rgwr": [("river_corner_north_east", "rock_diag_2")],  # noqa: E501
+    "wrrg": [("river_corner_south_east", "rock_diag_anti_2")],  # noqa: E501
 }
 
 FOREST_TILEMAP = {
@@ -446,6 +439,7 @@ def generate_cells(
     terrain_noise,
     biome_noise,
     forest_threshold: float,
+    land_types,
     w: int,
     h: int,
     tileset: Dict[Name, Tile],
@@ -477,15 +471,17 @@ def generate_cells(
         for i in trange(h + 2)
     ]
 
+    tlt = lambda x: to_land_type(x, land_types=land_types)
+
     cells = []
     incomplete, bad_tile = False, None
     for i in range(1, h):
         for j in range(1, w):
-            nw = to_land_type(terrain_noise_values[i][j])
-            ne = to_land_type(terrain_noise_values[i][j + 1])
-            sw = to_land_type(terrain_noise_values[i + 1][j])
-            se = to_land_type(terrain_noise_values[i + 1][j + 1])
-            key = hash_lt(nw, ne, sw, se)
+            nw = tlt(terrain_noise_values[i][j])
+            ne = tlt(terrain_noise_values[i][j + 1])
+            sw = tlt(terrain_noise_values[i + 1][j])
+            se = tlt(terrain_noise_values[i + 1][j + 1])
+            key = ''.join([nw.value, ne.value, sw.value, se.value])
 
             bg, fg = choice(TILEMAP.get(key, [("spell_red", None)]))
 
@@ -493,11 +489,11 @@ def generate_cells(
             forest = [
                 (
                     biome_noise_values[a][b] > forest_threshold and
-                    to_land_type(terrain_noise_values[a][b]) ==
-                    to_land_type(terrain_noise_values[a][b + 1]) ==
-                    to_land_type(terrain_noise_values[a + 1][b]) ==
-                    to_land_type(terrain_noise_values[a + 1][b + 1]) and
-                    to_land_type(terrain_noise_values[a][b]) in valid
+                    tlt(terrain_noise_values[a][b]) ==
+                    tlt(terrain_noise_values[a][b + 1]) ==
+                    tlt(terrain_noise_values[a + 1][b]) ==
+                    tlt(terrain_noise_values[a + 1][b + 1]) and
+                    tlt(terrain_noise_values[a][b]) in valid
                 )
                 for a, b in [
                     (i - 1, j - 1), (i - 1, j), (i - 1, j + 1),
@@ -597,6 +593,26 @@ def noise_as_json():
     return type_func
 
 
+def land_types_as_json():
+    def type_func(val: str) -> dict:
+        try:
+            lt = json.loads(val)
+        except Exception:
+            raise Exception("value given to --land-types is not valid JSON")
+
+        if not isinstance(lt, dict):
+            raise Exception(f"should be a dict, found {type(lt).__name__}")
+
+        expected = ["ROCK", "GRASS", "WATER"]
+        if sorted(lt.keys()) != sorted(expected):
+            raise Exception(
+                f"bad keys, expected {expected}, found {list(lt.keys())}"
+            )
+
+        return {k: float(v) for k, v in lt.items()}
+    return type_func
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--map-width", "-W", type=int, required=True)
@@ -609,6 +625,7 @@ if __name__ == "__main__":
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
     parser.add_argument("--forest-threshold", type=float, default=0.0)
+    parser.add_argument("--land-types", type=land_types_as_json(), required=True)
     args = parser.parse_args()
 
     pygame.init()
@@ -635,6 +652,7 @@ if __name__ == "__main__":
         terrain_noise,
         biome_noise,
         args.forest_threshold,
+        args.land_types,
         args.map_width,
         args.map_height,
         tiles,
@@ -655,6 +673,7 @@ if __name__ == "__main__":
                 terrain_noise,
                 biome_noise,
                 args.forest_threshold,
+                args.land_types,
                 args.map_width,
                 args.map_height,
                 tiles,
