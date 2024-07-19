@@ -629,6 +629,9 @@ def blit(
             pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
             screen.blit(shape_surf, rect)
 
+            text = font.render(f"({pi}, {pj})", False, color)
+            screen.blit(text, rect[:2])
+
     pygame.draw.circle(screen, RED, (w / 2, h / 2), 10)
 
 
