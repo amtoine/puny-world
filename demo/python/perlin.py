@@ -535,6 +535,17 @@ def generate_chunk(
     return cells
 
 
+def take_screenshot(screen: pygame.surface.Surface):
+    w, h = screen.get_size()
+    pygame.draw.rect(screen, RED, (0, 0, w, h), width=10)
+    pygame.display.flip()
+
+    out = f"{time_ns()}.png"
+    image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
+    Image.fromarray(image).save(out)
+    info(f"window saved in [purple]{out}[/purple]")
+
+
 def handle_events() -> (bool, bool, (int, int), bool):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
@@ -597,7 +608,24 @@ def blit(
             screen.blit(shape_surf, rect)
 
 
-def is_number(obj: Any):
+def blit_debug_pannel(
+    screen: pygame.surface.Surface,
+    font: pygame.font.SysFont,
+    clock: pygame.time.Clock,
+    chunks: Dict[Tuple[int, int], List[Cell]],
+    chunks_to_load: List[Tuple[int, int]],
+    pos: (int, int),
+):
+    msg = (
+        f"running at {int(clock.get_fps())} FPS | "
+        f"chunks: {len(chunks)} / {len(chunks_to_load)}"
+    )
+    text = font.render(msg, False, GREY, BLACK)
+    x, y = pos
+    screen.blit(text, (x, y - text.get_height()))
+
+
+def is_number(obj: Any) -> bool:
     return isinstance(obj, float) or isinstance(obj, int)
 
 
@@ -707,17 +735,10 @@ if __name__ == "__main__":
     t = 0
     running = True
     while running:
-        running, snapshot, move, toggle_debug = handle_events()
+        running, screenshot, move, toggle_debug = handle_events()
 
-        if snapshot:
-            w, h = screen.get_size()
-            pygame.draw.rect(screen, RED, (0, 0, w, h), width=10)
-            pygame.display.flip()
-
-            out = f"{time_ns()}.png"
-            image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
-            Image.fromarray(image).save(out)
-            info(f"window saved in [purple]{out}[/purple]")
+        if screenshot:
+            take_screenshot(screen)
 
         if toggle_debug:
             debug = not debug
@@ -769,17 +790,9 @@ if __name__ == "__main__":
         )
 
         if debug:
-            msg = (
-                f"running at {int(clock.get_fps())} FPS | "
-                f"chunks: {len(chunks)} / {len(chunks_to_load)}"
-            )
-            text = font.render(msg, False, GREY, BLACK)
-            screen.blit(
-                text,
-                (
-                    10,
-                    args.map_height * args.tile_size - 10 - text.get_height(),
-                ),
+            _, h = screen.get_size()
+            blit_debug_pannel(
+                screen, font, clock, chunks, chunks_to_load, (10, h - 10)
             )
 
         pygame.display.flip()
