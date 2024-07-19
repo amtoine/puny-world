@@ -549,6 +549,14 @@ def show(screen: pygame.surface.Surface, cells: List[Cell], s: int):
                 (c.j * s, c.i * s),
             )
 
+    # draw a slightly transparent grid on top of the cells
+    for c in cells:
+        rect = (c.j * s, c.i * s, s, s)
+        color = BLACK + (64,)
+        shape_surf = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
+        pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
+        screen.blit(shape_surf, rect)
+
     pygame.display.flip()
 
 
