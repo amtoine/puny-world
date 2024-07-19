@@ -542,7 +542,7 @@ def handle_events() -> (bool, bool, (int, int), bool):
         ):
             return False, False, None, False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
+            if event.key == pygame.K_F2:
                 return True, True, None, False
             elif event.key == pygame.K_h:
                 return True, False, (0, -1), False
@@ -708,7 +708,12 @@ if __name__ == "__main__":
     running = True
     while running:
         running, snapshot, move, toggle_debug = handle_events()
+
         if snapshot:
+            w, h = screen.get_size()
+            pygame.draw.rect(screen, RED, (0, 0, w, h), width=10)
+            pygame.display.flip()
+
             out = f"{time_ns()}.png"
             image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
             Image.fromarray(image).save(out)
