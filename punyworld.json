@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "overworld":
   {
     "image":
@@ -7,8 +7,8 @@
       "source": "./assets/punyworld-overworld-tileset.png",
       "width": 432,
       "height": 1040,
-      "version": "1.8",
-      "tiled_version": "1.8.4",
+      "version": "1.9",
+      "tiled_version": "1.9.0",
       "name": "punyworld-overworld",
       "tile_width": 16,
       "tile_height": 16,
