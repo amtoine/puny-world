@@ -10,7 +10,7 @@ from tileset import load_tileset, Tile, Name, get_animation_steps, Animation
 from pathlib import Path
 from enum import Enum
 from random import choice
-from tqdm import trange
+from tqdm import trange, tqdm
 import numpy as np
 from PIL import Image
 
@@ -455,10 +455,6 @@ def generate_chunk(
     tileset: Dict[Name, Tile],
     z: float = 0.0,
 ) -> List[Cell]:
-    t = time_ns()
-
-    print("[bold green]INFO[/bold green]: starting generating cells")
-
     chunk_i, chunk_j = pos
     chunk_i, chunk_j = chunk_i * CHUNK_SIZE, chunk_j * CHUNK_SIZE
 
@@ -470,7 +466,7 @@ def generate_chunk(
             )
             for j in range(chunk_j, chunk_j + CHUNK_SIZE + 3)
         ]
-        for i in trange(chunk_i, chunk_i + CHUNK_SIZE + 3)
+        for i in range(chunk_i, chunk_i + CHUNK_SIZE + 3)
     ]
 
     biome_noise_values = [
@@ -481,7 +477,7 @@ def generate_chunk(
             )
             for j in range(chunk_j, chunk_j + CHUNK_SIZE + 2)
         ]
-        for i in trange(chunk_i, chunk_i + CHUNK_SIZE + 2)
+        for i in range(chunk_i, chunk_i + CHUNK_SIZE + 2)
     ]
 
     tlt = lambda x: to_land_type(x, land_types=land_types)
@@ -528,7 +524,6 @@ def generate_chunk(
                 foreground=tileset.get(fg),
             ))
 
-    print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
     if incomplete:
         print(f"[bold yellow]WARNING[/bold yellow]: generation is incomplete with {bad_tile}")
 
@@ -700,7 +695,9 @@ if __name__ == "__main__":
 
     pos = (0, 0)
     chunks = {}
-    for i in range(nb_chunk_height):
+    print("[bold green]INFO[/bold green]: generating chunks")
+    t = time_ns()
+    for i in trange(nb_chunk_height):
         for j in range(nb_chunk_width):
             chunks[(i, j)] = generate_chunk(
                 terrain_noise,
@@ -710,6 +707,7 @@ if __name__ == "__main__":
                 (i, j),
                 tiles,
             )
+    print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
 
     t = 0
     running = True
@@ -728,20 +726,19 @@ if __name__ == "__main__":
             positions = []
             if mi == 0:
                 for i in range(abs(mj) * nb_chunk_height):
-                    positions.append((
-                        pi + i,
-                        pj + nb_chunk_width if mj == 1 else pj - 1,
-                    ))
+                    pos = (pi + i, pj + nb_chunk_width if mj == 1 else pj - 1)
+                    if pos not in chunks:
+                        positions.append(pos)
             elif mj == 0:
                 for j in range(abs(mi) * nb_chunk_width):
-                    positions.append((
-                        pi + nb_chunk_height if mi == 1 else pi - 1,
-                        pj + j,
-                    ))
+                    pos = (pi + nb_chunk_height if mi == 1 else pi - 1, pj + j)
+                    if pos not in chunks:
+                        positions.append(pos)
 
-            for pos in positions:
-                if pos not in chunks:
-                    info(f"generating chunk [yellow]{pos}[/yellow]")
+            if len(positions) > 0:  # don't show the bar if nothing to do
+                info(f"generating new chunks: {positions}")
+                t = time_ns()
+                for pos in tqdm(positions):
                     chunks[pos] = generate_chunk(
                         terrain_noise,
                         biome_noise,
@@ -750,6 +747,7 @@ if __name__ == "__main__":
                         pos,
                         tiles,
                     )
+                print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
             pos = (pi + mi, pj + mj)
 
         pi, pj = pos
