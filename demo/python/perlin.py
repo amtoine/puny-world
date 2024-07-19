@@ -557,27 +557,29 @@ def take_screenshot(screen: pygame.surface.Surface):
     pygame.display.flip()
 
 
-def handle_events() -> (bool, bool, (int, int), bool):
+def handle_events() -> (bool, bool, (int, int), bool, bool):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            return False, False, None, False
+            return False, False, None, False, False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F2:
-                return True, True, None, False
+                return True, True, None, False, False
             elif event.key == pygame.K_h:
-                return True, False, (0, -1), False
+                return True, False, (0, -1), False, False
             elif event.key == pygame.K_l:
-                return True, False, (0, +1), False
+                return True, False, (0, +1), False, False
             elif event.key == pygame.K_j:
-                return True, False, (+1, 0), False
+                return True, False, (+1, 0), False, False
             elif event.key == pygame.K_k:
-                return True, False, (-1, 0), False
+                return True, False, (-1, 0), False, False
             elif event.key == pygame.K_F3:
-                return True, False, None, True
+                return True, False, None, True, False
+        elif event.type == pygame.WINDOWRESIZED:
+            return True, False, None, False, True
 
-    return True, False, None, False
+    return True, False, None, False, False
 
 
 def blit(
@@ -634,6 +636,15 @@ def blit_debug_pannel(
     text = font.render(msg, False, GREY, BLACK)
     x, y = pos
     screen.blit(text, (x, y - text.get_height()))
+
+
+def get_number_of_chunks_to_render(screen) -> (int, int):
+    w, h = screen.get_size()
+    foo = CHUNK_SIZE - 1
+    return (
+        ((h + foo * tile_size) // tile_size + foo) // CHUNK_SIZE,
+        ((w + foo * tile_size) // tile_size + foo) // CHUNK_SIZE,
+    )
 
 
 def is_number(obj: Any) -> bool:
@@ -699,9 +710,6 @@ def land_heights_as_json():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--map-width", "-W", type=int, required=True)
-    parser.add_argument("--map-height", "-H", type=int, required=True)
-    parser.add_argument("--tile-size", "-s", type=int, required=True)
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
     parser.add_argument("--seed", type=int)
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
@@ -713,10 +721,9 @@ if __name__ == "__main__":
     pygame.init()
     pygame.font.init()
     font = pygame.font.SysFont("mononokinerdfont", 30)
-    screen = pygame.display.set_mode((
-        args.map_width * args.tile_size,
-        args.map_height * args.tile_size,
-    ))
+    window_size = (721, 389)
+    tile_size = 16
+    screen = pygame.display.set_mode(window_size, pygame.RESIZABLE)
     clock = pygame.time.Clock()
     dt = 0
 
@@ -731,8 +738,7 @@ if __name__ == "__main__":
         for n in args.biome_noise
     ]
 
-    nb_chunk_height = (args.map_height + CHUNK_SIZE - 1) // CHUNK_SIZE
-    nb_chunk_width = (args.map_width + CHUNK_SIZE - 1) // CHUNK_SIZE
+    nb_chunk_height, nb_chunk_width = get_number_of_chunks_to_render(screen)
 
     pos = (0, 0)
     chunks = {}
@@ -746,7 +752,15 @@ if __name__ == "__main__":
     t = 0
     running = True
     while running:
-        running, screenshot, move, toggle_debug = handle_events()
+        (
+            running, screenshot, move, toggle_debug, window_resized
+        ) = handle_events()
+
+        if window_resized:
+            info(f"resizing window to {screen.get_size()}")
+            nb_chunk_height, nb_chunk_width = get_number_of_chunks_to_render(
+                screen
+            )
 
         if screenshot:
             take_screenshot(screen)
@@ -796,7 +810,7 @@ if __name__ == "__main__":
             },
             animations,
             t,
-            args.tile_size,
+            tile_size,
             debug=debug,
         )
 
