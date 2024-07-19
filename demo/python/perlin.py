@@ -769,7 +769,7 @@ if __name__ == "__main__":
 
         dt = clock.tick(args.frame_rate) / 1000
         if args.show_fps:
-            info(clock.get_fps(), end='\r')
+            info(f"running at {int(clock.get_fps())} FPS", end='\r')
 
         t += 1
 
