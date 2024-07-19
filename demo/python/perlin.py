@@ -13,6 +13,7 @@ from random import choice
 from tqdm import tqdm
 import numpy as np
 from PIL import Image
+from math import tau
 
 BLACK = (0, 0, 0)
 GREY = (100, 100, 100)
@@ -557,8 +558,15 @@ def handle_events() -> (bool, bool, (int, int)):
     return True, False, None
 
 
-def loading(screen: pygame.surface.Surface):
-    pygame.draw.rect(screen, RED, (10, 10, 20, 20))
+def loading(screen: pygame.surface.Surface, i: int, n: int):
+    pygame.draw.arc(
+        screen,
+        RED,
+        (10, 10, 20, 20),
+        start_angle=0,
+        stop_angle=tau * i / n,
+        width=10,
+    )
     pygame.display.flip()
 
 
@@ -703,15 +711,18 @@ if __name__ == "__main__":
     pos = (0, 0)
     chunks = {}
     info("generating chunks")
-    loading(screen)
     t = time_ns()
+    nb_chunks = nb_chunk_height * nb_chunk_width
     pbar = tqdm(
-        total=nb_chunk_height * nb_chunk_width,
+        total=nb_chunks,
         bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}",
     )
+    curr = 1
     for i in range(nb_chunk_height):
         for j in range(nb_chunk_width):
             pbar.update(1)
+            curr += 1
+            loading(screen, curr, nb_chunks)
             chunks[(i, j)] = generate_chunk(
                 terrain_noise,
                 biome_noise,
@@ -751,9 +762,9 @@ if __name__ == "__main__":
 
             if len(positions) > 0:  # don't show the bar if nothing to do
                 info(f"generating new chunks: {positions}")
-                loading(screen)
                 t = time_ns()
-                for pos in tqdm(positions):
+                for i, pos in enumerate(tqdm(positions)):
+                    loading(screen, i, len(positions))
                     chunks[pos] = generate_chunk(
                         terrain_noise,
                         biome_noise,
