@@ -1,5 +1,5 @@
 from perlin_noise import PerlinNoise
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Tuple
 import pygame
 import argparse
 from dataclasses import dataclass
@@ -558,7 +558,7 @@ def handle_events() -> (bool, bool, (int, int)):
 
 def show(
     screen: pygame.surface.Surface,
-    cells: List[Cell],
+    chunks: Dict[Tuple[int, int], List[Cell]],
     animations: List[Animation],
     t: int,
     s: int,
@@ -566,22 +566,23 @@ def show(
 ):
     screen.fill(BLACK)
 
-    for c in cells:
-        try:
-            tile = get_animation_steps(c.background.id, animations)[
-                (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
-            ].tile
-        except Exception:
-            tile = c.background
-        screen.blit(
-            pygame.transform.scale(tile.image, (s, s)),
-            (c.j * s, c.i * s),
-        )
-        if c.foreground is not None:
+    for (pi, pj), cells in chunks.items():
+        for c in cells:
+            try:
+                tile = get_animation_steps(c.background.id, animations)[
+                    (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
+                ].tile
+            except Exception:
+                tile = c.background
             screen.blit(
-                pygame.transform.scale(c.foreground.image, (s, s)),
-                (c.j * s, c.i * s),
+                pygame.transform.scale(tile.image, (s, s)),
+                ((pj * CHUNK_SIZE + c.j) * s, (pi * CHUNK_SIZE + c.i) * s),
             )
+            if c.foreground is not None:
+                screen.blit(
+                    pygame.transform.scale(c.foreground.image, (s, s)),
+                    ((pj * CHUNK_SIZE + c.j) * s, (pi * CHUNK_SIZE + c.i) * s),
+                )
 
     if show_grid:
         # draw a slightly transparent grid on top of the cells
@@ -694,16 +695,21 @@ if __name__ == "__main__":
         for n in args.biome_noise
     ]
 
+    nb_chunk_height = (args.map_height + CHUNK_SIZE - 1) // CHUNK_SIZE
+    nb_chunk_width = (args.map_width + CHUNK_SIZE - 1) // CHUNK_SIZE
+
     pos = (0, 0)
     chunks = {}
-    chunks[pos] = generate_chunk(
-        terrain_noise,
-        biome_noise,
-        args.forest_threshold,
-        args.land_types,
-        pos,
-        tiles,
-    )
+    for i in range(nb_chunk_height):
+        for j in range(nb_chunk_width):
+            chunks[(i, j)] = generate_chunk(
+                terrain_noise,
+                biome_noise,
+                args.forest_threshold,
+                args.land_types,
+                (i, j),
+                tiles,
+            )
 
     t = 0
     running = True
@@ -718,20 +724,45 @@ if __name__ == "__main__":
         if move is not None:
             pi, pj = pos
             mi, mj = move
-            pos = (pi + mi, pj + mj)
-            if pos not in chunks:
-                info(f"generating chunk {pos}")
-                chunks[pos] = generate_chunk(
-                    terrain_noise,
-                    biome_noise,
-                    args.forest_threshold,
-                    args.land_types,
-                    pos,
-                    tiles,
-                )
 
+            positions = []
+            if mi == 0:
+                for i in range(abs(mj) * nb_chunk_height):
+                    positions.append((
+                        pi + i,
+                        pj + nb_chunk_width if mj == 1 else pj - 1,
+                    ))
+            elif mj == 0:
+                for j in range(abs(mi) * nb_chunk_width):
+                    positions.append((
+                        pi + nb_chunk_height if mi == 1 else pi - 1,
+                        pj + j,
+                    ))
+
+            for pos in positions:
+                if pos not in chunks:
+                    info(f"generating chunk [yellow]{pos}[/yellow]")
+                    chunks[pos] = generate_chunk(
+                        terrain_noise,
+                        biome_noise,
+                        args.forest_threshold,
+                        args.land_types,
+                        pos,
+                        tiles,
+                    )
+            pos = (pi + mi, pj + mj)
+
+        pi, pj = pos
         show(
-            screen, chunks[pos], animations, t, args.tile_size, show_grid=args.show_grid
+            screen,
+            {
+                (i, j): chunks[(pi + i, pj + j)]
+                for i in range(nb_chunk_height) for j in range(nb_chunk_width)
+            },
+            animations,
+            t,
+            args.tile_size,
+            show_grid=args.show_grid,
         )
 
         dt = clock.tick(args.frame_rate) / 1000
