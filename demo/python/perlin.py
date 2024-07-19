@@ -15,6 +15,7 @@ import numpy as np
 from PIL import Image
 
 BLACK = (0, 0, 0)
+RED = (255, 0, 0)
 
 ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 5
@@ -555,6 +556,11 @@ def handle_events() -> (bool, bool, (int, int)):
     return True, False, None
 
 
+def loading(screen: pygame.surface.Surface):
+    pygame.draw.rect(screen, RED, (10, 10, 20, 20))
+    pygame.display.flip()
+
+
 def show(
     screen: pygame.surface.Surface,
     chunks: Dict[Tuple[int, int], List[Cell]],
@@ -700,6 +706,7 @@ if __name__ == "__main__":
     pos = (0, 0)
     chunks = {}
     info("generating chunks")
+    loading(screen)
     t = time_ns()
     for i in trange(nb_chunk_height):
         for j in range(nb_chunk_width):
@@ -741,6 +748,7 @@ if __name__ == "__main__":
 
             if len(positions) > 0:  # don't show the bar if nothing to do
                 info(f"generating new chunks: {positions}")
+                loading(screen)
                 t = time_ns()
                 for pos in tqdm(positions):
                     chunks[pos] = generate_chunk(
