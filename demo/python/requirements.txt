@@ -7,3 +7,4 @@ pillow==10.4.0
 matplotlib==3.9.1
 rich==13.7.1
 PyQt5==5.15.10
+perlin_noise==1.12

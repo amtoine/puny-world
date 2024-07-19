@@ -138,3 +138,40 @@ const NB_NS_IN_SEC = 1e9
     --fullscreen
 ]
 ```
+
+### perlin noise
+```nushell
+const SEED = 123
+
+const NOISE = {
+    terrain: [
+        [amplitude, octaves];
+
+        [1.000,     1],
+        [0.500,     6],
+        [0.250,     12],
+    ],
+    forest: [
+        [amplitude, octaves];
+
+        [1.000,     1],
+        [0.500,     3],
+        [0.250,     12],
+    ]
+}
+
+const LAND_TYPES = { "ROCK": 0.1, "GRASS": 0.0, "WATER": "-inf" }
+
+python perlin.py ...[
+    -W 40
+    -H 20
+    -s 32
+    -t 100
+    -f 60
+    --seed $SEED
+    --show-fps
+    --terrain-noise ($NOISE.terrain | to json)
+    --biome-noise ($NOISE.forest | to json)
+    --land-types ($LAND_TYPES | to json)
+]
+```
