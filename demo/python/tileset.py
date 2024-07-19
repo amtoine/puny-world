@@ -48,13 +48,9 @@ Character = Dict[Name, List[pygame.surface.Surface]]
 def cut(
     surface: pygame.surface.Surface, id: int, /, size: (int, int), cols: int
 ) -> pygame.surface.Surface:
-    tile = pygame.Surface(size)
-    tile.blit(
-        surface,
-        (0, 0),
-        (id % cols * size[0], id // cols * size[1], *size)
+    return surface.subsurface(
+        pygame.Rect(id % cols * size[0], id // cols * size[1], *size)
     )
-    return tile
 
 
 def load_tileset(
