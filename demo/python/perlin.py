@@ -445,6 +445,7 @@ FOREST_TILEMAP = {
 def generate_cells(
     terrain_noise,
     biome_noise,
+    forest_threshold: float,
     w: int,
     h: int,
     tileset: Dict[Name, Tile],
@@ -491,7 +492,7 @@ def generate_cells(
             valid = [LT.GRASS, LT.ROCK]
             forest = [
                 (
-                    biome_noise_values[a][b] > 0.0 and
+                    biome_noise_values[a][b] > forest_threshold and
                     to_land_type(terrain_noise_values[a][b]) ==
                     to_land_type(terrain_noise_values[a][b + 1]) ==
                     to_land_type(terrain_noise_values[a + 1][b]) ==
@@ -607,6 +608,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int)
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
+    parser.add_argument("--forest-threshold", type=float, default=0.0)
     args = parser.parse_args()
 
     pygame.init()
@@ -630,7 +632,12 @@ if __name__ == "__main__":
     ]
 
     cells = generate_cells(
-        terrain_noise, biome_noise, args.map_width, args.map_height, tiles
+        terrain_noise,
+        biome_noise,
+        args.forest_threshold,
+        args.map_width,
+        args.map_height,
+        tiles,
     )
 
     t = 0
@@ -645,9 +652,13 @@ if __name__ == "__main__":
             else:
                 z = 0.0
             cells = generate_cells(
-                terrain_noise, biome_noise,
-                args.map_width, args.map_height,
-                tiles, z=z
+                terrain_noise,
+                biome_noise,
+                args.forest_threshold,
+                args.map_width,
+                args.map_height,
+                tiles,
+                z=z,
             )
 
         show(screen, cells, args.tile_size)
