@@ -535,7 +535,12 @@ def handle_events() -> (bool, bool):
     return True, False
 
 
-def show(screen: pygame.surface.Surface, cells: List[Cell], s: int):
+def show(
+    screen: pygame.surface.Surface,
+    cells: List[Cell],
+    s: int,
+    show_grid: bool = False,
+):
     screen.fill(BLACK)
 
     for c in cells:
@@ -549,13 +554,16 @@ def show(screen: pygame.surface.Surface, cells: List[Cell], s: int):
                 (c.j * s, c.i * s),
             )
 
-    # draw a slightly transparent grid on top of the cells
-    for c in cells:
-        rect = (c.j * s, c.i * s, s, s)
-        color = BLACK + (64,)
-        shape_surf = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
-        pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
-        screen.blit(shape_surf, rect)
+    if show_grid:
+        # draw a slightly transparent grid on top of the cells
+        for c in cells:
+            rect = (c.j * s, c.i * s, s, s)
+            color = BLACK + (64,)
+            shape_surf = pygame.Surface(
+                pygame.Rect(rect).size, pygame.SRCALPHA
+            )
+            pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
+            screen.blit(shape_surf, rect)
 
     pygame.display.flip()
 
@@ -634,6 +642,7 @@ if __name__ == "__main__":
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
     parser.add_argument("--forest-threshold", type=float, default=0.0)
     parser.add_argument("--land-types", type=land_types_as_json(), required=True)
+    parser.add_argument("--show-grid", action="store_true")
     args = parser.parse_args()
 
     pygame.init()
@@ -688,7 +697,7 @@ if __name__ == "__main__":
                 z=z,
             )
 
-        show(screen, cells, args.tile_size)
+        show(screen, cells, args.tile_size, show_grid=args.show_grid)
 
         dt = clock.tick(args.frame_rate) / 1000
         if args.show_fps:
