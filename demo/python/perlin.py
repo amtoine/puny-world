@@ -467,11 +467,11 @@ def generate_chunk(
     biome_noise: List[Tuple[float, PerlinNoise]],
     forest_threshold: float,
     land_heights: LandHeights,
-    pos: (int, int),
+    chunk: (int, int),
     tileset: Dict[Name, Tile],
     z: float = 0.0,
 ) -> List[Cell]:
-    chunk_i, chunk_j = pos
+    chunk_i, chunk_j = chunk
     chunk_i, chunk_j = chunk_i * CHUNK_SIZE, chunk_j * CHUNK_SIZE
 
     terrain_noise_values = [
