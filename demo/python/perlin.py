@@ -443,8 +443,8 @@ FOREST_TILEMAP = {
 
 
 def generate_cells(
-    noise,
-    noise_on_top,
+    terrain_noise,
+    biome_noise,
     w: int,
     h: int,
     tileset: Dict[Name, Tile],
@@ -454,22 +454,22 @@ def generate_cells(
 
     print("[bold green]INFO[/bold green]: starting generating cells")
 
-    noise_values = [
+    terrain_noise_values = [
         [
             sum(
                 weight * n([i / (h + 1), j / (w + 1), z])
-                for weight, n in noise
+                for weight, n in terrain_noise
             )
             for j in range(w + 2)
         ]
         for i in trange(h + 2)
     ]
 
-    noise_on_top_values = [
+    biome_noise_values = [
         [
             sum(
                 weight * n([i / (h + 1), j / (w + 1), z])
-                for weight, n in noise_on_top
+                for weight, n in biome_noise
             )
             for j in range(w + 2)
         ]
@@ -480,10 +480,10 @@ def generate_cells(
     incomplete, bad_tile = False, None
     for i in range(1, h):
         for j in range(1, w):
-            nw = to_land_type(noise_values[i][j])
-            ne = to_land_type(noise_values[i][j + 1])
-            sw = to_land_type(noise_values[i + 1][j])
-            se = to_land_type(noise_values[i + 1][j + 1])
+            nw = to_land_type(terrain_noise_values[i][j])
+            ne = to_land_type(terrain_noise_values[i][j + 1])
+            sw = to_land_type(terrain_noise_values[i + 1][j])
+            se = to_land_type(terrain_noise_values[i + 1][j + 1])
             key = hash_lt(nw, ne, sw, se)
 
             bg, fg = choice(TILEMAP.get(key, [("spell_red", None)]))
@@ -491,12 +491,12 @@ def generate_cells(
             valid = [LT.GRASS, LT.ROCK]
             forest = [
                 (
-                    noise_on_top_values[a][b] > 0.0 and
-                    to_land_type(noise_values[a][b]) ==
-                    to_land_type(noise_values[a][b + 1]) ==
-                    to_land_type(noise_values[a + 1][b]) ==
-                    to_land_type(noise_values[a + 1][b + 1]) and
-                    to_land_type(noise_values[a][b]) in valid
+                    biome_noise_values[a][b] > 0.0 and
+                    to_land_type(terrain_noise_values[a][b]) ==
+                    to_land_type(terrain_noise_values[a][b + 1]) ==
+                    to_land_type(terrain_noise_values[a + 1][b]) ==
+                    to_land_type(terrain_noise_values[a + 1][b + 1]) and
+                    to_land_type(terrain_noise_values[a][b]) in valid
                 )
                 for a, b in [
                     (i - 1, j - 1), (i - 1, j), (i - 1, j + 1),
@@ -605,8 +605,8 @@ if __name__ == "__main__":
     parser.add_argument("--change-with-time", "-t", type=float)
     parser.add_argument("--show-fps", action="store_true")
     parser.add_argument("--seed", type=int)
-    parser.add_argument("--noise", type=noise_as_json(), required=True)
-    parser.add_argument("--noise-on-top", type=noise_as_json(), required=True)
+    parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
+    parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
     args = parser.parse_args()
 
     pygame.init()
@@ -620,16 +620,18 @@ if __name__ == "__main__":
 
     tiles, _, _ = load_tileset(Path("../../punyworld.json"))
 
-    noise = [
+    terrain_noise = [
         (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
-        for n in args.noise
+        for n in args.terrain_noise
     ]
-    noise_on_top = [
+    biome_noise = [
         (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
-        for n in args.noise_on_top
+        for n in args.biome_noise
     ]
 
-    cells = generate_cells(noise, noise_on_top, args.map_width, args.map_height, tiles)
+    cells = generate_cells(
+        terrain_noise, biome_noise, args.map_width, args.map_height, tiles
+    )
 
     t = 0
     running = True
@@ -638,8 +640,15 @@ if __name__ == "__main__":
 
         if regenerate_cells:
             print()
-            z = t / args.change_with_time if args.change_with_time is not None else 0.0
-            cells = generate_cells(noise, noise_on_top, args.map_width, args.map_height, tiles, z=z)
+            if args.change_with_time is not None:
+                z = t / args.change_with_time
+            else:
+                z = 0.0
+            cells = generate_cells(
+                terrain_noise, biome_noise,
+                args.map_width, args.map_height,
+                tiles, z=z
+            )
 
         show(screen, cells, args.tile_size)
 

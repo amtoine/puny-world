@@ -141,22 +141,34 @@ const NB_NS_IN_SEC = 1e9
 
 ### perlin noise
 ```nushell
-let noise = [
-    [amplitude, octaves];
-    [1.000,     3],
-    [0.500,     6],
-    [0.250,     12],
-    [0.125,     24],
-]
+const SEED = 123
+
+const NOISE = {
+    terrain: [
+        [amplitude, octaves];
+
+        [1.000,     1],
+        [0.500,     6],
+        [0.250,     12],
+    ],
+    forest: [
+        [amplitude, octaves];
+
+        [1.000,     1],
+        [0.500,     3],
+        [0.250,     12],
+    ]
+}
 
 python perlin.py ...[
-    -W 160
-    -H 90
-    -s 8
+    -W 40
+    -H 20
+    -s 32
     -t 100
     -f 60
-    --seed 123
+    --seed $SEED
     --show-fps
-    --noise ($noise | to json)
+    --terrain-noise ($NOISE.terrain | to json)
+    --biome-noise ($NOISE.forest | to json)
 ]
 ```
