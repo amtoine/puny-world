@@ -772,7 +772,7 @@ if __name__ == "__main__":
 
         if len(chunks_to_load) > 0:
             new_chunk = chunks_to_load.pop()
-            info(f"generating new chunk: {new_chunk}")
+            info(f"generating chunk {new_chunk}...", end=' ')
             t = time_ns()
             chunks[new_chunk] = generate_chunk(
                 terrain_noise,
@@ -782,7 +782,7 @@ if __name__ == "__main__":
                 new_chunk,
                 tiles,
             )
-            info(f"done in {(time_ns() - t) / 1_000_000} ms")
+            print(f"done in {round((time_ns() - t) / 1_000_000, 2)} ms")
 
         screen.fill(BLACK)
 
