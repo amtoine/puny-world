@@ -11,11 +11,17 @@ from pathlib import Path
 from enum import Enum
 from random import choice
 from tqdm import trange
+import numpy as np
+from PIL import Image
 
 BLACK = (0, 0, 0)
 
 ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 5
+
+
+def info(msg: str):
+    print(f"[bold green]INFO[/bold green]: {msg}")
 
 
 class LandType(Enum):
@@ -525,17 +531,19 @@ def generate_cells(
     return cells
 
 
-def handle_events() -> (bool, bool):
+def handle_events() -> (bool, bool, bool):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            return False, None
+            return False, None, False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                return True, True
+                return True, True, False
+            elif event.key == pygame.K_RETURN:
+                return True, False, True
 
-    return True, False
+    return True, False, False
 
 
 def show(
@@ -689,7 +697,12 @@ if __name__ == "__main__":
     t = 0
     running = True
     while running:
-        running, regenerate_cells = handle_events()
+        running, regenerate_cells, snapshot = handle_events()
+        if snapshot:
+            out = f"{time_ns()}.png"
+            image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
+            Image.fromarray(image).save(out)
+            info(f"window saved in [purple]{out}[/purple]")
 
         if regenerate_cells:
             print()
