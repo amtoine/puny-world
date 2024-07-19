@@ -10,7 +10,7 @@ from tileset import load_tileset, Tile, Name, get_animation_steps, Animation
 from pathlib import Path
 from enum import Enum
 from random import choice
-from tqdm import trange, tqdm
+from tqdm import tqdm
 import numpy as np
 from PIL import Image
 
@@ -705,8 +705,13 @@ if __name__ == "__main__":
     info("generating chunks")
     loading(screen)
     t = time_ns()
-    for i in trange(nb_chunk_height):
+    pbar = tqdm(
+        total=nb_chunk_height * nb_chunk_width,
+        bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}",
+    )
+    for i in range(nb_chunk_height):
         for j in range(nb_chunk_width):
+            pbar.update(1)
             chunks[(i, j)] = generate_chunk(
                 terrain_noise,
                 biome_noise,
@@ -715,6 +720,7 @@ if __name__ == "__main__":
                 (i, j),
                 tiles,
             )
+    pbar.close()
     info(f"done in {(time_ns() - t) / 1_000_000} ms")
 
     t = 0
