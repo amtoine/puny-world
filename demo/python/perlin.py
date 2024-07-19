@@ -614,10 +614,14 @@ def blit(
                 )
 
     if debug:
-        s = CHUNK_SIZE * s
+        chunk_s = CHUNK_SIZE * s
         # draw a slightly transparent grid on top of the chunks
-        for (pi, pj), cells in chunks.items():
-            rect = (pj * s, pi * s, s, s)
+        for (pi, pj), _ in chunks.items():
+            rect = (
+                w / 2 + pj * chunk_s - dx,
+                h / 2 + pi * chunk_s - dy,
+                chunk_s, chunk_s
+            )
             color = BLACK + (64,)
             shape_surf = pygame.Surface(
                 pygame.Rect(rect).size, pygame.SRCALPHA
