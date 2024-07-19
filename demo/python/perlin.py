@@ -3,7 +3,7 @@ from typing import List, Any, Dict, Tuple, TypedDict
 import pygame
 import argparse
 from dataclasses import dataclass
-from rich import print
+import rich
 from time import time_ns
 import json
 from tileset import load_tileset, Tile, Name, get_animation_steps, Animation
@@ -24,11 +24,11 @@ CHUNK_SIZE = 8
 
 
 def info(msg: str, end: str = '\n'):
-    print(f"[bold green]INFO[/bold green]: {msg}", end=end)
+    rich.print(f"[bold green]INFO[/bold green]: {msg}", end=end)
 
 
 def warning(msg: str, end: str = '\n'):
-    print(f"[bold yellow]WARNING[/bold yellow]: {msg}", end=end)
+    rich.print(f"[bold yellow]WARNING[/bold yellow]: {msg}", end=end)
 
 
 class NoiseOctave(TypedDict):
@@ -801,7 +801,7 @@ if __name__ == "__main__":
                 new_chunk,
                 tiles,
             )
-            print(f"done in {round((time_ns() - t) / 1_000_000, 2)} ms")
+            rich.print(f"done in {round((time_ns() - t) / 1_000_000, 2)} ms")
 
         screen.fill(BLACK)
 
