@@ -652,11 +652,11 @@ def blit_debug_pannel(
     screen.blit(text, (x, y - text.get_height()))
 
 
-def get_number_of_chunks_to_render(screen) -> (int, int):
-    w, h = screen.get_size()
+def to_chunk_space(pos: (float, float)) -> (int, int):
+    x, y = pos
     return (
-        (h // tile_size) // CHUNK_SIZE + 1,
-        (w // tile_size) // CHUNK_SIZE + 1,
+        int((x // tile_size) // CHUNK_SIZE),
+        int((y // tile_size) // CHUNK_SIZE),
     )
 
 
@@ -751,13 +751,16 @@ if __name__ == "__main__":
         for n in args.biome_noise
     ]
 
-    nb_chunk_height, nb_chunk_width = get_number_of_chunks_to_render(screen)
+    nb_chunk_width, nb_chunk_height = to_chunk_space(screen.get_size())
 
+    w, h = window_size
     pos = (0, 0)
+    pj, pi = to_chunk_space(pos)
     chunks = {}
     chunks_to_load = [
         (i, j)
-        for i in range(nb_chunk_height) for j in range(nb_chunk_width)
+        for i in range(-nb_chunk_height // 2, nb_chunk_height // 2)
+        for j in range(-nb_chunk_width // 2, nb_chunk_width // 2)
     ]
 
     debug = False
@@ -771,12 +774,11 @@ if __name__ == "__main__":
 
         if window_resized:
             info(f"resizing window to {screen.get_size()}")
-            nb_chunk_height, nb_chunk_width = get_number_of_chunks_to_render(
-                screen
-            )
-            pi, pj = pos
-            for i in range(nb_chunk_height):
-                for j in range(nb_chunk_width):
+            # TODO: needs to work on this next
+            nb_chunk_width, nb_chunk_height = to_chunk_space(screen.get_size())
+            pj, pi = to_chunk_space(pos)
+            for i in range(nb_chunk_height + 1):
+                for j in range(nb_chunk_width + 1):
                     new = (pi + i, pj + j)
                     if new not in chunks and new not in chunks_to_load:
                         chunks_to_load.append(new)
@@ -788,23 +790,20 @@ if __name__ == "__main__":
             debug = not debug
 
         if move is not None:
-            pi, pj = pos
             mi, mj = move
+            pos = (pos[0] + mj * 64, pos[1] + mi * 64)
+            pj, pi = to_chunk_space(pos)
 
-            if mi == 0:
-                for i in range(abs(mj) * nb_chunk_height):
-                    pos = (pi + i, pj + nb_chunk_width if mj == 1 else pj - 1)
-                    if pos not in chunks and pos not in chunks_to_load:
-                        chunks_to_load.append(pos)
-            elif mj == 0:
-                for j in range(abs(mi) * nb_chunk_width):
-                    pos = (pi + nb_chunk_height if mi == 1 else pi - 1, pj + j)
-                    if pos not in chunks and pos not in chunks_to_load:
-                        chunks_to_load.append(pos)
-            pos = (pi + mi, pj + mj)
+            h = nb_chunk_height // 2 + 1
+            w = nb_chunk_width // 2 + 1
+            for i in range(-h, h):
+                for j in range(-w, w):
+                    cpos = (pi + i, pj + j)
+                    if cpos not in chunks and cpos not in chunks_to_load:
+                        chunks_to_load.append(cpos)
 
         if len(chunks_to_load) > 0:
-            new_chunk = chunks_to_load.pop()
+            new_chunk = chunks_to_load.pop(0)
             info(f"generating chunk {new_chunk}...", end=' ')
             t = time_ns()
             chunks[new_chunk] = generate_chunk(
@@ -819,12 +818,13 @@ if __name__ == "__main__":
 
         screen.fill(BLACK)
 
-        pi, pj = pos
+        pj, pi = to_chunk_space(pos)
         blit(
             screen,
             {
-                (i, j): chunks[(pi + i, pj + j)]
-                for i in range(nb_chunk_height) for j in range(nb_chunk_width)
+                (pi + i, pj + j): chunks[(pi + i, pj + j)]
+                for i in range(-nb_chunk_height // 2, nb_chunk_height // 2 + 1)
+                for j in range(-nb_chunk_width // 2, nb_chunk_width // 2 + 1)
                 if (pi + i, pj + j) in chunks
             },
             animations,
