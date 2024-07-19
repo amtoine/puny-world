@@ -15,6 +15,7 @@ import numpy as np
 from PIL import Image
 
 BLACK = (0, 0, 0)
+GREY = (100, 100, 100)
 RED = (255, 0, 0)
 
 ANIMATION_SEQUENCE_LEN = 4
@@ -561,16 +562,14 @@ def loading(screen: pygame.surface.Surface):
     pygame.display.flip()
 
 
-def show(
+def blit(
     screen: pygame.surface.Surface,
     chunks: Dict[Tuple[int, int], List[Cell]],
     animations: List[Animation],
     t: int,
     s: int,
-    show_grid: bool = False,
+    debug: bool = False,
 ):
-    screen.fill(BLACK)
-
     for (pi, pj), cells in chunks.items():
         for c in cells:
             try:
@@ -589,18 +588,17 @@ def show(
                     ((pj * CHUNK_SIZE + c.j) * s, (pi * CHUNK_SIZE + c.i) * s),
                 )
 
-    if show_grid:
-        # draw a slightly transparent grid on top of the cells
-        for c in cells:
-            rect = (c.j * s, c.i * s, s, s)
+    if debug:
+        s = CHUNK_SIZE * s
+        # draw a slightly transparent grid on top of the chunks
+        for (pi, pj), cells in chunks.items():
+            rect = (pj * s, pi * s, s, s)
             color = BLACK + (64,)
             shape_surf = pygame.Surface(
                 pygame.Rect(rect).size, pygame.SRCALPHA
             )
             pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
             screen.blit(shape_surf, rect)
-
-    pygame.display.flip()
 
 
 def is_number(obj: Any):
@@ -671,17 +669,17 @@ if __name__ == "__main__":
     parser.add_argument("--tile-size", "-s", type=int, required=True)
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
     parser.add_argument("--change-with-time", "-t", type=float)
-    parser.add_argument("--show-fps", action="store_true")
+    parser.add_argument("--debug", action="store_true")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
     parser.add_argument("--forest-threshold", type=float, default=0.0)
     parser.add_argument("--land-types", type=land_types_as_json(), required=True)
-    parser.add_argument("--show-grid", action="store_true")
     args = parser.parse_args()
 
     pygame.init()
     pygame.font.init()
+    font = pygame.font.SysFont("mononokinerdfont", 30)
     screen = pygame.display.set_mode((
         args.map_width * args.tile_size,
         args.map_height * args.tile_size,
@@ -762,8 +760,10 @@ if __name__ == "__main__":
                 info(f"done in {(time_ns() - t) / 1_000_000} ms")
             pos = (pi + mi, pj + mj)
 
+        screen.fill(BLACK)
+
         pi, pj = pos
-        show(
+        blit(
             screen,
             {
                 (i, j): chunks[(pi + i, pj + j)]
@@ -772,12 +772,23 @@ if __name__ == "__main__":
             animations,
             t,
             args.tile_size,
-            show_grid=args.show_grid,
+            debug=args.debug,
         )
 
+        if args.debug:
+            msg = f"running at {int(clock.get_fps())} FPS | {len(chunks)} chunks"
+            info(msg, end='\r')
+            text = font.render(msg, False, GREY, BLACK)
+            screen.blit(
+                text,
+                (
+                    10,
+                    args.map_height * args.tile_size - 10 - text.get_height(),
+                ),
+            )
+
+        pygame.display.flip()
         dt = clock.tick(args.frame_rate) / 1000
-        if args.show_fps:
-            info(f"running at {int(clock.get_fps())} FPS", end='\r')
 
         t += 1
 
