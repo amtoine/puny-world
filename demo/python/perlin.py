@@ -6,13 +6,16 @@ from dataclasses import dataclass
 from rich import print
 from time import time_ns
 import json
-from tileset import load_tileset, Tile, Name
+from tileset import load_tileset, Tile, Name, get_animation_steps, Animation
 from pathlib import Path
 from enum import Enum
 from random import choice
 from tqdm import trange
 
 BLACK = (0, 0, 0)
+
+ANIMATION_SEQUENCE_LEN = 4
+ANIMATION_INV_SPEED = 5
 
 
 class LandType(Enum):
@@ -538,14 +541,22 @@ def handle_events() -> (bool, bool):
 def show(
     screen: pygame.surface.Surface,
     cells: List[Cell],
+    animations: List[Animation],
+    t: int,
     s: int,
     show_grid: bool = False,
 ):
     screen.fill(BLACK)
 
     for c in cells:
+        try:
+            tile = get_animation_steps(c.background.id, animations)[
+                (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
+            ].tile
+        except Exception:
+            tile = c.background
         screen.blit(
-            pygame.transform.scale(c.background.image, (s, s)),
+            pygame.transform.scale(tile.image, (s, s)),
             (c.j * s, c.i * s),
         )
         if c.foreground is not None:
@@ -654,7 +665,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     dt = 0
 
-    tiles, _, _ = load_tileset(Path("../../punyworld.json"))
+    tiles, animations, _ = load_tileset(Path("../../punyworld.json"))
 
     terrain_noise = [
         (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
@@ -697,7 +708,9 @@ if __name__ == "__main__":
                 z=z,
             )
 
-        show(screen, cells, args.tile_size, show_grid=args.show_grid)
+        show(
+            screen, cells, animations, t, args.tile_size, show_grid=args.show_grid
+        )
 
         dt = clock.tick(args.frame_rate) / 1000
         if args.show_fps:
