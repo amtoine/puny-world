@@ -535,25 +535,27 @@ def generate_chunk(
     return cells
 
 
-def handle_events() -> (bool, bool, (int, int)):
+def handle_events() -> (bool, bool, (int, int), bool):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            return False, False, None
+            return False, False, None, False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                return True, True, None
+                return True, True, None, False
             elif event.key == pygame.K_h:
-                return True, False, (0, -1)
+                return True, False, (0, -1), False
             elif event.key == pygame.K_l:
-                return True, False, (0, +1)
+                return True, False, (0, +1), False
             elif event.key == pygame.K_j:
-                return True, False, (+1, 0)
+                return True, False, (+1, 0), False
             elif event.key == pygame.K_k:
-                return True, False, (-1, 0)
+                return True, False, (-1, 0), False
+            elif event.key == pygame.K_F3:
+                return True, False, None, True
 
-    return True, False, None
+    return True, False, None, False
 
 
 def blit(
@@ -662,7 +664,6 @@ if __name__ == "__main__":
     parser.add_argument("--map-height", "-H", type=int, required=True)
     parser.add_argument("--tile-size", "-s", type=int, required=True)
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
-    parser.add_argument("--debug", action="store_true")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
@@ -701,15 +702,20 @@ if __name__ == "__main__":
         for i in range(nb_chunk_height) for j in range(nb_chunk_width)
     ]
 
+    debug = False
+
     t = 0
     running = True
     while running:
-        running, snapshot, move = handle_events()
+        running, snapshot, move, toggle_debug = handle_events()
         if snapshot:
             out = f"{time_ns()}.png"
             image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
             Image.fromarray(image).save(out)
             info(f"window saved in [purple]{out}[/purple]")
+
+        if toggle_debug:
+            debug = not debug
 
         if move is not None:
             pi, pj = pos
@@ -754,10 +760,10 @@ if __name__ == "__main__":
             animations,
             t,
             args.tile_size,
-            debug=args.debug,
+            debug=debug,
         )
 
-        if args.debug:
+        if debug:
             msg = (
                 f"running at {int(clock.get_fps())} FPS | "
                 f"chunks: {len(chunks)} / {len(chunks_to_load)}"
