@@ -734,9 +734,9 @@ if __name__ == "__main__":
     pygame.init()
     pygame.font.init()
     font = pygame.font.SysFont("mononokinerdfont", 30)
-    window_size = (721, 389)
-    tile_size = 32
-    screen = pygame.display.set_mode(window_size, pygame.RESIZABLE)
+    tile_size = 16
+    window_size = (tile_size * CHUNK_SIZE * 8, tile_size * CHUNK_SIZE * 4)
+    screen = pygame.display.set_mode(window_size)#, pygame.RESIZABLE)
     clock = pygame.time.Clock()
     dt = 0
 
@@ -757,11 +757,9 @@ if __name__ == "__main__":
     pos = (0, 0)
     pj, pi = to_chunk_space(pos)
     chunks = {}
-    chunks_to_load = [
-        (i, j)
-        for i in range(-nb_chunk_height // 2, nb_chunk_height // 2)
-        for j in range(-nb_chunk_width // 2, nb_chunk_width // 2)
-    ]
+    h = nb_chunk_height // 2 + 1
+    w = nb_chunk_width // 2 + 1
+    chunks_to_load = [(i, j) for i in range(-h, h) for j in range(-w, w)]
 
     debug = False
 
@@ -774,14 +772,14 @@ if __name__ == "__main__":
 
         if window_resized:
             info(f"resizing window to {screen.get_size()}")
-            # TODO: needs to work on this next
             nb_chunk_width, nb_chunk_height = to_chunk_space(screen.get_size())
-            pj, pi = to_chunk_space(pos)
-            for i in range(nb_chunk_height + 1):
-                for j in range(nb_chunk_width + 1):
-                    new = (pi + i, pj + j)
-                    if new not in chunks and new not in chunks_to_load:
-                        chunks_to_load.append(new)
+            h = nb_chunk_height // 2 + 1
+            w = nb_chunk_width // 2 + 1
+            for i in range(-h, h):
+                for j in range(-w, w):
+                    cpos = (pi + i, pj + j)
+                    if cpos not in chunks and cpos not in chunks_to_load:
+                        chunks_to_load.append(cpos)
 
         if screenshot:
             take_screenshot(screen)
@@ -819,12 +817,13 @@ if __name__ == "__main__":
         screen.fill(BLACK)
 
         pj, pi = to_chunk_space(pos)
+        h = nb_chunk_height // 2 + 1
+        w = nb_chunk_width // 2 + 1
         blit(
             screen,
             {
                 (pi + i, pj + j): chunks[(pi + i, pj + j)]
-                for i in range(-nb_chunk_height // 2, nb_chunk_height // 2 + 1)
-                for j in range(-nb_chunk_width // 2, nb_chunk_width // 2 + 1)
+                for i in range(-h, h) for j in range(-w, w)
                 if (pi + i, pj + j) in chunks
             },
             animations,
