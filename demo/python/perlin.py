@@ -640,10 +640,9 @@ def blit_debug_pannel(
 
 def get_number_of_chunks_to_render(screen) -> (int, int):
     w, h = screen.get_size()
-    foo = CHUNK_SIZE - 1
     return (
-        ((h + foo * tile_size) // tile_size + foo) // CHUNK_SIZE,
-        ((w + foo * tile_size) // tile_size + foo) // CHUNK_SIZE,
+        (h // tile_size) // CHUNK_SIZE + 1,
+        (w // tile_size) // CHUNK_SIZE + 1,
     )
 
 
@@ -722,7 +721,7 @@ if __name__ == "__main__":
     pygame.font.init()
     font = pygame.font.SysFont("mononokinerdfont", 30)
     window_size = (721, 389)
-    tile_size = 16
+    tile_size = 32
     screen = pygame.display.set_mode(window_size, pygame.RESIZABLE)
     clock = pygame.time.Clock()
     dt = 0
