@@ -761,6 +761,12 @@ if __name__ == "__main__":
             nb_chunk_height, nb_chunk_width = get_number_of_chunks_to_render(
                 screen
             )
+            pi, pj = pos
+            for i in range(nb_chunk_height):
+                for j in range(nb_chunk_width):
+                    new = (pi + i, pj + j)
+                    if new not in chunks and new not in chunks_to_load:
+                        chunks_to_load.append(new)
 
         if screenshot:
             take_screenshot(screen)
