@@ -22,8 +22,12 @@ ANIMATION_INV_SPEED = 5
 CHUNK_SIZE = 8
 
 
-def info(msg: str):
-    print(f"[bold green]INFO[/bold green]: {msg}")
+def info(msg: str, end: str = '\n'):
+    print(f"[bold green]INFO[/bold green]: {msg}", end=end)
+
+
+def warning(msg: str, end: str = '\n'):
+    print(f"[bold yellow]WARNING[/bold yellow]: {msg}", end=end)
 
 
 class LandType(Enum):
@@ -525,7 +529,7 @@ def generate_chunk(
             ))
 
     if incomplete:
-        print(f"[bold yellow]WARNING[/bold yellow]: generation is incomplete with {bad_tile}")
+        warning(f"generation is incomplete with {bad_tile}")
 
     return cells
 
@@ -695,7 +699,7 @@ if __name__ == "__main__":
 
     pos = (0, 0)
     chunks = {}
-    print("[bold green]INFO[/bold green]: generating chunks")
+    info("generating chunks")
     t = time_ns()
     for i in trange(nb_chunk_height):
         for j in range(nb_chunk_width):
@@ -707,7 +711,7 @@ if __name__ == "__main__":
                 (i, j),
                 tiles,
             )
-    print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
+    info(f"done in {(time_ns() - t) / 1_000_000} ms")
 
     t = 0
     running = True
@@ -747,7 +751,7 @@ if __name__ == "__main__":
                         pos,
                         tiles,
                     )
-                print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
+                info(f"done in {(time_ns() - t) / 1_000_000} ms")
             pos = (pi + mi, pj + mj)
 
         pi, pj = pos
@@ -765,7 +769,7 @@ if __name__ == "__main__":
 
         dt = clock.tick(args.frame_rate) / 1000
         if args.show_fps:
-            print(clock.get_fps(), end='\r')
+            info(clock.get_fps(), end='\r')
 
         t += 1
 
