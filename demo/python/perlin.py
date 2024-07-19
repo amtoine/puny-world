@@ -668,7 +668,6 @@ if __name__ == "__main__":
     parser.add_argument("--map-height", "-H", type=int, required=True)
     parser.add_argument("--tile-size", "-s", type=int, required=True)
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
-    parser.add_argument("--change-with-time", "-t", type=float)
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
