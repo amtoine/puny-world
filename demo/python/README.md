@@ -160,7 +160,7 @@ const NOISE = {
     ]
 }
 
-const LAND_TYPES = { "ROCK": 0.1, "GRASS": 0.0, "WATER": "-inf" }
+const LAND_HEIGHTS = { "ROCK": 0.1, "GRASS": 0.0, "WATER": "-inf" }
 
 python perlin.py ...[
     -W 40
@@ -170,6 +170,6 @@ python perlin.py ...[
     --seed $SEED
     --terrain-noise ($NOISE.terrain | to json)
     --biome-noise ($NOISE.forest | to json)
-    --land-types ($LAND_TYPES | to json)
+    --land-heights ($LAND_HEIGHTS | to json)
 ]
 ```

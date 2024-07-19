@@ -1,5 +1,5 @@
 from perlin_noise import PerlinNoise
-from typing import List, Any, Dict, Tuple
+from typing import List, Any, Dict, Tuple, TypedDict
 import pygame
 import argparse
 from dataclasses import dataclass
@@ -31,10 +31,27 @@ def warning(msg: str, end: str = '\n'):
     print(f"[bold yellow]WARNING[/bold yellow]: {msg}", end=end)
 
 
+class NoiseOctave(TypedDict):
+    amplitude: float
+    octaves: float
+
+
 class LandType(Enum):
     ROCK = 'r'
     GRASS = 'g'
     WATER = 'w'
+
+
+class LandHeights(TypedDict):
+    ROCK: float
+    GRASS: float
+    WATER: float
+
+
+def to_land_type(x: float, land_heights: LandHeights) -> LandType:
+    for k, v in land_heights.items():
+        if x > v:
+            return LandType._member_map_[k]
 
 
 @dataclass
@@ -43,12 +60,6 @@ class Cell:
     j: int
     background: Tile
     foreground: Tile | None
-
-
-def to_land_type(x: float, land_types) -> LandType:
-    for k, v in land_types.items():
-        if x > v:
-            return LandType._member_map_[k]
 
 
 LT = LandType
@@ -452,10 +463,10 @@ FOREST_TILEMAP = {
 
 
 def generate_chunk(
-    terrain_noise,
-    biome_noise,
+    terrain_noise: List[Tuple[float, PerlinNoise]],
+    biome_noise: List[Tuple[float, PerlinNoise]],
     forest_threshold: float,
-    land_types,
+    land_heights: LandHeights,
     pos: (int, int),
     tileset: Dict[Name, Tile],
     z: float = 0.0,
@@ -485,7 +496,7 @@ def generate_chunk(
         for i in range(chunk_i, chunk_i + CHUNK_SIZE + 2)
     ]
 
-    tlt = lambda x: to_land_type(x, land_types=land_types)
+    tlt = lambda x: to_land_type(x, land_heights=land_heights)
 
     cells = []
     incomplete, bad_tile = False, None
@@ -630,7 +641,7 @@ def is_number(obj: Any) -> bool:
 
 
 def noise_as_json():
-    def type_func(val: str) -> dict:
+    def type_func(val: str) -> List[NoiseOctave]:
         try:
             noise = json.loads(val)
         except Exception:
@@ -666,12 +677,12 @@ def noise_as_json():
     return type_func
 
 
-def land_types_as_json():
-    def type_func(val: str) -> dict:
+def land_heights_as_json():
+    def type_func(val: str) -> LandHeights:
         try:
             lt = json.loads(val)
         except Exception:
-            raise Exception("value given to --land-types is not valid JSON")
+            raise Exception("value given to --land-heights is not valid JSON")
 
         if not isinstance(lt, dict):
             raise Exception(f"should be a dict, found {type(lt).__name__}")
@@ -696,7 +707,7 @@ if __name__ == "__main__":
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
     parser.add_argument("--forest-threshold", type=float, default=0.0)
-    parser.add_argument("--land-types", type=land_types_as_json(), required=True)
+    parser.add_argument("--land-heights", type=land_heights_as_json(), required=True)
     args = parser.parse_args()
 
     pygame.init()
@@ -767,7 +778,7 @@ if __name__ == "__main__":
                 terrain_noise,
                 biome_noise,
                 args.forest_threshold,
-                args.land_types,
+                args.land_heights,
                 new_chunk,
                 tiles,
             )
