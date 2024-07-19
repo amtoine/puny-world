@@ -10,10 +10,8 @@ from tileset import load_tileset, Tile, Name, get_animation_steps, Animation
 from pathlib import Path
 from enum import Enum
 from random import choice
-from tqdm import tqdm
 import numpy as np
 from PIL import Image
-from math import tau
 
 BLACK = (0, 0, 0)
 GREY = (100, 100, 100)
@@ -558,18 +556,6 @@ def handle_events() -> (bool, bool, (int, int)):
     return True, False, None
 
 
-def loading(screen: pygame.surface.Surface, i: int, n: int):
-    pygame.draw.arc(
-        screen,
-        RED,
-        (10, 10, 20, 20),
-        start_angle=0,
-        stop_angle=tau * i / n,
-        width=10,
-    )
-    pygame.display.flip()
-
-
 def blit(
     screen: pygame.surface.Surface,
     chunks: Dict[Tuple[int, int], List[Cell]],
@@ -710,29 +696,10 @@ if __name__ == "__main__":
 
     pos = (0, 0)
     chunks = {}
-    info("generating chunks")
-    t = time_ns()
-    nb_chunks = nb_chunk_height * nb_chunk_width
-    pbar = tqdm(
-        total=nb_chunks,
-        bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}",
-    )
-    curr = 1
-    for i in range(nb_chunk_height):
-        for j in range(nb_chunk_width):
-            pbar.update(1)
-            curr += 1
-            loading(screen, curr, nb_chunks)
-            chunks[(i, j)] = generate_chunk(
-                terrain_noise,
-                biome_noise,
-                args.forest_threshold,
-                args.land_types,
-                (i, j),
-                tiles,
-            )
-    pbar.close()
-    info(f"done in {(time_ns() - t) / 1_000_000} ms")
+    chunks_to_load = [
+        (i, j)
+        for i in range(nb_chunk_height) for j in range(nb_chunk_width)
+    ]
 
     t = 0
     running = True
@@ -748,33 +715,31 @@ if __name__ == "__main__":
             pi, pj = pos
             mi, mj = move
 
-            positions = []
             if mi == 0:
                 for i in range(abs(mj) * nb_chunk_height):
                     pos = (pi + i, pj + nb_chunk_width if mj == 1 else pj - 1)
-                    if pos not in chunks:
-                        positions.append(pos)
+                    if pos not in chunks and pos not in chunks_to_load:
+                        chunks_to_load.append(pos)
             elif mj == 0:
                 for j in range(abs(mi) * nb_chunk_width):
                     pos = (pi + nb_chunk_height if mi == 1 else pi - 1, pj + j)
-                    if pos not in chunks:
-                        positions.append(pos)
-
-            if len(positions) > 0:  # don't show the bar if nothing to do
-                info(f"generating new chunks: {positions}")
-                t = time_ns()
-                for i, pos in enumerate(tqdm(positions)):
-                    loading(screen, i, len(positions))
-                    chunks[pos] = generate_chunk(
-                        terrain_noise,
-                        biome_noise,
-                        args.forest_threshold,
-                        args.land_types,
-                        pos,
-                        tiles,
-                    )
-                info(f"done in {(time_ns() - t) / 1_000_000} ms")
+                    if pos not in chunks and pos not in chunks_to_load:
+                        chunks_to_load.append(pos)
             pos = (pi + mi, pj + mj)
+
+        if len(chunks_to_load) > 0:
+            new_chunk = chunks_to_load.pop()
+            info(f"generating new chunk: {new_chunk}")
+            t = time_ns()
+            chunks[new_chunk] = generate_chunk(
+                terrain_noise,
+                biome_noise,
+                args.forest_threshold,
+                args.land_types,
+                new_chunk,
+                tiles,
+            )
+            info(f"done in {(time_ns() - t) / 1_000_000} ms")
 
         screen.fill(BLACK)
 
@@ -784,6 +749,7 @@ if __name__ == "__main__":
             {
                 (i, j): chunks[(pi + i, pj + j)]
                 for i in range(nb_chunk_height) for j in range(nb_chunk_width)
+                if (pi + i, pj + j) in chunks
             },
             animations,
             t,
@@ -792,8 +758,10 @@ if __name__ == "__main__":
         )
 
         if args.debug:
-            msg = f"running at {int(clock.get_fps())} FPS | {len(chunks)} chunks"
-            info(msg, end='\r')
+            msg = (
+                f"running at {int(clock.get_fps())} FPS | "
+                f"chunks: {len(chunks)} / {len(chunks_to_load)}"
+            )
             text = font.render(msg, False, GREY, BLACK)
             screen.blit(
                 text,
