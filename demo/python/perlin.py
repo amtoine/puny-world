@@ -452,12 +452,12 @@ def generate_cells(
     terrain_noise_values = [
         [
             sum(
-                weight * n([i / (h + 1), j / (w + 1), z])
+                weight * n([i / (h + 2), j / (w + 2), z])
                 for weight, n in terrain_noise
             )
-            for j in range(w + 2)
+            for j in range(w + 3)
         ]
-        for i in trange(h + 2)
+        for i in trange(h + 3)
     ]
 
     biome_noise_values = [
@@ -475,8 +475,8 @@ def generate_cells(
 
     cells = []
     incomplete, bad_tile = False, None
-    for i in range(1, h):
-        for j in range(1, w):
+    for i in range(1, h + 1):
+        for j in range(1, w + 1):
             nw = tlt(terrain_noise_values[i][j])
             ne = tlt(terrain_noise_values[i][j + 1])
             sw = tlt(terrain_noise_values[i + 1][j])
@@ -510,7 +510,7 @@ def generate_cells(
                 incomplete, bad_tile = True, (nw, ne, sw, se)
 
             cells.append(Cell(
-                i, j,
+                i - 1, j - 1,
                 background=tileset[bg],
                 foreground=tileset.get(fg),
             ))
