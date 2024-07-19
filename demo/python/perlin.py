@@ -444,6 +444,7 @@ FOREST_TILEMAP = {
 
 def generate_cells(
     noise,
+    noise_on_top,
     w: int,
     h: int,
     tileset: Dict[Name, Tile],
@@ -464,10 +465,6 @@ def generate_cells(
         for i in trange(h + 2)
     ]
 
-    noise_on_top = [
-        (1.0, PerlinNoise(octaves=1, seed=123)),
-        (0.5, PerlinNoise(octaves=3, seed=123)),
-    ]
     noise_on_top_values = [
         [
             sum(
@@ -608,7 +605,8 @@ if __name__ == "__main__":
     parser.add_argument("--change-with-time", "-t", type=float)
     parser.add_argument("--show-fps", action="store_true")
     parser.add_argument("--seed", type=int)
-    parser.add_argument("--noise", type=noise_as_json())
+    parser.add_argument("--noise", type=noise_as_json(), required=True)
+    parser.add_argument("--noise-on-top", type=noise_as_json(), required=True)
     args = parser.parse_args()
 
     pygame.init()
@@ -626,8 +624,12 @@ if __name__ == "__main__":
         (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
         for n in args.noise
     ]
+    noise_on_top = [
+        (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
+        for n in args.noise_on_top
+    ]
 
-    cells = generate_cells(noise, args.map_width, args.map_height, tiles)
+    cells = generate_cells(noise, noise_on_top, args.map_width, args.map_height, tiles)
 
     t = 0
     running = True
@@ -637,7 +639,7 @@ if __name__ == "__main__":
         if regenerate_cells:
             print()
             z = t / args.change_with_time if args.change_with_time is not None else 0.0
-            cells = generate_cells(noise, args.map_width, args.map_height, tiles, z=z)
+            cells = generate_cells(noise, noise_on_top, args.map_width, args.map_height, tiles, z=z)
 
         show(screen, cells, args.tile_size)
 
