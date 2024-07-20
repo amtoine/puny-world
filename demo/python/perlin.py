@@ -675,71 +675,93 @@ def is_number(obj: Any) -> bool:
     return isinstance(obj, float) or isinstance(obj, int)
 
 
-def noise_as_json():
-    def type_func(val: str) -> List[NoiseOctave]:
-        try:
-            noise = json.loads(val)
-        except Exception:
-            raise Exception("value given to --noise is not valid JSON")
+def check_noise(val: Any, name: str) -> List[NoiseOctave]:
+    if not isinstance(val, list):
+        raise Exception(f"$.{name} should be a list, found {type(val).__name__}")
+    if len(val) == 0:
+        raise Exception(f"$.{name} should not be the empty list")
 
-        if not isinstance(noise, list):
-            raise Exception("not a list")
-        if len(noise) == 0:
-            raise Exception("empty list")
-
-        for i, x in enumerate(noise):
-            if not isinstance(x, dict):
-                raise Exception(
-                    f"$.{i} should be a dict, found {type(x).__name__}"
-                )
-
-            expected = ["amplitude", "octaves"]
-            if sorted(x.keys()) != expected:
-                raise Exception(
-                    f"$.{i} has bad keys, expected {expected}, found {list(x.keys())}"
-                )
-            if not is_number(x["amplitude"]):
-                t = type(x['amplitude']).__name__
-                raise Exception(
-                    f"$.{i}.amplitude should be a number, found {t}"
-                )
-            if not is_number(x["octaves"]):
-                t = type(x['octaves']).__name__
-                raise Exception(
-                    f"$.{i}.octaves should be a number, found {t}"
-                )
-        return noise
-    return type_func
-
-
-def land_heights_as_json():
-    def type_func(val: str) -> LandHeights:
-        try:
-            lt = json.loads(val)
-        except Exception:
-            raise Exception("value given to --land-heights is not valid JSON")
-
-        if not isinstance(lt, dict):
-            raise Exception(f"should be a dict, found {type(lt).__name__}")
-
-        expected = ["ROCK", "GRASS", "WATER"]
-        if sorted(lt.keys()) != sorted(expected):
+    for i, x in enumerate(val):
+        if not isinstance(x, dict):
             raise Exception(
-                f"bad keys, expected {expected}, found {list(lt.keys())}"
+                f"$.{name}.{i} should be a dict, found {type(x).__name__}"
             )
 
-        return {k: float(v) for k, v in lt.items()}
+        expected = ["amplitude", "octaves"]
+        if sorted(x.keys()) != expected:
+            raise Exception(
+                f"$.{name}.{i} has bad keys, expected {expected}, found {list(x.keys())}"
+            )
+        if not is_number(x["amplitude"]):
+            t = type(x['amplitude']).__name__
+            raise Exception(
+                f"$.{name}.{i}.amplitude should be a number, found {t}"
+            )
+        if not is_number(x["octaves"]):
+            t = type(x['octaves']).__name__
+            raise Exception(
+                f"$.{name}.{i}.octaves should be a number, found {t}"
+            )
+
+
+def check_land_heights(val: Any, name: str):
+    if not isinstance(val, dict):
+        raise Exception(f"$.{name} should be a dict, found {type(val).__name__}")
+
+    expected = ["ROCK", "GRASS", "WATER"]
+    if sorted(val.keys()) != sorted(expected):
+        raise Exception(
+            f"$.{name} got bad keys, expected {expected}, found {list(val.keys())}"
+        )
+
+
+def world_from_json():
+    def type_func(val: str) -> dict:
+        try:
+            with open(val) as handle:
+                world = json.load(handle)
+        except Exception:
+            raise Exception("value given to --world is not valid JSON")
+
+        if not isinstance(world, dict):
+            raise Exception(f"should be a dict, found {type(world).__name__}")
+
+        expected = ["noise", "land_heights", "forest_threshold"]
+        if sorted(world.keys()) != sorted(expected):
+            raise Exception(
+                f"bad keys, expected {expected}, found {list(world.keys())}"
+            )
+
+        expected = ["terrain", "biome"]
+        if sorted(world["noise"].keys()) != sorted(expected):
+            raise Exception(
+                f"$.noise got bad keys, expected {expected}, found {list(world["noise"].keys())}"
+            )
+
+        if not is_number(world["forest_threshold"]):
+            t = type(world['forest_threshold']).__name__
+            raise Exception(
+                f"$.forest_threshold should be a number, found {t}"
+            )
+
+        check_noise(world["noise"]["terrain"], name="noise.terrain")
+        check_noise(world["noise"]["biome"], name="noise.biome")
+        check_land_heights(world["land_heights"], name="land_heights")
+
+        world["land_heights"] = {
+            k: float(v)
+            for k, v in world["land_heights"].items()
+        }
+
+        return world
     return type_func
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
-    parser.add_argument("--seed", type=int)
-    parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
-    parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
-    parser.add_argument("--forest-threshold", type=float, default=0.0)
-    parser.add_argument("--land-heights", type=land_heights_as_json(), required=True)
+    parser.add_argument("--seed", "-s", type=int)
+    parser.add_argument("--world", "-w", type=world_from_json(), required=True)
     args = parser.parse_args()
 
     pygame.init()
@@ -755,11 +777,11 @@ if __name__ == "__main__":
 
     terrain_noise = [
         (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
-        for n in args.terrain_noise
+        for n in args.world["noise"]["terrain"]
     ]
     biome_noise = [
         (n["amplitude"], PerlinNoise(octaves=n["octaves"], seed=args.seed))
-        for n in args.biome_noise
+        for n in args.world["noise"]["biome"]
     ]
 
     chunks_w, chunks_h = to_chunk_space(screen.get_size())
@@ -808,8 +830,8 @@ if __name__ == "__main__":
             chunks[new_chunk] = generate_chunk(
                 terrain_noise,
                 biome_noise,
-                args.forest_threshold,
-                args.land_heights,
+                args.world["forest_threshold"],
+                args.world["land_heights"],
                 new_chunk,
                 tiles,
             )
