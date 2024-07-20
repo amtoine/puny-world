@@ -1,27 +1,39 @@
 from perlin_noise import PerlinNoise
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Tuple, TypedDict
 import pygame
 import argparse
 from dataclasses import dataclass
-from rich import print
+import rich
 from time import time_ns
 import json
 from tileset import load_tileset, Tile, Name, get_animation_steps, Animation
 from pathlib import Path
 from enum import Enum
 from random import choice
-from tqdm import trange
 import numpy as np
 from PIL import Image
 
 BLACK = (0, 0, 0)
+GREY = (100, 100, 100)
+RED = (255, 0, 0)
 
 ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 5
 
+CHUNK_SIZE = 8
 
-def info(msg: str):
-    print(f"[bold green]INFO[/bold green]: {msg}")
+
+def info(msg: str, end: str = '\n'):
+    rich.print(f"[bold green]INFO[/bold green]: {msg}", end=end)
+
+
+def warning(msg: str, end: str = '\n'):
+    rich.print(f"[bold yellow]WARNING[/bold yellow]: {msg}", end=end)
+
+
+class NoiseOctave(TypedDict):
+    amplitude: float
+    octaves: float
 
 
 class LandType(Enum):
@@ -30,18 +42,24 @@ class LandType(Enum):
     WATER = 'w'
 
 
+class LandHeights(TypedDict):
+    ROCK: float
+    GRASS: float
+    WATER: float
+
+
+def to_land_type(x: float, land_heights: LandHeights) -> LandType:
+    for k, v in land_heights.items():
+        if x > v:
+            return LandType._member_map_[k]
+
+
 @dataclass
 class Cell:
     i: int
     j: int
     background: Tile
     foreground: Tile | None
-
-
-def to_land_type(x: float, land_types) -> LandType:
-    for k, v in land_types.items():
-        if x > v:
-            return LandType._member_map_[k]
 
 
 LT = LandType
@@ -444,48 +462,46 @@ FOREST_TILEMAP = {
 }
 
 
-def generate_cells(
-    terrain_noise,
-    biome_noise,
+def generate_chunk(
+    terrain_noise: List[Tuple[float, PerlinNoise]],
+    biome_noise: List[Tuple[float, PerlinNoise]],
     forest_threshold: float,
-    land_types,
-    w: int,
-    h: int,
+    land_heights: LandHeights,
+    chunk: (int, int),
     tileset: Dict[Name, Tile],
     z: float = 0.0,
 ) -> List[Cell]:
-    t = time_ns()
-
-    print("[bold green]INFO[/bold green]: starting generating cells")
+    chunk_i, chunk_j = chunk
+    chunk_i, chunk_j = chunk_i * CHUNK_SIZE, chunk_j * CHUNK_SIZE
 
     terrain_noise_values = [
         [
             sum(
-                weight * n([i / (h + 2), j / (w + 2), z])
+                weight * n([i / CHUNK_SIZE, j / CHUNK_SIZE, z])
                 for weight, n in terrain_noise
             )
-            for j in range(w + 3)
+            for j in range(chunk_j, chunk_j + CHUNK_SIZE + 3)
         ]
-        for i in trange(h + 3)
+        for i in range(chunk_i, chunk_i + CHUNK_SIZE + 3)
     ]
 
     biome_noise_values = [
         [
             sum(
-                weight * n([i / (h + 1), j / (w + 1), z])
+                weight * n([i / CHUNK_SIZE, j / CHUNK_SIZE, z])
                 for weight, n in biome_noise
             )
-            for j in range(w + 2)
+            for j in range(chunk_j, chunk_j + CHUNK_SIZE + 2)
         ]
-        for i in trange(h + 2)
+        for i in range(chunk_i, chunk_i + CHUNK_SIZE + 2)
     ]
 
-    tlt = lambda x: to_land_type(x, land_types=land_types)
+    tlt = lambda x: to_land_type(x, land_heights=land_heights)
 
     cells = []
     incomplete, bad_tile = False, None
-    for i in range(1, h + 1):
-        for j in range(1, w + 1):
+    for i in range(1, CHUNK_SIZE + 1):
+        for j in range(1, CHUNK_SIZE + 1):
             nw = tlt(terrain_noise_values[i][j])
             ne = tlt(terrain_noise_values[i][j + 1])
             sw = tlt(terrain_noise_values[i + 1][j])
@@ -524,59 +540,89 @@ def generate_cells(
                 foreground=tileset.get(fg),
             ))
 
-    print(f"[bold green]INFO[/bold green]: done in {(time_ns() - t) / 1_000_000} ms")
     if incomplete:
-        print(f"[bold yellow]WARNING[/bold yellow]: generation is incomplete with {bad_tile}")
+        warning(f"generation is incomplete with {bad_tile}")
 
     return cells
 
 
-def handle_events() -> (bool, bool, bool):
+def take_screenshot(screen: pygame.surface.Surface):
+    out = f"{time_ns()}.png"
+    image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
+    Image.fromarray(image).save(out)
+    info(f"window saved in [purple]{out}[/purple]")
+
+    w, h = screen.get_size()
+    pygame.draw.rect(screen, RED, (0, 0, w, h), width=10)
+    pygame.display.flip()
+
+
+def handle_events() -> (bool, bool, (int, int), bool, bool):
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            return False, None, False
+            return False, False, None, False, False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                return True, True, False
-            elif event.key == pygame.K_RETURN:
-                return True, False, True
+            if event.key == pygame.K_F2:
+                return True, True, None, False, False
+            elif event.key == pygame.K_h:
+                return True, False, (0, -1), False, False
+            elif event.key == pygame.K_l:
+                return True, False, (0, +1), False, False
+            elif event.key == pygame.K_j:
+                return True, False, (+1, 0), False, False
+            elif event.key == pygame.K_k:
+                return True, False, (-1, 0), False, False
+            elif event.key == pygame.K_F3:
+                return True, False, None, True, False
+        elif event.type == pygame.WINDOWRESIZED:
+            return True, False, None, False, True
 
-    return True, False, False
+    return True, False, None, False, False
 
 
-def show(
+def blit(
     screen: pygame.surface.Surface,
-    cells: List[Cell],
+    chunks: Dict[Tuple[int, int], List[Cell]],
     animations: List[Animation],
+    pos: (float, float),
+    *,
     t: int,
     s: int,
-    show_grid: bool = False,
+    debug: bool = False,
 ):
-    screen.fill(BLACK)
+    w, h = screen.get_size()
+    dx, dy = pos
 
-    for c in cells:
-        try:
-            tile = get_animation_steps(c.background.id, animations)[
-                (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
-            ].tile
-        except Exception:
-            tile = c.background
-        screen.blit(
-            pygame.transform.scale(tile.image, (s, s)),
-            (c.j * s, c.i * s),
-        )
-        if c.foreground is not None:
-            screen.blit(
-                pygame.transform.scale(c.foreground.image, (s, s)),
-                (c.j * s, c.i * s),
-            )
-
-    if show_grid:
-        # draw a slightly transparent grid on top of the cells
+    for (pi, pj), cells in chunks.items():
         for c in cells:
-            rect = (c.j * s, c.i * s, s, s)
+            try:
+                tile = get_animation_steps(c.background.id, animations)[
+                    (t // ANIMATION_INV_SPEED) % ANIMATION_SEQUENCE_LEN
+                ].tile
+            except Exception:
+                tile = c.background
+            cell_pos = (
+                w / 2 + (pj * CHUNK_SIZE + c.j) * s - dx,
+                h / 2 + (pi * CHUNK_SIZE + c.i) * s - dy,
+            )
+            screen.blit(pygame.transform.scale(tile.image, (s, s)), cell_pos)
+            if c.foreground is not None:
+                screen.blit(
+                    pygame.transform.scale(c.foreground.image, (s, s)),
+                    cell_pos,
+                )
+
+    if debug:
+        chunk_s = CHUNK_SIZE * s
+        # draw a slightly transparent grid on top of the chunks
+        for (pi, pj), _ in chunks.items():
+            rect = (
+                w / 2 + pj * chunk_s - dx,
+                h / 2 + pi * chunk_s - dy,
+                chunk_s, chunk_s
+            )
             color = BLACK + (64,)
             shape_surf = pygame.Surface(
                 pygame.Rect(rect).size, pygame.SRCALPHA
@@ -584,15 +630,53 @@ def show(
             pygame.draw.rect(shape_surf, color, shape_surf.get_rect(), width=1)
             screen.blit(shape_surf, rect)
 
-    pygame.display.flip()
+            text = font.render(f"({pi}, {pj})", False, color)
+            screen.blit(text, rect[:2])
+
+    pygame.draw.circle(screen, RED, (w / 2, h / 2), 10)
 
 
-def is_number(obj: Any):
+def blit_debug_pannel(
+    screen: pygame.surface.Surface,
+    font: pygame.font.SysFont,
+    clock: pygame.time.Clock,
+    chunks: Dict[Tuple[int, int], List[Cell]],
+    chunks_to_load: List[Tuple[int, int]],
+    *,
+    pos: (int, int),
+):
+    msg = (
+        f"running at {int(clock.get_fps())} FPS | "
+        f"chunks: {len(chunks)} / {len(chunks_to_load)}"
+    )
+    text = font.render(msg, False, GREY, BLACK)
+    x, y = pos
+    screen.blit(text, (x, y - text.get_height()))
+
+
+def to_chunk_space(pos: (float, float)) -> (int, int):
+    x, y = pos
+    return (
+        int((x // tile_size) // CHUNK_SIZE),
+        int((y // tile_size) // CHUNK_SIZE),
+    )
+
+
+def chunks_around(
+    pos: (float, float), *, h: int, w: int
+) -> List[Tuple[int, int]]:
+    pj, pi = to_chunk_space(pos)
+    h = h // 2 + 1
+    w = w // 2 + 1
+    return [(pi + i, pj + j) for i in range(-h, h) for j in range(-w, w)]
+
+
+def is_number(obj: Any) -> bool:
     return isinstance(obj, float) or isinstance(obj, int)
 
 
 def noise_as_json():
-    def type_func(val: str) -> dict:
+    def type_func(val: str) -> List[NoiseOctave]:
         try:
             noise = json.loads(val)
         except Exception:
@@ -628,12 +712,12 @@ def noise_as_json():
     return type_func
 
 
-def land_types_as_json():
-    def type_func(val: str) -> dict:
+def land_heights_as_json():
+    def type_func(val: str) -> LandHeights:
         try:
             lt = json.loads(val)
         except Exception:
-            raise Exception("value given to --land-types is not valid JSON")
+            raise Exception("value given to --land-heights is not valid JSON")
 
         if not isinstance(lt, dict):
             raise Exception(f"should be a dict, found {type(lt).__name__}")
@@ -650,26 +734,20 @@ def land_types_as_json():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--map-width", "-W", type=int, required=True)
-    parser.add_argument("--map-height", "-H", type=int, required=True)
-    parser.add_argument("--tile-size", "-s", type=int, required=True)
     parser.add_argument("--frame-rate", "-f", type=int, default=30)
-    parser.add_argument("--change-with-time", "-t", type=float)
-    parser.add_argument("--show-fps", action="store_true")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--terrain-noise", type=noise_as_json(), required=True)
     parser.add_argument("--biome-noise", type=noise_as_json(), required=True)
     parser.add_argument("--forest-threshold", type=float, default=0.0)
-    parser.add_argument("--land-types", type=land_types_as_json(), required=True)
-    parser.add_argument("--show-grid", action="store_true")
+    parser.add_argument("--land-heights", type=land_heights_as_json(), required=True)
     args = parser.parse_args()
 
     pygame.init()
     pygame.font.init()
-    screen = pygame.display.set_mode((
-        args.map_width * args.tile_size,
-        args.map_height * args.tile_size,
-    ))
+    font = pygame.font.SysFont("mononokinerdfont", 30)
+    tile_size = 48
+    window_size = (1600, 900)
+    screen = pygame.display.set_mode(window_size, pygame.RESIZABLE)
     clock = pygame.time.Clock()
     dt = 0
 
@@ -684,50 +762,83 @@ if __name__ == "__main__":
         for n in args.biome_noise
     ]
 
-    cells = generate_cells(
-        terrain_noise,
-        biome_noise,
-        args.forest_threshold,
-        args.land_types,
-        args.map_width,
-        args.map_height,
-        tiles,
-    )
+    chunks_w, chunks_h = to_chunk_space(screen.get_size())
+
+    w, h = window_size
+    pos = (0, 0)
+    chunks = {}
+
+    chunks_to_load = chunks_around(pos, h=chunks_h, w=chunks_w)
+
+    debug = False
 
     t = 0
     running = True
     while running:
-        running, regenerate_cells, snapshot = handle_events()
-        if snapshot:
-            out = f"{time_ns()}.png"
-            image = np.transpose(pygame.surfarray.array3d(screen), (1, 0, 2))
-            Image.fromarray(image).save(out)
-            info(f"window saved in [purple]{out}[/purple]")
+        (
+            running, screenshot, move, toggle_debug, window_resized
+        ) = handle_events()
 
-        if regenerate_cells:
-            print()
-            if args.change_with_time is not None:
-                z = t / args.change_with_time
-            else:
-                z = 0.0
-            cells = generate_cells(
+        if window_resized:
+            info(f"resizing window to {screen.get_size()}")
+            chunks_w, chunks_h = to_chunk_space(screen.get_size())
+
+            for c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                if c not in chunks and c not in chunks_to_load:
+                    chunks_to_load.append(c)
+
+        if screenshot:
+            take_screenshot(screen)
+
+        if toggle_debug:
+            debug = not debug
+
+        if move is not None:
+            mi, mj = move
+            pos = (pos[0] + mj * 64, pos[1] + mi * 64)
+
+            for c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                if c not in chunks and c not in chunks_to_load:
+                    chunks_to_load.append(c)
+
+        if len(chunks_to_load) > 0:
+            new_chunk = chunks_to_load.pop(0)
+            info(f"generating chunk {new_chunk}...", end=' ')
+            t = time_ns()
+            chunks[new_chunk] = generate_chunk(
                 terrain_noise,
                 biome_noise,
                 args.forest_threshold,
-                args.land_types,
-                args.map_width,
-                args.map_height,
+                args.land_heights,
+                new_chunk,
                 tiles,
-                z=z,
             )
+            rich.print(f"done in {round((time_ns() - t) / 1_000_000, 2)} ms")
 
-        show(
-            screen, cells, animations, t, args.tile_size, show_grid=args.show_grid
+        screen.fill(BLACK)
+
+        blit(
+            screen,
+            {
+                c: chunks[c]
+                for c in chunks_around(pos, h=chunks_h, w=chunks_w)
+                if c in chunks
+            },
+            animations,
+            pos,
+            t=t,
+            s=tile_size,
+            debug=debug,
         )
 
+        if debug:
+            _, h = screen.get_size()
+            blit_debug_pannel(
+                screen, font, clock, chunks, chunks_to_load, pos=(10, h - 10)
+            )
+
+        pygame.display.flip()
         dt = clock.tick(args.frame_rate) / 1000
-        if args.show_fps:
-            print(clock.get_fps(), end='\r')
 
         t += 1
 
