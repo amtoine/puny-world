@@ -792,27 +792,37 @@ if __name__ == "__main__":
 
     t = 0
     running = True
+    move = (0, 0)
     while running:
-        move = None
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (
                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
             ):
                 running = False
             elif event.type == pygame.KEYDOWN:
+                mi, mj = move
                 if event.key == pygame.K_F2:
                     take_screenshot(screen)
                 elif event.key == pygame.K_h:
-                    move = (0, -1)
+                    move = (mi, mj - 1)
                 elif event.key == pygame.K_l:
-                    move = (0, +1)
+                    move = (mi, mj + 1)
                 elif event.key == pygame.K_j:
-                    move = (+1, 0)
+                    move = (mi + 1, mj)
                 elif event.key == pygame.K_k:
-                    move = (-1, 0)
+                    move = (mi - 1, mj)
                 elif event.key == pygame.K_F3:
                     debug = not debug
+            elif event.type == pygame.KEYUP:
+                mi, mj = move
+                if event.key == pygame.K_h:
+                    move = (mi, mj + 1)
+                elif event.key == pygame.K_l:
+                    move = (mi, mj - 1)
+                elif event.key == pygame.K_j:
+                    move = (mi - 1, mj)
+                elif event.key == pygame.K_k:
+                    move = (mi + 1, mj)
             elif event.type == pygame.WINDOWRESIZED:
                 info(f"resizing window to {screen.get_size()}")
                 chunks_w, chunks_h = to_chunk_space(screen.get_size())
@@ -821,9 +831,9 @@ if __name__ == "__main__":
                     if c not in chunks and c not in [c for _, c in chunks_to_load]:
                         heappush(chunks_to_load, (w, c))
 
-        if move is not None:
+        if move != (0, 0):
             mi, mj = move
-            pos = (pos[0] + mj * 64, pos[1] + mi * 64)
+            pos = (pos[0] + mj * 16, pos[1] + mi * 16)
 
             for w, c in chunks_around(pos, h=chunks_h, w=chunks_w):
                 if c not in chunks and c not in [c for _, c in chunks_to_load]:
