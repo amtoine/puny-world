@@ -736,7 +736,7 @@ if __name__ == "__main__":
     font = pygame.font.SysFont("mononokinerdfont", 30)
     tile_size = 48
     window_size = (1600, 900)
-    screen = pygame.display.set_mode(window_size)#, pygame.RESIZABLE)
+    screen = pygame.display.set_mode(window_size, pygame.RESIZABLE)
     clock = pygame.time.Clock()
     dt = 0
 
