@@ -24,6 +24,8 @@ ANIMATION_INV_SPEED = 5
 CHUNK_SIZE = 8
 CHUNK_MARGIN = 1
 
+NB_MS_IN_NS = 1_000_000
+
 
 def info(msg: str, end: str = '\n'):
     rich.print(f"[bold green]INFO[/bold green]: {msg}", end=end)
@@ -568,11 +570,13 @@ def blit(
     t: int,
     s: int,
     debug: bool = False,
-):
+) -> (float, float):
     w, h = screen.get_size()
     dx, dy = pos
 
+    times = []
     for (pi, pj), cells in chunks.items():
+        start_t = time_ns()
         for c in cells:
             try:
                 tile = get_animation_steps(c.background.id, animations)[
@@ -590,8 +594,11 @@ def blit(
                     pygame.transform.scale(c.foreground.image, (s, s)),
                     cell_pos,
                 )
+        times.append(time_ns() - start_t)
 
+    debug_time = None
     if debug:
+        start_t = time_ns()
         chunk_s = CHUNK_SIZE * s
         # draw a slightly transparent grid on top of the chunks
         for (pi, pj), _ in chunks.items():
@@ -609,8 +616,11 @@ def blit(
 
             text = font.render(f"({pi}, {pj})", False, color)
             screen.blit(text, rect[:2])
+        debug_time = time_ns() - start_t
 
     pygame.draw.circle(screen, RED, (w / 2, h / 2), 10)
+
+    return sum(times) / len(times), debug_time
 
 
 def blit_debug_pannel(
@@ -622,14 +632,18 @@ def blit_debug_pannel(
     nb_rendered_chunks: int,
     *,
     pos: (int, int),
+    chunk_time: float,
+    debug_time: float,
 ):
-    msg = (
-        f"running at {int(clock.get_fps())} FPS | "
-        f"chunks: {nb_total_chunks} / {nb_loading_chunks} / {nb_rendered_chunks}"
-    )
-    text = font.render(msg, False, GREY, BLACK)
-    x, y = pos
-    screen.blit(text, (x, y - text.get_height()))
+    for i, msg in enumerate([
+        f"running at {int(clock.get_fps())} FPS",
+        f"chunk render time {"%.2f" % round(chunk_time / NB_MS_IN_NS, 2)}",
+        f"debug render time {"%.2f" % round(debug_time / NB_MS_IN_NS, 2)}",
+        f"chunks: {nb_total_chunks} / {nb_loading_chunks} / {nb_rendered_chunks}",
+    ], start=1):
+        text = font.render(msg, False, GREY, BLACK)
+        x, y = pos
+        screen.blit(text, (x, y - i * text.get_height()))
 
 
 def to_chunk_space(pos: (float, float)) -> (int, int):
@@ -827,11 +841,11 @@ if __name__ == "__main__":
                 new_chunk,
                 tiles,
             )
-            rich.print(f"done in {round((time_ns() - t) / 1_000_000, 2)} ms")
+            rich.print(f"done in {round((time_ns() - t) / NB_MS_IN_NS, 2)} ms")
 
         screen.fill(BLACK)
 
-        blit(
+        chunk_time, debug_time = blit(
             screen,
             {
                 c: chunks[c]
@@ -859,6 +873,8 @@ if __name__ == "__main__":
                     * (chunks_w // 2 + CHUNK_MARGIN)
                 ),
                 pos=(10, h - 10),
+                chunk_time=chunk_time,
+                debug_time=debug_time,
             )
 
         pygame.display.flip()
