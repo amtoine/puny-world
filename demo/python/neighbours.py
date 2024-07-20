@@ -67,11 +67,11 @@ if __name__ == "__main__":
                     if event.mod & pygame.KMOD_LSHIFT:
                         t = (t - 1) % len(tiles.keys())
                         n, e, s, w = (0, 0, 0, 0)
-                        print(list(tiles.keys())[t])
+                        print(list(tiles.keys())[t], tiles[list(tiles.keys())[t]].x)
                     else:
                         t = (t + 1) % len(tiles.keys())
                         n, e, s, w = (0, 0, 0, 0)
-                        print(list(tiles.keys())[t])
+                        print(list(tiles.keys())[t], tiles[list(tiles.keys())[t]].x)
 
         screen.fill(BLACK)
 
