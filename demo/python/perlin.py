@@ -802,7 +802,7 @@ if __name__ == "__main__":
                 chunks_w, chunks_h = to_chunk_space(screen.get_size())
 
                 for w, c in chunks_around(pos, h=chunks_h, w=chunks_w):
-                    if c not in chunks and (w, c) not in chunks_to_load:
+                    if c not in chunks and c not in [c for _, c in chunks_to_load]:
                         heappush(chunks_to_load, (w, c))
 
         if move is not None:
@@ -810,7 +810,7 @@ if __name__ == "__main__":
             pos = (pos[0] + mj * 64, pos[1] + mi * 64)
 
             for w, c in chunks_around(pos, h=chunks_h, w=chunks_w):
-                if c not in chunks and (w, c) not in chunks_to_load:
+                if c not in chunks and c not in [c for _, c in chunks_to_load]:
                     heappush(chunks_to_load, (w, c))
 
         if len(chunks_to_load) > 0:
