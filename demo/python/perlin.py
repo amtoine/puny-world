@@ -22,6 +22,7 @@ ANIMATION_SEQUENCE_LEN = 4
 ANIMATION_INV_SPEED = 5
 
 CHUNK_SIZE = 8
+CHUNK_MARGIN = 1
 
 
 def info(msg: str, end: str = '\n'):
@@ -616,14 +617,15 @@ def blit_debug_pannel(
     screen: pygame.surface.Surface,
     font: pygame.font.SysFont,
     clock: pygame.time.Clock,
-    chunks: Dict[Tuple[int, int], List[Cell]],
-    chunks_to_load: List[Tuple[int, int]],
+    nb_total_chunks: int,
+    nb_loading_chunks: int,
+    nb_rendered_chunks: int,
     *,
     pos: (int, int),
 ):
     msg = (
         f"running at {int(clock.get_fps())} FPS | "
-        f"chunks: {len(chunks)} / {len(chunks_to_load)}"
+        f"chunks: {nb_total_chunks} / {nb_loading_chunks} / {nb_rendered_chunks}"
     )
     text = font.render(msg, False, GREY, BLACK)
     x, y = pos
@@ -642,8 +644,8 @@ def chunks_around(
     pos: (float, float), *, h: int, w: int
 ) -> List[Tuple[float, Tuple[int, int]]]:
     pj, pi = to_chunk_space(pos)
-    h = h // 2 + 2
-    w = w // 2 + 2
+    h = h // 2 + CHUNK_MARGIN
+    w = w // 2 + CHUNK_MARGIN
     return [
         ((i - pi) ** 2 + (j - pj) ** 2, (pi + i, pj + j))
         for i in range(-h, h) for j in range(-w, w)
@@ -846,7 +848,17 @@ if __name__ == "__main__":
         if debug:
             _, h = screen.get_size()
             blit_debug_pannel(
-                screen, font, clock, chunks, chunks_to_load, pos=(10, h - 10)
+                screen,
+                font,
+                clock,
+                nb_total_chunks=len(chunks),
+                nb_loading_chunks=len(chunks_to_load),
+                nb_rendered_chunks=(
+                    4
+                    * (chunks_h // 2 + CHUNK_MARGIN)
+                    * (chunks_w // 2 + CHUNK_MARGIN)
+                ),
+                pos=(10, h - 10),
             )
 
         pygame.display.flip()
