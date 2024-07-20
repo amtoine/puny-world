@@ -10,22 +10,19 @@ from pathlib import Path
 class Tile:
     image: pygame.surface.Surface
     id: int
-    north: str | None
-    east: str | None
-    west: str | None
-    south: str | None
+    x: str | None
     transparent: bool
     animation: bool
 
     def get_type(self, dir: str) -> str | None:
         if dir == 'n' or dir == "north":
-            return self.north
+            return ''.join([self.x[0], self.x[1], self.x[2]])
         if dir == 'e' or dir == "east":
-            return self.east
+            return ''.join([self.x[2], self.x[3], self.x[4]])
         if dir == 's' or dir == "south":
-            return self.south
+            return ''.join([self.x[6], self.x[5], self.x[4]])
         if dir == 'w' or dir == "west":
-            return self.west
+            return ''.join([self.x[0], self.x[7], self.x[6]])
 
 
 @dataclass
@@ -75,10 +72,7 @@ def load_tileset(
                 image, v["id"], size=(tilewidth, tileheight), cols=nb_columns
             ),
             id=v["id"],
-            north=v["n"],
-            east=v["e"],
-            west=v["w"],
-            south=v["s"],
+            x=v["x"],
             transparent=v["transparent"],
             animation=v["animation"],
         )
@@ -95,10 +89,7 @@ def load_tileset(
                             image, b["id"], size=(tilewidth, tileheight), cols=nb_columns
                         ),
                         id=b["id"],
-                        north=None,
-                        east=None,
-                        west=None,
-                        south=None,
+                        x=None,
                         transparent=False,
                         animation=False,
                     )
@@ -139,10 +130,10 @@ class Neighbours:
 
 def compute_neighbours(tile: Tile, tiles: Dict[Name, Tile]) -> Neighbours:
     return Neighbours(
-        n=[k for k, v in tiles.items() if v.south == tile.north and tile.north is not None],
-        e=[k for k, v in tiles.items() if v.west == tile.east and tile.east is not None],
-        s=[k for k, v in tiles.items() if v.north == tile.south and tile.south is not None],
-        w=[k for k, v in tiles.items() if v.east == tile.west and tile.west is not None],
+        n=[k for k, v in tiles.items() if tile.x[0] == v.x[6] and tile.x[1] == v.x[5] and tile.x[2] == v.x[4]],  # noqa: E501
+        e=[k for k, v in tiles.items() if tile.x[2] == v.x[0] and tile.x[3] == v.x[7] and tile.x[4] == v.x[6]],  # noqa: E501
+        s=[k for k, v in tiles.items() if tile.x[6] == v.x[0] and tile.x[5] == v.x[1] and tile.x[4] == v.x[2]],  # noqa: E501
+        w=[k for k, v in tiles.items() if tile.x[0] == v.x[2] and tile.x[7] == v.x[3] and tile.x[6] == v.x[4]],  # noqa: E501
     )
 
 
