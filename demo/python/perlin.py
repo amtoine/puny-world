@@ -12,6 +12,7 @@ from enum import Enum
 from random import choice
 import numpy as np
 from PIL import Image
+from heapq import heapify, heappop, heappush
 
 BLACK = (0, 0, 0)
 GREY = (100, 100, 100)
@@ -639,11 +640,14 @@ def to_chunk_space(pos: (float, float)) -> (int, int):
 
 def chunks_around(
     pos: (float, float), *, h: int, w: int
-) -> List[Tuple[int, int]]:
+) -> List[Tuple[float, Tuple[int, int]]]:
     pj, pi = to_chunk_space(pos)
-    h = h // 2 + 1
-    w = w // 2 + 1
-    return [(pi + i, pj + j) for i in range(-h, h) for j in range(-w, w)]
+    h = h // 2 + 2
+    w = w // 2 + 2
+    return [
+        ((i - pi) ** 2 + (j - pj) ** 2, (pi + i, pj + j))
+        for i in range(-h, h) for j in range(-w, w)
+    ]
 
 
 def is_number(obj: Any) -> bool:
@@ -766,6 +770,7 @@ if __name__ == "__main__":
     chunks = {}
 
     chunks_to_load = chunks_around(pos, h=chunks_h, w=chunks_w)
+    heapify(chunks_to_load)
 
     debug = False
 
@@ -796,20 +801,20 @@ if __name__ == "__main__":
                 info(f"resizing window to {screen.get_size()}")
                 chunks_w, chunks_h = to_chunk_space(screen.get_size())
 
-                for c in chunks_around(pos, h=chunks_h, w=chunks_w):
-                    if c not in chunks and c not in chunks_to_load:
-                        chunks_to_load.append(c)
+                for w, c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                    if c not in chunks and (w, c) not in chunks_to_load:
+                        heappush(chunks_to_load, (w, c))
 
         if move is not None:
             mi, mj = move
             pos = (pos[0] + mj * 64, pos[1] + mi * 64)
 
-            for c in chunks_around(pos, h=chunks_h, w=chunks_w):
-                if c not in chunks and c not in chunks_to_load:
-                    chunks_to_load.append(c)
+            for w, c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                if c not in chunks and (w, c) not in chunks_to_load:
+                    heappush(chunks_to_load, (w, c))
 
         if len(chunks_to_load) > 0:
-            new_chunk = chunks_to_load.pop(0)
+            _, new_chunk = heappop(chunks_to_load)
             info(f"generating chunk {new_chunk}...", end=' ')
             t = time_ns()
             chunks[new_chunk] = generate_chunk(
@@ -828,7 +833,7 @@ if __name__ == "__main__":
             screen,
             {
                 c: chunks[c]
-                for c in chunks_around(pos, h=chunks_h, w=chunks_w)
+                for _, c in chunks_around(pos, h=chunks_h, w=chunks_w)
                 if c in chunks
             },
             animations,
