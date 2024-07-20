@@ -557,31 +557,6 @@ def take_screenshot(screen: pygame.surface.Surface):
     pygame.display.flip()
 
 
-def handle_events() -> (bool, bool, (int, int), bool, bool):
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (
-            event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
-        ):
-            return False, False, None, False, False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F2:
-                return True, True, None, False, False
-            elif event.key == pygame.K_h:
-                return True, False, (0, -1), False, False
-            elif event.key == pygame.K_l:
-                return True, False, (0, +1), False, False
-            elif event.key == pygame.K_j:
-                return True, False, (+1, 0), False, False
-            elif event.key == pygame.K_k:
-                return True, False, (-1, 0), False, False
-            elif event.key == pygame.K_F3:
-                return True, False, None, True, False
-        elif event.type == pygame.WINDOWRESIZED:
-            return True, False, None, False, True
-
-    return True, False, None, False, False
-
-
 def blit(
     screen: pygame.surface.Surface,
     chunks: Dict[Tuple[int, int], List[Cell]],
@@ -797,23 +772,33 @@ if __name__ == "__main__":
     t = 0
     running = True
     while running:
-        (
-            running, screenshot, move, toggle_debug, window_resized
-        ) = handle_events()
+        move = None
 
-        if window_resized:
-            info(f"resizing window to {screen.get_size()}")
-            chunks_w, chunks_h = to_chunk_space(screen.get_size())
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (
+                event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+            ):
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F2:
+                    take_screenshot(screen)
+                elif event.key == pygame.K_h:
+                    move = (0, -1)
+                elif event.key == pygame.K_l:
+                    move = (0, +1)
+                elif event.key == pygame.K_j:
+                    move = (+1, 0)
+                elif event.key == pygame.K_k:
+                    move = (-1, 0)
+                elif event.key == pygame.K_F3:
+                    debug = not debug
+            elif event.type == pygame.WINDOWRESIZED:
+                info(f"resizing window to {screen.get_size()}")
+                chunks_w, chunks_h = to_chunk_space(screen.get_size())
 
-            for c in chunks_around(pos, h=chunks_h, w=chunks_w):
-                if c not in chunks and c not in chunks_to_load:
-                    chunks_to_load.append(c)
-
-        if screenshot:
-            take_screenshot(screen)
-
-        if toggle_debug:
-            debug = not debug
+                for c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                    if c not in chunks and c not in chunks_to_load:
+                        chunks_to_load.append(c)
 
         if move is not None:
             mi, mj = move
