@@ -587,6 +587,7 @@ def blit(
     chunks: Dict[Tuple[int, int], List[Cell]],
     animations: List[Animation],
     pos: (float, float),
+    *,
     t: int,
     s: int,
     debug: bool = False,
@@ -641,6 +642,7 @@ def blit_debug_pannel(
     clock: pygame.time.Clock,
     chunks: Dict[Tuple[int, int], List[Cell]],
     chunks_to_load: List[Tuple[int, int]],
+    *,
     pos: (int, int),
 ):
     msg = (
@@ -658,6 +660,15 @@ def to_chunk_space(pos: (float, float)) -> (int, int):
         int((x // tile_size) // CHUNK_SIZE),
         int((y // tile_size) // CHUNK_SIZE),
     )
+
+
+def chunks_around(
+    pos: (float, float), *, h: int, w: int
+) -> List[Tuple[int, int]]:
+    pj, pi = to_chunk_space(pos)
+    h = h // 2 + 1
+    w = w // 2 + 1
+    return [(pi + i, pj + j) for i in range(-h, h) for j in range(-w, w)]
 
 
 def is_number(obj: Any) -> bool:
@@ -751,15 +762,13 @@ if __name__ == "__main__":
         for n in args.biome_noise
     ]
 
-    nb_chunk_width, nb_chunk_height = to_chunk_space(screen.get_size())
+    chunks_w, chunks_h = to_chunk_space(screen.get_size())
 
     w, h = window_size
     pos = (0, 0)
-    pj, pi = to_chunk_space(pos)
     chunks = {}
-    h = nb_chunk_height // 2 + 1
-    w = nb_chunk_width // 2 + 1
-    chunks_to_load = [(i, j) for i in range(-h, h) for j in range(-w, w)]
+
+    chunks_to_load = chunks_around(pos, h=chunks_h, w=chunks_w)
 
     debug = False
 
@@ -772,14 +781,11 @@ if __name__ == "__main__":
 
         if window_resized:
             info(f"resizing window to {screen.get_size()}")
-            nb_chunk_width, nb_chunk_height = to_chunk_space(screen.get_size())
-            h = nb_chunk_height // 2 + 1
-            w = nb_chunk_width // 2 + 1
-            for i in range(-h, h):
-                for j in range(-w, w):
-                    cpos = (pi + i, pj + j)
-                    if cpos not in chunks and cpos not in chunks_to_load:
-                        chunks_to_load.append(cpos)
+            chunks_w, chunks_h = to_chunk_space(screen.get_size())
+
+            for c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                if c not in chunks and c not in chunks_to_load:
+                    chunks_to_load.append(c)
 
         if screenshot:
             take_screenshot(screen)
@@ -790,15 +796,10 @@ if __name__ == "__main__":
         if move is not None:
             mi, mj = move
             pos = (pos[0] + mj * 64, pos[1] + mi * 64)
-            pj, pi = to_chunk_space(pos)
 
-            h = nb_chunk_height // 2 + 1
-            w = nb_chunk_width // 2 + 1
-            for i in range(-h, h):
-                for j in range(-w, w):
-                    cpos = (pi + i, pj + j)
-                    if cpos not in chunks and cpos not in chunks_to_load:
-                        chunks_to_load.append(cpos)
+            for c in chunks_around(pos, h=chunks_h, w=chunks_w):
+                if c not in chunks and c not in chunks_to_load:
+                    chunks_to_load.append(c)
 
         if len(chunks_to_load) > 0:
             new_chunk = chunks_to_load.pop(0)
@@ -816,27 +817,24 @@ if __name__ == "__main__":
 
         screen.fill(BLACK)
 
-        pj, pi = to_chunk_space(pos)
-        h = nb_chunk_height // 2 + 1
-        w = nb_chunk_width // 2 + 1
         blit(
             screen,
             {
-                (pi + i, pj + j): chunks[(pi + i, pj + j)]
-                for i in range(-h, h) for j in range(-w, w)
-                if (pi + i, pj + j) in chunks
+                c: chunks[c]
+                for c in chunks_around(pos, h=chunks_h, w=chunks_w)
+                if c in chunks
             },
             animations,
             pos,
-            t,
-            tile_size,
+            t=t,
+            s=tile_size,
             debug=debug,
         )
 
         if debug:
             _, h = screen.get_size()
             blit_debug_pannel(
-                screen, font, clock, chunks, chunks_to_load, (10, h - 10)
+                screen, font, clock, chunks, chunks_to_load, pos=(10, h - 10)
             )
 
         pygame.display.flip()
