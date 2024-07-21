@@ -855,13 +855,15 @@ if __name__ == "__main__":
 
         screen.fill(BLACK)
 
+        chunks_to_render = {
+            c: chunks[c]
+            for _, c in chunks_around(pos, h=chunks_h, w=chunks_w)
+            if c in chunks
+        }
+
         chunk_time, debug_time = blit(
             screen,
-            {
-                c: chunks[c]
-                for _, c in chunks_around(pos, h=chunks_h, w=chunks_w)
-                if c in chunks
-            },
+            chunks_to_render,
             animations,
             pos,
             t=t,
@@ -877,11 +879,7 @@ if __name__ == "__main__":
                 clock,
                 nb_total_chunks=len(chunks),
                 nb_loading_chunks=len(chunks_to_load),
-                nb_rendered_chunks=(
-                    4
-                    * (chunks_h // 2 + CHUNK_MARGIN)
-                    * (chunks_w // 2 + CHUNK_MARGIN)
-                ),
+                nb_rendered_chunks=len(chunks_to_render),
                 pos=(10, h - 10),
                 chunk_time=chunk_time,
                 debug_time=debug_time,
